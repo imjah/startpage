@@ -15,7 +15,8 @@
     "checkJs": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "plugins": [{"name": "typescript-svelte-plugin"}]
+    "plugins": [{"name": "typescript-svelte-plugin"}],
+    "allowImportingTsExtensions": true
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
   "references": [{ "path": "./tsconfig.node.json" }]

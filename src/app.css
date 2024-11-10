@@ -1,0 +1,25 @@
+:root {
+  /* https://github.com/morhetz/gruvbox#palette */
+
+  --gruvbox-dark-bg:   #282828;
+  --gruvbox-dark-fg:   #ebdbb2;
+  --gruvbox-dark-aqua: #689d6a;
+
+  --color-bg:     var(--gruvbox-dark-bg);
+  --color-fg:     var(--gruvbox-dark-fg);
+  --color-accent: var(--gruvbox-dark-aqua);
+}
+
+body {
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
