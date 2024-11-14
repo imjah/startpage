@@ -1,5 +1,5 @@
 import { mount } from 'svelte'
-import "./normalize.css";
+import "./style/normalize.css";
 import './app.css'
 import App from './App.svelte'
 

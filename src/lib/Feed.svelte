@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import type { Video } from './videos.ts'
-  import { channels } from './channels.ts'
-  import { videos } from './videos.ts'
-  import { config } from './config.ts'
+  import { channels } from '../store/channels.ts'
+  import { config } from '../store/config.ts'
+  import { videos, type Video } from '../store/videos.ts'
 
   function fetchVideos(channel: string) {
     fetch(`${$config.instance}/channel/${channel}`)

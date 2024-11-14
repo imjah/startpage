@@ -9,9 +9,13 @@
     <Button value="Add channel">
       <Channels />
     </Button>
+    <Button value="Add bookmark">
+      <p>dupa</p>
+    </Button>
   </nav>
   <div class="content">
     <Feed />
+    <Channels />
   </div>
 </main>
 
@@ -24,8 +28,8 @@
   }
 
   nav {
-    width: 100%;
-    text-align: right;
+    display: flex;
+    justify-content: right;
   }
 
   .content {
