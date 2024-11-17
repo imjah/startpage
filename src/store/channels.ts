@@ -1,27 +1,21 @@
 import { writable } from 'svelte/store';
 
-export interface Channel {
-  id: string;
-  name: string;
-}
-
-export const channels = writable<Channel[]>(
-  JSON.parse(localStorage.channels || '[]')
+export const channels = writable<Map<string, string>>(
+  new Map(JSON.parse(localStorage.channels || '[]'))
 )
 
-channels.subscribe(c => localStorage.setItem('channels', JSON.stringify(c)))
-
-export const create = (channel: Channel) => {
-  channels.update(store => {
-    store.push(channel)
-    return store
+export const setChannel = (id: string, name: string) => {
+  channels.update(c => {
+    c.set(id, name)
+    return c
   })
 }
 
-export const remove = (channel: Channel) => {
-  channels.update(store => {
-    store.splice(store.findIndex(v => v.id === channel.id))
-
-    return store
+export const deleteChannel = (id: string) => {
+  channels.update(c => {
+    c.delete(id)
+    return c
   })
 }
+
+channels.subscribe(c => localStorage.channels = JSON.stringify(c, (key, value) => (value instanceof Map ? [...value] : value)))

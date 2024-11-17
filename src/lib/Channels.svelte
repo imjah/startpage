@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { channels, create, remove } from '../store/channels.ts';
+  import { channels, setChannel, deleteChannel } from '../store/channels.ts';
 
   let prompt = $state('')
 </script>
@@ -7,12 +7,13 @@
 <section>
   <div>
     <input type="text" bind:value={prompt}>
-    <input type="button" value="add" onclick={() => {create({"id": prompt, "name": ""}})}>
+    <input type="button" value="add" onclick={() => setChannel(prompt, "dupa")}>
   </div>
   <ul>
   {#each $channels as channel}
     <li>
-      <input type="button" value={channel} onclick={() => {remove(channel)}}>
+      {channel[0]}
+      {channel[1]}
     </li>
   {/each}
   </ul>
