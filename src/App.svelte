@@ -1,5 +1,6 @@
 <script lang="ts">
   import Feed from './lib/Feed.svelte';
+  import Bookmarks from './lib/Bookmarks.svelte';
   import Button from './lib/Button.svelte';
   import Channels from './lib/Channels.svelte';
 </script>
@@ -9,10 +10,13 @@
     <Button value="Add channel">
       <Channels />
     </Button>
+    <Button value="Add bookmark">
+      undefined
+    </Button>
   </nav>
   <section>
     <Feed width="33%"/>
-    <Feed width="67%"/>
+    <Bookmarks width="67%" />
   </section>
 </main>
 
@@ -24,7 +28,8 @@
   }
 
   nav {
-    text-align: right;
+    display: flex;
+    justify-content: right;
   }
 
   section {
