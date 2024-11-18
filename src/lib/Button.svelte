@@ -13,8 +13,8 @@
   }
 </script>
 
-<div class="wrapper" onfocusout={closeIfFocusLost}>
-  <input type="button" value={value} onclick={() => isOpen = !isOpen}>
+<div class="container" onfocusout={closeIfFocusLost}>
+  <input class:focus={isOpen} type="button" value={value} onclick={() => isOpen = !isOpen}>
 
   {#if isOpen}
   <div class="content">
@@ -24,7 +24,7 @@
 </div>
 
 <style>
-  .wrapper {
+  .container {
     position: relative;
     margin: 0.75rem;
   }
@@ -39,7 +39,7 @@
     cursor: pointer;
   }
 
-  input:focus {
+  .focus, input:focus {
     background: var(--color-bg-light);
     outline: none;
   }

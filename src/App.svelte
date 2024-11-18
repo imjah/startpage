@@ -9,10 +9,10 @@
 
 <main>
   <nav>
-    <Button value="{strings.addChannel}">
+    <Button value="{strings.addChannel}" open={true}>
       <Channels />
     </Button>
-    <Button value="{strings.addBookmark}" open={true}>
+    <Button value="{strings.addBookmark}">
       <BookmarksEditor />
     </Button>
   </nav>

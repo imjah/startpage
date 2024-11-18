@@ -1,20 +1,24 @@
 :root {
   /* https://github.com/morhetz/gruvbox#palette */
 
-  --gruvbox-dark-bg:   #282828;
-  --gruvbox-dark-bg-1: #3c3836;
-  --gruvbox-dark-fg:   #ebdbb2;
-  --gruvbox-dark-fg-1: #ebdbb2;
-  --gruvbox-dark-aqua: #689d6a;
+  --gruvbox-dark-bg:         #282828;
+  --gruvbox-dark-bg-1:       #3c3836;
+  --gruvbox-dark-fg:         #ebdbb2;
+  --gruvbox-dark-fg-1:       #ebdbb2;
+  --gruvbox-dark-aqua:       #689d6a;
+  --gruvbox-dark-aqua-light: #8ec07c;
 
-  --color-bg:       var(--gruvbox-dark-bg);
-  --color-bg-light: var(--gruvbox-dark-bg-1);
-  --color-fg:       var(--gruvbox-dark-fg);
-  --color-fg-light: var(--gruvbox-dark-fg-1);
-  --color-accent:   var(--gruvbox-dark-aqua);
+  --color-bg:           var(--gruvbox-dark-bg);
+  --color-bg-light:     var(--gruvbox-dark-bg-1);
+  --color-fg:           var(--gruvbox-dark-fg);
+  --color-fg-light:     var(--gruvbox-dark-fg-1);
+  --color-accent:       var(--gruvbox-dark-aqua);
+  --color-accent-light: var(--gruvbox-dark-aqua-light);
 
   --border-size:  1px;
   --border-style: solid;
+  --outline-size:  3px;
+  --outline-style: solid;
 }
 
 html, body, #app {
