@@ -9,34 +9,27 @@
     <Button value="Add channel">
       <Channels />
     </Button>
-    <Button value="Add bookmark">
-      <p>dupa</p>
-    </Button>
   </nav>
-  <div class="content">
-    <Feed />
-    <Channels />
-  </div>
+  <section>
+    <Feed width="33%"/>
+    <Feed width="67%"/>
+  </section>
 </main>
 
 <style>
   main {
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
   }
 
   nav {
-    display: flex;
-    justify-content: right;
+    text-align: right;
   }
 
-  .content {
+  section {
     display: flex;
-    flex: 1;
-    margin: 1rem;
-    align-items: center;
-    justify-content: center;
+    flex-grow: 1;
+    overflow-y: hidden;
   }
 </style>

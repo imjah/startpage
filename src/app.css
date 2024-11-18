@@ -17,6 +17,10 @@
   --border-style: solid;
 }
 
+html, body, #app {
+  height: 100%;
+}
+
 body {
   font-family: monospace;
   color: var(--color-fg);
