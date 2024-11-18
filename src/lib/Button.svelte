@@ -1,9 +1,9 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
   
-  let { value, children }: {value: string, children: Snippet} = $props()
+  let { value, open = false, children } = $props()
 
-  let isOpen = $state(false)
+  let isOpen = $state(open)
 
   let closeIfFocusLost = ({ relatedTarget, currentTarget }) => {
     if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget))

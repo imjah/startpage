@@ -1,17 +1,19 @@
 <script lang="ts">
-  import Feed from './lib/Feed.svelte';
   import Bookmarks from './lib/Bookmarks.svelte';
+  import BookmarksEditor from './lib/BookmarksEditor.svelte';
   import Button from './lib/Button.svelte';
+  import Feed from './lib/Feed.svelte';
   import Channels from './lib/Channels.svelte';
+  import strings from './strings.ts'
 </script>
 
 <main>
   <nav>
-    <Button value="Add channel">
+    <Button value="{strings.addChannel}">
       <Channels />
     </Button>
-    <Button value="Add bookmark">
-      undefined
+    <Button value="{strings.addBookmark}" open={true}>
+      <BookmarksEditor />
     </Button>
   </nav>
   <section>
