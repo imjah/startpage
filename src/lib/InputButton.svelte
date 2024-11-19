@@ -1,9 +1,9 @@
 <script lang="ts">
-  let { value } = $props()
+  let { value, onclick } = $props()
 </script>
 
 <div class="container">
-  <input type="button" {value}>
+  <input type="button" {value} {onclick}>
 </div>
 
 <style>

@@ -1,68 +1,13 @@
 <script lang="ts">
-  // import { onMount } from 'svelte'
-  // import { channels } from '../store/channels.ts'
-  // import { config } from '../store/config.ts'
-  // import { videos, type Video } from '../store/videos.ts'
-
-  // function fetchVideos(channel: string) {
-  //   fetch(`${$config.instance}/channel/${channel}`)
-  //   .then(response => response.json())
-  //   .then(response => response.relatedStreams.forEach((video: Video) => {
-  //     videos.update(v => {
-  //       v.push({
-  //         url: video.url,
-  //         title: video.title,
-  //         uploaded: video.uploaded,
-  //         uploaderUrl: video.uploaderUrl,
-  //         uploaderName: video.uploaderName,
-  //         uploadedDate: video.uploadedDate
-  //       })
-
-  //       return v
-  //     })
-
-  //     videos.update(v => {
-  //       v.sort((a,b) => b.uploaded - a.uploaded)
-
-  //       return v
-  //     })
-  //   }))
-  //   .catch(error => console.log(error))
-
-  //   localStorage.videosFetchedAt = Date.now()
-  // }
-
-  // function fetchVideosUsingCache(channel: string) {
-  //   if (Date.now() < localStorage.videosFetchedAt + $config.cacheLifetime)
-  //     return 0
-
-  //   videos.set([])
-
-  //   fetchVideos(channel)
-  // }
-
-  // onMount(() => {
-  //   // channels.subscribe(() => {
-  //   //   // TODO: update only added/removed channels
-  //   //   videos.set([])
-
-  //   //   $channels.forEach(channel => fetchVideos(channel))
-  //   // })
-
-  //   $channels.forEach(channel => fetchVideosUsingCache(channel))
-  // })
+  import Channels from '../store/channels.ts'
 
   let { width = '100%' } = $props()
-  let urlMaxWidth = '200px'
-
-  const videos = [
-    {'url': 'url', 'uploaderUrl': 'uploaderUrl', 'uploaderName': 'uploaderName','uploadedDate': 'uploadedDate', 'title': 'title'},
-    {'url': 'url', 'uploaderUrl': 'uploaderUrl', 'uploaderName': 'uploaderName','uploadedDate': 'uploadedDate', 'title': 'title'},
-  ]
+  let { store } = Channels
 </script>
 
 <ul class="feed" style:flex-basis={width}>
-  {#each videos as video}
+  {#each $store as [id, channels]}
+    {#each channels.videos as video}
   <li class="feed-item">
     <h2 class="feed-item-title">
       <a href="https://youtube.com/{video.url}">{video.title}</a>
@@ -72,6 +17,7 @@
       {video.uploadedDate}
     </p>
   </li>
+    {/each}
   {/each}
 </ul>
 

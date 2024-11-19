@@ -1,10 +1,13 @@
 <script lang="ts">
   import strings from './strings.ts'
+  import Channels from './store/channels.ts'
   import Bookmarks from './lib/Bookmarks.svelte';
   import BookmarksControl from './lib/BookmarksControl.svelte';
   import Dropdown from './lib/Dropdown.svelte';
   import Videos from './lib/Videos.svelte';
   import VideosControl from './lib/VideosControl.svelte';
+
+  Channels.subscribeToLocalStorage()
 </script>
 
 <main>
