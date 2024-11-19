@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { type Snippet } from 'svelte'
-  
-  let { value, open = false, children } = $props()
+  let { open = false, value, children } = $props()
 
   let isOpen = $state(open)
+
+  let toggle = () => isOpen = !isOpen
 
   let closeIfFocusLost = ({ relatedTarget, currentTarget }) => {
     if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget))
@@ -14,7 +14,7 @@
 </script>
 
 <div class="container" onfocusout={closeIfFocusLost}>
-  <input class:focus={isOpen} type="button" value={value} onclick={() => isOpen = !isOpen}>
+  <input class:focus={isOpen} type="button" value={value} onclick={toggle}>
 
   {#if isOpen}
   <div class="content">
@@ -48,6 +48,7 @@
     position: absolute;
     top: 100%;
     right: 0;
+    padding: 1rem;
     color: var(--color-fg-light);
     background: var(--color-bg-light);
   }

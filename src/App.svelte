@@ -1,23 +1,23 @@
 <script lang="ts">
-  import Bookmarks from './lib/Bookmarks.svelte';
-  import BookmarksEditor from './lib/BookmarksEditor.svelte';
-  import Button from './lib/Button.svelte';
-  import Feed from './lib/Feed.svelte';
-  import Channels from './lib/Channels.svelte';
   import strings from './strings.ts'
+  import Bookmarks from './lib/Bookmarks.svelte';
+  import BookmarksControl from './lib/BookmarksControl.svelte';
+  import Dropdown from './lib/Dropdown.svelte';
+  import Videos from './lib/Videos.svelte';
+  import VideosControl from './lib/VideosControl.svelte';
 </script>
 
 <main>
   <nav>
-    <Button value="{strings.addChannel}" open={true}>
-      <Channels />
-    </Button>
-    <Button value="{strings.addBookmark}">
-      <BookmarksEditor />
-    </Button>
+    <Dropdown value="{strings.addChannel}">
+      <VideosControl />
+    </Dropdown>
+    <Dropdown value="{strings.addBookmark}">
+      <BookmarksControl />
+    </Dropdown>
   </nav>
   <section>
-    <Feed width="33%"/>
+    <Videos width="33%" />
     <Bookmarks width="67%" />
   </section>
 </main>

@@ -4,5 +4,6 @@ export default {
   'name': 'Name',
   'add': 'Add',
   'addBookmark': 'Add bookmark',
-  'addChannel': 'Add channel'
+  'addChannel': 'Add channel',
+  'id': 'ID'
 }
