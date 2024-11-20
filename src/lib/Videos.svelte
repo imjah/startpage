@@ -9,9 +9,9 @@
   {#each $store as [id, channels]}
     {#each channels.videos as video}
   <li class="feed-item">
-    <h2 class="feed-item-title">
+    <h3 class="feed-item-title">
       <a href="https://youtube.com{video.url}">{video.title}</a>
-    </h2>
+    </h3>
     <p class="feed-item-description">
       <a href="https://youtube.com{video.uploaderUrl}" class="feed-item-channel-name">{video.uploaderName}</a>
       {video.uploadedDate}
@@ -59,7 +59,7 @@
     list-style: none;
   }
 
-  ul, li, h2, p {
+  ul, li, h3, p {
     margin: 0;
   }
 </style>

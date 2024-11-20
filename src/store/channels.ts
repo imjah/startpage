@@ -17,9 +17,12 @@ export interface Channel {
 }
 
 export default class Channels {
+  static LS_CACHE = 'channels'
+  static LS_CACHE_UPDATE_TIME = 'channelsUpdateTime'
+
   static store = writable<Map<ID, Channel>>(
     new Map(
-      JSON.parse(localStorage.channels || '[]')
+      JSON.parse(localStorage[this.LS_CACHE] || '[]')
     )
   )
 
@@ -40,15 +43,23 @@ export default class Channels {
 
   static subscribeToLocalStorage() {
     this.store.subscribe(v => 
-      localStorage.channels = JSON.stringify(v, (_, value) => 
+      localStorage[this.LS_CACHE] = JSON.stringify(v, (_, value) => 
         value instanceof Map ? [...value] : value
       )
     )
   }
 
-  // static async refetch(cache: boolean = true) {
-    
-  // }
+  static refetch(cache: boolean = true) {
+    if (cache && this.#isCacheUpToDate())
+      return
+
+    this.store.update(v => {
+      v.forEach((_, id) => this.set(id))
+      return v
+    })
+
+    this.#resetCacheUpdateTime()
+  }
 
   static async #fetch(id: ID): Promise<Channel> {
     return fetch(`https://api.piped.yt/channel/${id}`)
@@ -66,18 +77,23 @@ export default class Channels {
     }))
     .catch(error => console.log(error))
   }
+
+  static #getCacheUpdateTime(): number {
+    return parseInt(
+      localStorage[this.LS_CACHE_UPDATE_TIME]
+    )
+  }
+
+  static #resetCacheUpdateTime() {
+    localStorage[this.LS_CACHE_UPDATE_TIME] = Date.now()
+  }
+
+  static #isCacheUpToDate(): boolean {
+    const cacheUpdateTime = this.#getCacheUpdateTime()
+
+    if (typeof cacheUpdateTime === 'number')
+      return Date.now() < cacheUpdateTime + 3600000
+
+    return false
+  }
 }
-
-// function fetchVideos(channel: string) {
-
-    // localStorage.videosFetchedAt = Date.now()
-// }
-
-// function fetchVideosUsingCache(channel: string) {
-//   if (Date.now() < localStorage.videosFetchedAt + $config.cacheLifetime)
-//     return 0
-
-//   videos.set([])
-
-//   fetchVideos(channel)
-// }

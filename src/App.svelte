@@ -8,6 +8,7 @@
   import VideosControl from './lib/VideosControl.svelte';
 
   Channels.subscribeToLocalStorage()
+  Channels.refetch()
 </script>
 
 <main>
