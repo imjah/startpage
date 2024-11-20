@@ -4,10 +4,20 @@
   import InputButton from './InputButton.svelte'
   import InputText from './InputText.svelte'
 
-  let valueId  = $state('')
+  let value  = $state('')
+  let disabled = $state(false)
+
+  let handle = async () => {
+    disabled = true
+
+    Channels.set(value)
+    .then(() => {
+      disabled = false
+    })
+  }
 </script>
 
 <div>
-  <InputText bind:value={valueId}  placeholder={strings.id} />
-  <InputButton value={strings.add} onclick={() => Channels.set(valueId)} />
+  <InputText bind:value={value}  placeholder={strings.id} />
+  <InputButton value={strings.add} onclick={handle} {disabled} />
 </div>

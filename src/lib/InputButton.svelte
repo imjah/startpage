@@ -1,20 +1,25 @@
 <script lang="ts">
-  let { value, onclick } = $props()
+  let { value, onclick, disabled = $bindable() } = $props()
 </script>
 
 <div class="container">
-  <input type="button" {value} {onclick}>
+  <input type="button" value={disabled ? '' : value} {onclick} {disabled}>
+  {#if disabled}
+  <div class="gg-spinner-container">
+    <i class="gg-spinner"></i>
+  </div>
+  {/if}
 </div>
 
 <style>
   .container {
     display: grid;
+    position: relative;
   }
 
   input[type=button] {
     width: 20rem;
     padding: .5rem;
-    margin-top: 1rem;
     color: var(--color-fg);
     background-color: var(--color-accent);
     border: none;
@@ -26,5 +31,59 @@
 
   input[type=button]:focus {
     outline: var(--outline-size) var(--outline-style) var(--color-accent-light);
+  }
+
+  input[type=button]:disabled {
+    cursor: default;
+    background-color: var(--color-bg);
+    outline-color: var(--color-bg-light);
+  }
+
+  .gg-spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .gg-spinner {
+    transform: scale(var(--ggs, 1));
+  }
+
+  .gg-spinner,
+  .gg-spinner::after,
+  .gg-spinner::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .gg-spinner::after,
+  .gg-spinner::before {
+    content: "";
+    position: absolute;
+    border-radius: 100px;
+  }
+
+  .gg-spinner::before {
+    animation: spinner 1s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+    border: 3px solid transparent;
+    border-top-color: currentColor;
+  }
+
+  .gg-spinner::after {
+    border: 3px solid;
+    opacity: 0.2;
+  }
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
   }
 </style>

@@ -26,8 +26,8 @@ export default class Channels {
     )
   )
 
-  static set(id: ID) {
-    this.#fetch(id)
+  static async set(id: ID): Promise<void> {
+    return this.#fetch(id)
     .then((channel: Channel) => this.store.update(v => {
       v.set(id, channel)
       return v
@@ -49,7 +49,7 @@ export default class Channels {
     )
   }
 
-  static refetch(cache: boolean = true) {
+  static async refetch(cache: boolean = true) {
     if (cache && this.#isCacheUpToDate())
       return
 

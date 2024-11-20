@@ -2,19 +2,16 @@
   let { open = false, value, children } = $props()
 
   let isOpen = $state(open)
+  let container;
 
   let toggle = () => isOpen = !isOpen
-
-  let closeIfFocusLost = ({ relatedTarget, currentTarget }) => {
-    if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget))
-      return
-
-    isOpen = false
-  }
+  let closeOnBlur = (e) => container.contains(e.target) || (isOpen = false)
 </script>
 
-<div class="container" onfocusout={closeIfFocusLost}>
-  <input class:focus={isOpen} type="button" value={value} onclick={toggle}>
+<svelte:window onclick={closeOnBlur} />
+
+<div class="container" bind:this={container}>
+  <input class:focus={isOpen} type="button" {value} onclick={toggle}>
 
   {#if isOpen}
   <div class="content">
