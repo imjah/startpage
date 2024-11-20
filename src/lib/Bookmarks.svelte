@@ -25,28 +25,35 @@
   let { width = '100%', columns = 3 } = $props()
 </script>
 
-<div class="wrapper" style:width={width}>
+<div class="container" style:width={width}>
   {#each b as [tag, bookmarks]}
-  <ul class="tag" style:flex-basis={`${100 / columns}%`}>
-    <h2 class="title">{tag}</h2>
+  <div class="inner-container" style:flex-basis={`${100 / columns}%`}>
+    <ul class="tag">
+      <h2 class="title">{tag}</h2>
 
-    {#each bookmarks as bookmark}
-    <li class="bookmark">
-      <a href="{bookmark.url}">{bookmark.name}</a>
-    </li>
-    {/each}
-  </ul>
+      {#each bookmarks as bookmark}
+      <li class="bookmark">
+        <a href="{bookmark.url}">{bookmark.name}</a>
+      </li>
+      {/each}
+    </ul>
+  </div>
   {/each}
 </div>
 
 <style>
-  .wrapper {
+  .container {
     display: flex;
     align-content: center;
     justify-content: flex-start;
     flex-wrap: wrap;
     margin: 1rem;
     overflow-y: scroll;
+  }
+
+  .inner-container {
+    display: flex;
+    justify-content: center;
   }
 
   .tag {
