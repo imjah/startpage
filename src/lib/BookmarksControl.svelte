@@ -3,14 +3,37 @@
   import InputButton from './InputButton.svelte'
   import InputText from './InputText.svelte'
 
-  let valueUrl  = $state('')
-  let valueTag  = $state('')
-  let valueName = $state('')
+  let url  = $state('')
+  let tag  = $state('')
+  let name = $state('')
+  let errorUrl  = $state(false)
+  let errorTag  = $state(false)
+  let errorName = $state(false)
+
+  let submit = (e) => {
+    e.preventDefault()
+
+    if (!url.length)
+      errorUrl = true
+
+    if (!tag.length)
+      errorTag = true
+
+    if (!name.length)
+      errorName = true
+
+    if (errorUrl || errorTag || errorName)
+      return
+
+    errorUrl  = true
+    errorTag  = true
+    errorName = true
+  }
 </script>
 
-<div>
-  <InputText bind:value={valueUrl}  placeholder={strings.url} />
-  <InputText bind:value={valueTag}  placeholder={strings.tag} />
-  <InputText bind:value={valueName} placeholder={strings.name} />
+<form onsubmit={submit}>
+  <InputText bind:error={errorUrl}  bind:value={url}  placeholder={strings.url} />
+  <InputText bind:error={errorTag}  bind:value={tag}  placeholder={strings.tag} />
+  <InputText bind:error={errorName} bind:value={name} placeholder={strings.name} />
   <InputButton value={strings.add} />
-</div>
+</form>

@@ -5,19 +5,31 @@
   import InputText from './InputText.svelte'
 
   let value  = $state('')
+  let error = $state(false)
   let disabled = $state(false)
 
-  let handle = async () => {
+  let submit = (e) => {
+    e.preventDefault()
+
+    if (!value.length) {
+      error = true
+      return
+    }
+
     disabled = true
 
     Channels.set(value)
     .then(() => {
+      error = false
       disabled = false
+    })
+    .catch(e => {
+      console.log(e)
     })
   }
 </script>
 
-<div>
-  <InputText bind:value={value}  placeholder={strings.id} />
-  <InputButton value={strings.add} onclick={handle} {disabled} />
-</div>
+<form onsubmit={submit}>
+  <InputText bind:error={error} bind:value={value}  placeholder={strings.youtubeChannelId} />
+  <InputButton value={strings.add} {disabled} />
+</form>

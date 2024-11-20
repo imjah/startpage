@@ -1,8 +1,10 @@
 <script lang="ts">
-  let { value = $bindable(), placeholder } = $props()
+  import strings from '../strings'
+
+  let { error = $bindable(), value = $bindable(), placeholder } = $props()
 </script>
 
-<input type="text" bind:value={value} {placeholder}>
+<input type="text" class:error={error} bind:value={value} {placeholder} title={error ? strings.empty : ''}>
 
 <style>
   input[type=text] {
@@ -16,5 +18,13 @@
 
   input[type=text]:focus {
     outline: var(--outline-size) var(--outline-style) var(--color-accent-light);
+  }
+
+  input[type=text].error {
+    border-color: var(--color-error);
+  }
+
+  input[type=text]:focus.error {
+    outline-color: var(--color-error);
   }
 </style>

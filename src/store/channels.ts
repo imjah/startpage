@@ -75,7 +75,6 @@ export default class Channels {
         'uploadedDate': video.uploadedDate
       }))
     }))
-    .catch(error => console.log(error))
   }
 
   static #getCacheUpdateTime(): number {

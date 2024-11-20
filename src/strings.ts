@@ -5,5 +5,6 @@ export default {
   'add': 'Add',
   'addBookmark': 'Add bookmark',
   'addChannel': 'Add channel',
-  'id': 'ID'
+  'youtubeChannelId': 'Youtube channel ID',
+  'empty': 'Empty'
 }

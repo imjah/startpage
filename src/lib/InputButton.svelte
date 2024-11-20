@@ -1,9 +1,9 @@
 <script lang="ts">
-  let { value, onclick, disabled = $bindable() } = $props()
+  let { value, disabled = $bindable() } = $props()
 </script>
 
 <div class="container">
-  <input type="button" value={disabled ? '' : value} {onclick} {disabled}>
+  <input type="submit" value={disabled ? '' : value} {disabled}>
   {#if disabled}
   <div class="gg-spinner-container">
     <i class="gg-spinner"></i>
@@ -17,7 +17,7 @@
     position: relative;
   }
 
-  input[type=button] {
+  input[type=submit] {
     width: 20rem;
     padding: .5rem;
     color: var(--color-fg);
@@ -25,15 +25,15 @@
     border: none;
   }
 
-  input[type=button]:hover {
+  input[type=submit]:hover {
     cursor: pointer;
   }
 
-  input[type=button]:focus {
+  input[type=submit]:focus {
     outline: var(--outline-size) var(--outline-style) var(--color-accent-light);
   }
 
-  input[type=button]:disabled {
+  input[type=submit]:disabled {
     cursor: default;
     background-color: var(--color-bg);
     outline-color: var(--color-bg-light);

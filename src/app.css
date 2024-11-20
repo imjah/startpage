@@ -7,6 +7,7 @@
   --gruvbox-dark-fg-1:       #ebdbb2;
   --gruvbox-dark-aqua:       #689d6a;
   --gruvbox-dark-aqua-light: #8ec07c;
+  --gruvbox-dark-red:        #cc241d;
 
   --color-bg:           var(--gruvbox-dark-bg);
   --color-bg-light:     var(--gruvbox-dark-bg-1);
@@ -14,6 +15,7 @@
   --color-fg-light:     var(--gruvbox-dark-fg-1);
   --color-accent:       var(--gruvbox-dark-aqua);
   --color-accent-light: var(--gruvbox-dark-aqua-light);
+  --color-error:        var(--gruvbox-dark-red);
 
   --border-size:  1px;
   --border-style: solid;
