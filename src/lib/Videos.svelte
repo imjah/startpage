@@ -10,10 +10,10 @@
     {#each channels.videos as video}
   <li class="feed-item">
     <h2 class="feed-item-title">
-      <a href="https://youtube.com/{video.url}">{video.title}</a>
+      <a href="https://youtube.com{video.url}">{video.title}</a>
     </h2>
     <p class="feed-item-description">
-      <a href="https://youtube.com/{video.uploaderUrl}" class="feed-item-channel-name">{video.uploaderName}</a>
+      <a href="https://youtube.com{video.uploaderUrl}" class="feed-item-channel-name">{video.uploaderName}</a>
       {video.uploadedDate}
     </p>
   </li>

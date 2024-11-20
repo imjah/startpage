@@ -24,10 +24,11 @@ export default class Channels {
   )
 
   static set(id: ID) {
-    this.store.update(v => {
-      v.set(id, this.#fetch(id))
+    this.#fetch(id)
+    .then((channel: Channel) => this.store.update(v => {
+      v.set(id, channel)
       return v
-    })
+    }))
   }
 
   static delete(id: ID) {
@@ -45,30 +46,25 @@ export default class Channels {
     )
   }
 
-  static #fetch(id: ID): Channel {
-    // let name = ''
-    // let videos: Video[] = []
+  // static async refetch(cache: boolean = true) {
+    
+  // }
 
-    // fetch(`https://api.piped.yt/channel/${id}`)
-    // .then(response => response.json())
-    // .then(response => response.relatedStreams.forEach((video: Video) => {
-
-    // }))
-    // .catch(error => console.log(error))
-
-    return {
-      'name': 'test/name',
-      'videos': [
-        {
-          'url': 'test/url',
-          'title': 'test/title',
-          'uploaderUrl': 'test/uploaderUrl',
-          'uploaderName': 'test/uploaderName',
-          'uploaded': 0,
-          'uploadedDate': 'test/uploadedDate'
-        },
-      ]
-    }
+  static async #fetch(id: ID): Promise<Channel> {
+    return fetch(`https://api.piped.yt/channel/${id}`)
+    .then(response => response.json())
+    .then(response => ({
+      'name': response.name,
+      'videos': response.relatedStreams.map((video: Video) => ({
+        'url': video.url,
+        'title': video.title,
+        'uploaderUrl': video.uploaderUrl,
+        'uploaderName': video.uploaderName,
+        'uploaded': video.uploaded,
+        'uploadedDate': video.uploadedDate
+      }))
+    }))
+    .catch(error => console.log(error))
   }
 }
 
