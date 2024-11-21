@@ -1,13 +1,15 @@
 <script lang="ts">
   import Channels from '../store/channels.ts'
+  import { type Video } from '../store/channels.ts'
 
   let { width = '100%' } = $props()
-  let { store } = Channels
+  let videos: Video[] = $state([])
+
+  Channels.store.subscribe(_ => videos = Channels.getSortedVideos())
 </script>
 
 <ul class="feed" style:flex-basis={width}>
-  {#each $store as [id, channels]}
-    {#each channels.videos as video}
+  {#each videos as video}
   <li class="feed-item">
     <h3 class="feed-item-title">
       <a href="https://youtube.com{video.url}">{video.title}</a>
@@ -17,7 +19,6 @@
       {video.uploadedDate}
     </p>
   </li>
-    {/each}
   {/each}
 </ul>
 

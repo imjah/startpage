@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 export type ID = string
 
@@ -25,6 +25,14 @@ export default class Channels {
       JSON.parse(localStorage[this.LS_CACHE] || '[]')
     )
   )
+
+  static getSortedVideos(): Video[] {
+    return Array.from(
+      get(this.store).values().flatMap(
+        channel => channel.videos
+      )
+    ).sort((a,b) => b.uploaded - a.uploaded)
+  }
 
   static async set(id: ID): Promise<void> {
     return this.#fetch(id)
