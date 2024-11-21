@@ -54,13 +54,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  ul {
-    padding: 0;
-    list-style: none;
-  }
-
-  ul, li, h3, p {
-    margin: 0;
-  }
 </style>

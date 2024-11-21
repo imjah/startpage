@@ -67,14 +67,4 @@
   .bookmark {
     margin-bottom: .5rem;
   }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-
-  h2 {
-    margin: 0;
-  }
 </style>
