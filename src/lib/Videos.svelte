@@ -15,9 +15,9 @@
 <ul class="feed" style:flex-basis={width}>
   {#each videos as video}
   <li class="feed-item">
-    <h3 class="feed-item-title">
+    <h4 class="feed-item-title">
       <a href="https://youtube.com{video.url}">{video.title}</a>
-    </h3>
+    </h4>
     <p class="feed-item-description">
       <a href="https://youtube.com{video.uploaderUrl}" class="feed-item-channel-name">{video.uploaderName}</a>
       {video.uploadedDate}

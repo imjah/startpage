@@ -49,7 +49,7 @@
   nav {
     display: flex;
     justify-content: space-between;
-    margin: 0.75rem;
+    margin: .25rem;
   }
 
   section.nav {
