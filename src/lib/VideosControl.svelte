@@ -24,7 +24,8 @@
       disabled = false
     })
     .catch(e => {
-      console.log(e)
+      error = true
+      disabled = false
     })
   }
 </script>
