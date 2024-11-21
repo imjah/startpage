@@ -6,22 +6,29 @@
   import Dropdown from './lib/Dropdown.svelte';
   import Videos from './lib/Videos.svelte';
   import VideosControl from './lib/VideosControl.svelte';
+  import VideosFilter from './lib/VideosFilter.svelte';
+  import { type ID } from './store/channels.ts'
 
   Channels.subscribeToLocalStorage()
   Channels.refetch()
+
+  let id: ID = $state('')
 </script>
 
 <main>
   <nav>
-    <Dropdown value="{strings.addChannel}">
-      <VideosControl />
-    </Dropdown>
-    <Dropdown value="{strings.addBookmark}">
-      <BookmarksControl />
-    </Dropdown>
+    <VideosFilter bind:current={id} />
+    <section class="nav">
+      <Dropdown value={strings.addChannel}>
+        <VideosControl />
+      </Dropdown>
+      <Dropdown value={strings.addBookmark}>
+        <BookmarksControl />
+      </Dropdown>
+    </section>
   </nav>
-  <section>
-    <Videos width="33%" />
+  <section class="main">
+    <Videos bind:current={id} width="33%" />
     <Bookmarks width="67%" />
   </section>
 </main>
@@ -33,14 +40,19 @@
     height: 100%;
   }
 
-  nav {
-    display: flex;
-    justify-content: right;
-  }
-
-  section {
+  section.main {
     display: flex;
     flex-grow: 1;
     overflow-y: hidden;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.75rem;
+  }
+
+  section.nav {
+    display: flex;
   }
 </style>

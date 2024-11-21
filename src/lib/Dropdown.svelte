@@ -1,17 +1,14 @@
 <script lang="ts">
-  let { open = false, value, children } = $props()
+  let { value, open = false, children } = $props()
 
   let isOpen = $state(open)
-  let container;
-
-  let toggle = () => isOpen = !isOpen
-  let closeOnBlur = (e) => container.contains(e.target) || (isOpen = false)
+  let container: HTMLElement;
 </script>
 
-<svelte:window onclick={closeOnBlur} />
+<svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
 
 <div class="container" bind:this={container}>
-  <input class:focus={isOpen} type="button" {value} onclick={toggle}>
+  <input class="nav-button" class:focus={isOpen} type="button" {value} onclick={() => isOpen = !isOpen}>
 
   {#if isOpen}
   <div class="content">
@@ -23,22 +20,6 @@
 <style>
   .container {
     position: relative;
-    margin: 0.75rem;
-  }
-
-  input {
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--color-accent);
-    background: var(--color-bg);
-    border: none;
-    cursor: pointer;
-  }
-
-  .focus, input:focus {
-    background: var(--color-bg-light);
-    outline: none;
   }
 
   .content {
@@ -48,5 +29,9 @@
     padding: 1rem;
     color: var(--color-fg-light);
     background: var(--color-bg-light);
+  }
+
+  .nav-button {
+    margin-left: .5rem;
   }
 </style>

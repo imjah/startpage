@@ -2,10 +2,14 @@
   import Channels from '../store/channels.ts'
   import { type Video } from '../store/channels.ts'
 
-  let { width = '100%' } = $props()
-  let videos: Video[] = $state([])
+  let { current = $bindable(), width = '100%' } = $props()
+  let { store } = Channels
 
-  Channels.store.subscribe(_ => videos = Channels.getSortedVideos())
+  let videos = $derived(
+    $store.get(current)?.videos || Array.from($store.values()).flatMap(
+      channel => channel.videos
+    ).sort((a,b) => b.uploaded - a.uploaded)
+  )
 </script>
 
 <ul class="feed" style:flex-basis={width}>
