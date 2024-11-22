@@ -40,6 +40,11 @@
     overflow-y: scroll;
   }
 
+  .container:focus {
+    background-color: var(--color-bg-light);
+    outline: none;
+  }
+
   .container:has(.no-videos) {
     align-items: center;
     justify-content: center;
