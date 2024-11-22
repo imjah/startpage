@@ -43,7 +43,10 @@
   .container:has(.no-videos) {
     align-items: center;
     justify-content: center;
-    opacity: 0.3;
+  }
+
+  .no-videos {
+    opacity: var(--opacity-text);
   }
 
   .video {

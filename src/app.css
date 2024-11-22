@@ -21,6 +21,7 @@
   --border-style: solid;
   --outline-size:  3px;
   --outline-style: solid;
+  --opacity-text: .3;
 }
 
 html, body, #app {

@@ -8,6 +8,6 @@ export default {
   'addChannel': 'Add channel',
   'youtubeChannelUrl': 'Youtube channel URL',
   'empty': 'Empty',
-  'noBookmarksFound': 'No videos found',
+  'noBookmarksFound': 'No bookmarks found',
   'noVideosFound': 'No videos found'
 }
