@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Channels from '../store/channels.ts'
-  import { type Video } from '../store/channels.ts'
+  import strings from '../strings'
+  import Channels from '../store/channels'
 
   let { current = $bindable(), width = '100%' } = $props()
   let { store } = Channels
@@ -33,32 +33,38 @@
 </div>
 
 <style>
-  .feed {
+  .container {
     display: flex;
     flex-direction: column;
     padding: 1rem;
     overflow-y: scroll;
   }
 
-  .feed-item {
+  .container:has(.no-videos) {
+    align-items: center;
+    justify-content: center;
+    opacity: 0.3;
+  }
+
+  .video {
     margin-bottom: 2rem;
   }
 
-  .feed-item:last-child {
+  .video:last-child {
     margin-bottom: 0;
   }
 
-  .feed-item-title {
+  .video-title {
     margin-bottom: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .feed-item-description {
+  .video-description {
     display: flex;
   }
 
-  .feed-item-channel-name {
+  .video-uploader {
     display: block;
     margin-right: .5rem;
     overflow: hidden;
