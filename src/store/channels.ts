@@ -1,6 +1,7 @@
-import { get, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
-export type ID = string
+export type ID  = string
+export type URL = string
 
 export interface Video {
   url: string;
@@ -26,15 +27,9 @@ export default class Channels {
     )
   )
 
-  static getSortedVideos(): Video[] {
-    return Array.from(
-      get(this.store).values().flatMap(
-        channel => channel.videos
-      )
-    ).sort((a,b) => b.uploaded - a.uploaded)
-  }
+  static async set(source: ID | URL): Promise<void> {
+    let id = source.split('/').pop() || ''
 
-  static async set(id: ID): Promise<void> {
     return this.#fetch(id)
     .then((channel: Channel) => this.store.update(v => {
       v.set(id, channel)

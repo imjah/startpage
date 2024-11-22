@@ -4,11 +4,11 @@
   import InputButton from './InputButton.svelte'
   import InputText from './InputText.svelte'
 
-  let value  = $state('')
+  let value = $state('')
   let error = $state(false)
   let disabled = $state(false)
 
-  let submit = (e) => {
+  let submit = (e: Event) => {
     e.preventDefault()
 
     if (!value.length) {
@@ -23,7 +23,7 @@
       error = false
       disabled = false
     })
-    .catch(e => {
+    .catch(_ => {
       error = true
       disabled = false
     })
@@ -31,6 +31,6 @@
 </script>
 
 <form onsubmit={submit}>
-  <InputText bind:error={error} bind:value={value}  placeholder={strings.youtubeChannelId} />
+  <InputText bind:error={error} bind:value={value} placeholder={strings.youtubeChannelUrl} />
   <InputButton value={strings.add} {disabled} />
 </form>

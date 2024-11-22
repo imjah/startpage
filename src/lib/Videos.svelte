@@ -12,19 +12,25 @@
   )
 </script>
 
-<ul class="feed" style:flex-basis={width}>
-  {#each videos as video}
-  <li class="feed-item">
-    <h4 class="feed-item-title">
-      <a href="https://youtube.com{video.url}">{video.title}</a>
-    </h4>
-    <p class="feed-item-description">
-      <a href="https://youtube.com{video.uploaderUrl}" class="feed-item-channel-name">{video.uploaderName}</a>
-      {video.uploadedDate}
-    </p>
-  </li>
-  {/each}
-</ul>
+<div class="container" style:flex-basis={width}>
+{#if videos.length}
+  <ul>
+    {#each videos as video}
+    <li class="video">
+      <h4 class="video-title">
+        <a href={`https://youtube.com${video.url}`}>{video.title}</a>
+      </h4>
+      <p class="video-description">
+        <a class="video-uploader" href={`https://youtube.com${video.uploaderUrl}`}>{video.uploaderName}</a>
+        {video.uploadedDate}
+      </p>
+    </li>
+    {/each}
+  </ul>
+{:else}
+  <p class="no-videos">{strings.noVideosFound}</p>
+{/if}
+</div>
 
 <style>
   .feed {
