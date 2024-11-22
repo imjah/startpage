@@ -70,9 +70,9 @@ export default class Channels {
     .then(response => ({
       'name': response.name,
       'videos': response.relatedStreams.map((video: Video) => ({
-        'url': `https://youtube.com${video.url}`,
+        'url': video.url,
         'title': video.title,
-        'uploaderUrl': `https://youtube.com${video.uploaderUrl}`,
+        'uploaderUrl': video.uploaderUrl,
         'uploaderName': video.uploaderName,
         'uploaded': video.uploaded,
         'uploadedDate': video.uploadedDate
