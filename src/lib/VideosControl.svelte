@@ -20,6 +20,7 @@
 
     Channels.set(value)
     .then(() => {
+      value = ''
       error = false
       disabled = false
     })
