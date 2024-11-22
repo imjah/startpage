@@ -41,6 +41,8 @@
     top: 100%;
     left: 0;
     min-width: 100%;
+    max-height: min(calc(100vh - 2.9rem), 31.8rem);
+    overflow-y: scroll;
     background-color: var(--color-bg);
   }
 
