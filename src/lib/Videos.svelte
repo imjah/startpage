@@ -18,7 +18,7 @@
     {#each videos as video}
     <li class="video">
       <h4 class="video-title">
-        <a href={`https://youtube.com${video.url}`}>{video.title}</a>
+        <a class="video-url" href={`https://youtube.com${video.url}`}>{video.title}</a>
       </h4>
       <p class="video-description">
         <a class="video-uploader" href={`https://youtube.com${video.uploaderUrl}`}>{video.uploaderName}</a>
@@ -66,6 +66,10 @@
     margin-bottom: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .video-url:visited {
+    color: var(--color-visited);
   }
 
   .video-description {
