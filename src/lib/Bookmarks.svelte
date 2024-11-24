@@ -1,45 +1,22 @@
 <script lang="ts">
   import strings from '../strings'
+  import Bookmarks from '../store/bookmarks'
 
-  type Tag = string
-
-  interface Bookmark {
-    url: string;
-    name: string;
-  }
-
-  let b = new Map<Tag, Bookmark[]>([
-    // ['youtube', [
-    //   {'url': '', 'name': 'pop science'},
-    //   {'url': '', 'name': 'didaskalia'},
-    //   {'url': '', 'name': 'lex friedman'}
-    // ]],
-    // ['twitch', [
-    //   {'url': '', 'name': 'togglebit'},
-    //   {'url': '', 'name': 'kapitanbomba'},
-    // ]],
-    // ['reddit', [
-    //   {'url': '', 'name': 'starpages'},
-    //   {'url': '', 'name': 'archlinux'}
-    // ]]
-  ])
-
-  let { width = '100%', columns = 3 } = $props()
+  let { width = '100%' } = $props()
+  let { store } = Bookmarks
 </script>
 
 <div class="container" style:flex-basis={width}>
-{#if b.size}
-	{#each b as [tag, bookmarks]}
-  <div class="tag" style:flex-basis={`${100 / columns}%`}>
-    <ul>
-      <h2 class="tag-name">{tag}</h2>
-      {#each bookmarks as bookmark}
-      <li class="bookmark">
-        <a href={bookmark.url}>{bookmark.name}</a>
-      </li>
-      {/each}
-    </ul>
-  </div>
+{#if $store.size}
+	{#each Map.groupBy($store.values(), ({tag}) => tag) as [tag, bookmarks]}
+  <ul class="tag">
+    <h3 class="tag-name">{tag}</h3>
+    {#each bookmarks as {url, name}}
+    <li class="tag-bookmark">
+      <a class="" href={url}>{name}</a>
+    </li>
+    {/each}
+  </ul>
   {/each}
 {:else}
   <p class="no-bookmarks">{strings.noBookmarksFound}</p>
@@ -49,10 +26,11 @@
 <style>
   .container {
     display: flex;
-    align-content: center;
-    justify-content: flex-start;
     flex-wrap: wrap;
-    margin: 1rem;
+    align-items: center;
+    align-content: center;
+    gap: 1rem;
+    padding: 1rem;
     overflow-y: scroll;
   }
 
@@ -65,16 +43,18 @@
   }
 
   .tag {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
+    width: 20%;
   }
 
   .tag-name {
     margin-bottom: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .bookmark {
+  .tag-bookmark {
     margin-bottom: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

@@ -72,3 +72,8 @@ ul, li, h1, h2, h3, h4, p {
   background-color: var(--color-bg-light) !important;
   outline: none;
 }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import strings from './strings.ts'
-  import Channels from './store/channels.ts'
+  import strings from './strings'
+  import BookmarksStore from './store/bookmarks'
+  import ChannelsStore from './store/channels'
   import Bookmarks from './lib/Bookmarks.svelte';
   import BookmarksControl from './lib/BookmarksControl.svelte';
   import Dropdown from './lib/Dropdown.svelte';
@@ -9,8 +10,9 @@
   import VideosFilter from './lib/VideosFilter.svelte';
   import { type ID } from './store/channels.ts'
 
-  Channels.subscribeToLocalStorage()
-  Channels.refetch()
+  BookmarksStore.subscribeToLocalStorage()
+  ChannelsStore.subscribeToLocalStorage()
+  ChannelsStore.refetch()
 
   let id: ID = $state('')
 </script>

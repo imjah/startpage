@@ -1,5 +1,6 @@
 <script lang="ts">
-  import strings from '../strings.ts'
+  import strings from '../strings'
+  import Bookmarks from '../store/bookmarks'
   import InputButton from './InputButton.svelte'
   import InputText from './InputText.svelte'
 
@@ -10,8 +11,10 @@
   let errorTag  = $state(false)
   let errorName = $state(false)
 
-  let submit = (e) => {
+  let submit = (e: Event) => {
     e.preventDefault()
+
+    errorUrl = errorTag = errorName = false
 
     if (!url.length)
       errorUrl = true
@@ -25,9 +28,9 @@
     if (errorUrl || errorTag || errorName)
       return
 
-    errorUrl  = true
-    errorTag  = true
-    errorName = true
+    Bookmarks.set({url: url, tag: tag, name: name})
+
+    url = tag = name = ''
   }
 </script>
 
