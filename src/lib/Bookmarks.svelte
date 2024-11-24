@@ -27,9 +27,7 @@
   .container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     align-content: center;
-    gap: 1rem;
     padding: 1rem;
     overflow-y: scroll;
   }
@@ -44,6 +42,7 @@
 
   .tag {
     width: 20%;
+    padding: .5rem;
   }
 
   .tag-name {

@@ -1,33 +1,45 @@
 <script lang="ts">
   import strings from '../strings'
   import Channels from '../store/channels'
+  import type { MouseEventHandler } from 'svelte/elements';
 
   let { current = $bindable(), open = false } = $props()
   let { store } = Channels
   let isOpen = $state(open)
   let container: HTMLElement
+
+  let storeSortedByName = $derived(
+    $store.entries().map(
+      ([id, channel]) => ({id: id, name: channel.name, nameLowerCase: channel.name.toLowerCase()})
+    )
+    .toArray()
+    .sort((a,b) => a.nameLowerCase < b.nameLowerCase ? -1 : (a.nameLowerCase > b.nameLowerCase ? 1 : 0))
+  )
 </script>
 
-<svelte:window onclick={(e) => container.contains(e.target) || (isOpen = false)} />
+<svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
+
+{#snippet button(value: string, onclick: MouseEventHandler<HTMLInputElement>)}
+  <input class="nav-button" type="button" {value} {onclick}>
+{/snippet}
 
 <div class="container" bind:this={container}>
-  <input class="nav-button" type="button" value={$store.get(current)?.name || strings.all} onclick={() => isOpen = !isOpen}>
-
+  {@render button($store.get(current)?.name || strings.all, () => isOpen = !isOpen)}
   {#if isOpen}
-	<ul class="content">
-	  {#if current}
-	  <li>
-	    <input class="nav-button" type="button" value={strings.all} onclick={() => current = ''}>
-	  </li>
-    {/if}
-	  {#each $store as [id, channel]}
-	  {#if current != id}
-	  <li>
-	    <input class="nav-button" type="button" value={channel.name} onclick={() => current = id}>
-	  </li>
-    {/if}
-    {/each}
-	</ul>
+    <ul class="content">
+      {#if current}
+        <li>
+          {@render button(strings.all, () => current = '')}
+        </li>
+      {/if}
+      {#each storeSortedByName as {id, name}}
+        {#if current != id}
+          <li>
+            {@render button(name, () => current = id)}
+          </li>
+        {/if}
+      {/each}
+    </ul>
   {/if}
 </div>
 
