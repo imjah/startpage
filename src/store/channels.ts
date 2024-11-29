@@ -52,7 +52,7 @@ export default class Channels {
     )
   }
 
-  static async refetch(cache: boolean = true) {
+  static async refetch(cache = true) {
     if (cache && this.#isCacheUpToDate())
       return
 
@@ -65,11 +65,11 @@ export default class Channels {
   }
 
   static async #fetch(id: ID): Promise<Channel> {
-    return fetch(`https://api.piped.yt/channel/${id}`)
+    return fetch(`https://api.piped.yt/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
     .then(response => response.json())
     .then(response => ({
-      'name': response.name,
-      'videos': response.relatedStreams.map((video: Video) => ({
+      'name': response?.content[0]?.uploaderName,
+      'videos': response.content.map((video: Video) => ({
         'url': video.url,
         'title': video.title,
         'uploaderUrl': video.uploaderUrl,
