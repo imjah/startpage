@@ -1,5 +1,9 @@
 import { writable } from 'svelte/store';
 
+let config = {
+  instance: 'https://api.piped.yt'
+}
+
 export type ID  = string
 export type URL = string
 
@@ -27,20 +31,23 @@ export default class Channels {
     )
   )
 
-  static async set(source: ID | URL): Promise<void> {
-    let id = source.split('/').pop() || ''
+  static async set(url: URL | ID): Promise<void> {
+    let id = this.#parseId(url)
 
-    return this.#fetch(id)
-    .then((channel: Channel) => this.store.update(v => {
-      v.set(id, channel)
-      return v
-    }))
+    if (id === undefined)
+      return new Promise((_, reject) => reject(`No ID found in ${url}`))
+
+    return (
+        this.#isPlaylist(url)
+      ? this.#fetchPlaylist(id)
+      : this.#fetchChannel(id)
+    ).then(channel => this.store.update(s => s.set(url, channel)))
   }
 
   static delete(id: ID) {
-    this.store.update(v => {
-      v.delete(id)
-      return v
+    this.store.update(s => {
+      s.delete(id)
+      return s
     })
   }
 
@@ -64,20 +71,36 @@ export default class Channels {
     this.#resetCacheUpdateTime()
   }
 
-  static async #fetch(id: ID): Promise<Channel> {
+  static async #fetchChannel(id: ID): Promise<Channel> {
     return fetch(`https://api.piped.yt/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
-    .then(response => response.json())
-    .then(response => ({
-      'name': response?.content[0]?.uploaderName,
-      'videos': response.content.map((video: Video) => ({
-        'url': video.url,
-        'title': video.title,
-        'uploaderUrl': video.uploaderUrl,
-        'uploaderName': video.uploaderName,
-        'uploaded': video.uploaded,
-        'uploadedDate': video.uploadedDate
-      }))
-    }))
+          .then(response => response.json())
+          .then(response => ({
+            'name': response?.content[0]?.uploaderName,
+            'videos': response.content.map((video: Video) => ({
+              'url': video.url,
+              'title': video.title,
+              'uploaderUrl': video.uploaderUrl,
+              'uploaderName': video.uploaderName,
+              'uploaded': video.uploaded,
+              'uploadedDate': video.uploadedDate
+            }))
+          }))
+  }
+
+  static async #fetchPlaylist(id: ID): Promise<Channel> {
+    return fetch(`${config.instance}/playlists/${id}`)
+          .then(response => response.json())
+          .then(response => ({
+            'name': response.name,
+            'videos': response.relatedStreams.map((video: Video) => ({
+              'url': video.url,
+              'title': video.title,
+              'uploaderUrl': video.uploaderUrl,
+              'uploaderName': video.uploaderName,
+              'uploaded': video.uploaded,
+              'uploadedDate': video.uploadedDate
+            }))
+          }))
   }
 
   static #getCacheUpdateTime(): number {
@@ -97,5 +120,15 @@ export default class Channels {
       return Date.now() < cacheUpdateTime + 3600000
 
     return false
+  }
+
+  static #parseId(url: URL): ID | undefined {
+    let delimeter = this.#isPlaylist(url) ? '=' : '/'
+
+    return url.split(delimeter).pop()
+  }
+
+  static #isPlaylist(url: URL): boolean {
+    return url.includes('playlist')
   }
 }

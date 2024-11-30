@@ -32,6 +32,6 @@
 </script>
 
 <form onsubmit={submit}>
-  <InputText bind:error={error} bind:value={value} placeholder={strings.youtubeChannelUrl} />
+  <InputText bind:error={error} bind:value={value} placeholder={strings.youtubeChannelOrPlaylist} />
   <InputButton value={strings.add} {disabled} />
 </form>

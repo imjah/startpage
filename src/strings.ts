@@ -6,7 +6,7 @@ export default {
   'all': 'All',
   'addBookmark': 'Add bookmark',
   'addChannel': 'Add channel',
-  'youtubeChannelUrl': 'Youtube channel URL',
+  'youtubeChannelOrPlaylist': 'Youtube channel or playlist',
   'empty': 'Empty',
   'noBookmarksFound': 'No bookmarks found',
   'noVideosFound': 'No videos found'
