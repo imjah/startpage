@@ -1,13 +1,13 @@
 <script lang="ts">
-  import strings from './strings'
-  import BookmarksStore from './store/bookmarks'
-  import ChannelsStore from './store/channels'
+  import BookmarkAdd from './lib/BookmarkAdd.svelte';
   import Bookmarks from './lib/Bookmarks.svelte';
-  import BookmarksControl from './lib/BookmarksControl.svelte';
+  import BookmarksStore from './store/bookmarks'
+  import ChannelAdd from './lib/ChannelAdd.svelte';
+  import Channels from './lib/Channels.svelte';
+  import ChannelsFilter from './lib/ChannelsFilter.svelte';
+  import ChannelsStore from './store/channels'
   import Dropdown from './lib/Dropdown.svelte';
-  import Videos from './lib/Videos.svelte';
-  import VideosControl from './lib/VideosControl.svelte';
-  import VideosFilter from './lib/VideosFilter.svelte';
+  import strings from './strings'
   import { type ID } from './store/channels.ts'
 
   BookmarksStore.subscribeToLocalStorage()
@@ -19,18 +19,18 @@
 
 <main>
   <nav>
-    <VideosFilter bind:current={id} />
+    <ChannelsFilter bind:current={id} />
     <section class="nav">
       <Dropdown value={strings.addChannel}>
-        <VideosControl />
+        <ChannelAdd />
       </Dropdown>
       <Dropdown value={strings.addBookmark}>
-        <BookmarksControl />
+        <BookmarkAdd />
       </Dropdown>
     </section>
   </nav>
   <section class="main">
-    <Videos bind:current={id} width="33%" />
+    <Channels bind:current={id} width="33%" />
     <Bookmarks width="67%" />
   </section>
 </main>
