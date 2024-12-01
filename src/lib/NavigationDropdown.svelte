@@ -1,6 +1,7 @@
 <script lang="ts">
-  let { value, open = false, children } = $props()
+  import NavigationButton from "./NavigationButton.svelte";
 
+  let { value, children, right = false, open = false } = $props()
   let isOpen = $state(open)
   let container: HTMLElement;
 </script>
@@ -8,12 +9,12 @@
 <svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
 
 <div class="container" bind:this={container}>
-  <input class="nav-button" class:focus={isOpen} type="button" {value} onclick={() => isOpen = !isOpen}>
+  <NavigationButton {value} bind:open={isOpen} />
 
   {#if isOpen}
-  <div class="content">
-  	{@render children()}
-  </div>
+    <div class="content" class:right={right}>
+    	{@render children()}
+    </div>
   {/if}
 </div>
 
@@ -31,7 +32,8 @@
     background: var(--color-bg-light);
   }
 
-  .nav-button {
-    margin-left: .5rem;
+  .right {
+    left: 0;
+    right: auto;
   }
 </style>

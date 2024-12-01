@@ -6,9 +6,11 @@
   import Channels from './lib/Channels.svelte';
   import ChannelsFilter from './lib/ChannelsFilter.svelte';
   import ChannelsStore from './store/channels'
-  import Dropdown from './lib/Dropdown.svelte';
+  import NavigationDropdown from './lib/NavigationDropdown.svelte';
+  import Settings from './lib/Settings.svelte';
   import strings from './strings'
   import { type ID } from './store/channels.ts'
+    import NavigationPopup from './lib/NavigationPopup.svelte';
 
   BookmarksStore.subscribeToLocalStorage()
   ChannelsStore.subscribeToLocalStorage()
@@ -21,12 +23,15 @@
   <nav>
     <ChannelsFilter bind:current={id} />
     <section class="nav">
-      <Dropdown value={strings.addChannel}>
+      <NavigationDropdown value={strings.addChannel}>
         <ChannelAdd />
-      </Dropdown>
-      <Dropdown value={strings.addBookmark}>
+      </NavigationDropdown>
+      <NavigationDropdown value={strings.addBookmark}>
         <BookmarkAdd />
-      </Dropdown>
+      </NavigationDropdown>
+      <NavigationPopup value={strings.settings}>
+        <Settings />
+      </NavigationPopup>
     </section>
   </nav>
   <section class="main">
@@ -52,6 +57,10 @@
     display: flex;
     justify-content: space-between;
     margin: .25rem;
+  }
+
+  nav > * {
+    gap: .5rem;
   }
 
   section.nav {

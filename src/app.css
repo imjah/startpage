@@ -3,6 +3,7 @@
 
   --gruvbox-dark-bg:         #282828;
   --gruvbox-dark-bg-1:       #3c3836;
+  --gruvbox-dark-bg-3:       #665c54;
   --gruvbox-dark-fg:         #ebdbb2;
   --gruvbox-dark-fg-1:       #ebdbb2;
   --gruvbox-dark-aqua:       #689d6a;
@@ -14,6 +15,7 @@
   --color-bg-light:     var(--gruvbox-dark-bg-1);
   --color-fg:           var(--gruvbox-dark-fg);
   --color-fg-light:     var(--gruvbox-dark-fg-1);
+  --color-fg-inactive:  var(--gruvbox-dark-bg-3);
   --color-accent:       var(--gruvbox-dark-aqua);
   --color-accent-light: var(--gruvbox-dark-aqua-light);
   --color-error:        var(--gruvbox-dark-red);
@@ -23,7 +25,6 @@
   --border-style: solid;
   --outline-size:  3px;
   --outline-style: solid;
-  --opacity-text: .3;
 }
 
 html, body, #app {

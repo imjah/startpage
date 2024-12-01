@@ -51,7 +51,7 @@
   }
 
   .no-videos {
-    opacity: var(--opacity-text);
+    color: var(--color-fg-inactive);
   }
 
   .video {
