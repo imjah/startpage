@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import BookmarkAdd from './lib/BookmarkAdd.svelte';
   import Bookmarks from './lib/Bookmarks.svelte';
   import BookmarksStore from './store/bookmarks'
@@ -7,16 +8,18 @@
   import ChannelsFilter from './lib/ChannelsFilter.svelte';
   import ChannelsStore from './store/channels'
   import NavigationDropdown from './lib/NavigationDropdown.svelte';
+  import NavigationPopup from './lib/NavigationPopup.svelte';
   import Settings from './lib/Settings.svelte';
   import strings from './strings'
   import { type ID } from './store/channels.ts'
-    import NavigationPopup from './lib/NavigationPopup.svelte';
-
-  BookmarksStore.subscribeToLocalStorage()
-  ChannelsStore.subscribeToLocalStorage()
-  ChannelsStore.refetch()
 
   let id: ID = $state('')
+
+  onMount(() => {
+    BookmarksStore.subscribeToLocalStorage()
+    ChannelsStore.subscribeToLocalStorage()
+    ChannelsStore.refetch()
+  })
 </script>
 
 <main>
