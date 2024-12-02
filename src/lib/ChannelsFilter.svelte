@@ -3,7 +3,7 @@
   import Channels from '../store/channels'
   import type { MouseEventHandler } from 'svelte/elements';
 
-  let { current = $bindable(), open = false } = $props()
+  let { id = $bindable(), open = false } = $props()
   let { store } = Channels
   let isOpen = $state(open)
   let container: HTMLElement
@@ -24,18 +24,18 @@
 {/snippet}
 
 <div class="container" bind:this={container}>
-  {@render button($store.get(current)?.name || strings.all, () => isOpen = !isOpen)}
+  {@render button($store.get(id)?.name || strings.all, () => isOpen = !isOpen)}
   {#if isOpen}
     <ul class="content">
-      {#if current}
+      {#if id}
         <li>
-          {@render button(strings.all, () => current = '')}
+          {@render button(strings.all, () => id = '')}
         </li>
       {/if}
-      {#each storeSortedByName as {id, name}}
-        {#if current != id}
+      {#each storeSortedByName as channel}
+        {#if id != channel.id}
           <li>
-            {@render button(name, () => current = id)}
+            {@render button(channel.name, () => id = channel.id)}
           </li>
         {/if}
       {/each}

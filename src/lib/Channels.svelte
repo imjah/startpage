@@ -2,11 +2,11 @@
   import strings from '../strings'
   import Channels from '../store/channels'
 
-  let { current = $bindable(), width = '100%' } = $props()
+  let { id = $bindable(), width = '100%' } = $props()
   let { store } = Channels
 
   let videos = $derived(
-    $store.get(current)?.videos || Array.from($store.values()).flatMap(
+    $store.get(id)?.videos || Array.from($store.values()).flatMap(
       channel => channel.videos
     ).sort((a,b) => b.uploaded - a.uploaded)
   )
