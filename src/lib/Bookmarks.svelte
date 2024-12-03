@@ -38,6 +38,7 @@
 
   .no-bookmarks {
     color: var(--color-fg-inactive);
+    user-select: none;
   }
 
   .tag {

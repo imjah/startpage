@@ -18,7 +18,6 @@ export interface Video {
 
 export interface Channel {
   name: string;
-  displayName: string | undefined;
   videos: Video[];
 }
 
@@ -43,6 +42,10 @@ export default class Channels {
       ? this.#fetchPlaylist(id)
       : this.#fetchChannel(id)
     ).then(channel => this.store.update(s => s.set(url, channel)))
+  }
+
+  static update(id: ID, values) {
+    this.store.update(s => s.set(id, {...s.get(id), ...values}))
   }
 
   static delete(id: ID) {
@@ -77,7 +80,6 @@ export default class Channels {
           .then(response => response.json())
           .then(response => ({
             'name': response?.content[0]?.uploaderName,
-            'displayName': undefined,
             'videos': response.content.map((video: Video) => ({
               'url': video.url,
               'title': video.title,
@@ -94,7 +96,6 @@ export default class Channels {
           .then(response => response.json())
           .then(response => ({
             'name': response.name,
-            'displayName': undefined,
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': video.url,
               'title': video.title,

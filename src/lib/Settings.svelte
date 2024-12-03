@@ -11,7 +11,7 @@
   let index = $state(1)
 </script>
 
-<div>
+<div class="container">
   <ul class="tabs">
     {#each tabs as tab, i}
       <li class="tab">
@@ -27,6 +27,12 @@
 </div>
 
 <style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
   .tabs {
     display: flex;
   }
@@ -39,13 +45,16 @@
   .tab-button {
     padding: 1rem;
     cursor: pointer;
+    color: inherit;
+    background-color: inherit;
+    border: none;
+    outline: none;
   }
 
   .tab-button.focus,
   .tab-button:focus {
     color: var(--color-fg);
     background-color: var(--color-accent);
-    outline: none;
     cursor: default;
   }
 </style>

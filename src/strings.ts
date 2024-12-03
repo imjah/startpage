@@ -10,6 +10,7 @@ export default {
   'youtubeChannelOrPlaylist': 'Youtube channel or playlist',
   'empty': 'Empty',
   'noBookmarksFound': 'No bookmarks found',
+  'noChannelsFound': 'No channels found',
   'noVideosFound': 'No videos found',
   'general': 'General',
   'channels': 'Channels',

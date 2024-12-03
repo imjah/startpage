@@ -7,7 +7,7 @@
 
   let videos = $derived(
     $store.get(id)?.videos || Array.from($store.values()).flatMap(
-      channel => channel.videos
+      channel => channel.videos.map(v => ({...v, ...{uploaderName: channel.name}}))
     ).sort((a,b) => b.uploaded - a.uploaded)
   )
 </script>
@@ -52,6 +52,7 @@
 
   .no-videos {
     color: var(--color-fg-inactive);
+    user-select: none;
   }
 
   .video {

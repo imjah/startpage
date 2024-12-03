@@ -10,6 +10,7 @@
   --gruvbox-dark-aqua-light: #8ec07c;
   --gruvbox-dark-red:        #cc241d;
   --gruvbox-dark-purple:     #b16286;
+  --gruvbox-dark-yellow:     #d79921;
 
   --color-bg:           var(--gruvbox-dark-bg);
   --color-bg-light:     var(--gruvbox-dark-bg-1);
@@ -20,6 +21,7 @@
   --color-accent-light: var(--gruvbox-dark-aqua-light);
   --color-error:        var(--gruvbox-dark-red);
   --color-visited:      var(--gruvbox-dark-purple);
+  --color-warrning:     var(--gruvbox-dark-yellow);
 
   --border-size:  1px;
   --border-style: solid;
@@ -55,12 +57,6 @@ ul {
 
 ul, li, h1, h2, h3, h4, p {
   margin: 0;
-}
-
-button {
-  border: none;
-  color: inherit;
-  background-color: inherit;
 }
 
 .nav-button {

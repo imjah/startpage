@@ -27,10 +27,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 50vw;
-    max-width: 95vw;
-    min-height: 50vh;
-    max-height: 95vh;
+    width: 50rem;
+    max-width: 100vw;
+    height: 30rem;
+    max-height: 100vh;
     color: var(--color-fg-light);
     background: var(--color-bg-light);
     overflow: scroll;
