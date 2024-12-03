@@ -11,6 +11,8 @@ export default {
   'empty': 'Empty',
   'noBookmarksFound': 'No bookmarks found',
   'noVideosFound': 'No videos found',
+  'general': 'General',
   'channels': 'Channels',
+  'bookmarks': 'Bookmarks',
   'remove': 'remove'
 }

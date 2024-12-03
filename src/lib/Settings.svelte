@@ -1,22 +1,29 @@
 <script lang="ts">
   import strings from '../strings'
-  import Channels from '../store/channels'
+  import SettingsChannels from './SettingsChannels.svelte';
 
-  let { store } = Channels
+  let tabs = [
+    strings.general,
+    strings.channels,
+    strings.bookmarks
+  ]
+
+  let index = $state(1)
 </script>
 
-<div class="container">
+<div>
   <ul class="tabs">
-    <li class="tab focus">{strings.channels}</li>
-  </ul>
-  <ul class="settings">
-    {#each $store as [id, channel]}
-      <li class="settings-item">
-        {channel.name}
-        <button onclick={() => {Channels.delete(id)}}>{strings.remove}</button>
+    {#each tabs as tab, i}
+      <li class="tab">
+        <button class="tab-button" class:focus={index == i} onclick={() => index = i}>
+          {tab}
+        </button>
       </li>
     {/each}
   </ul>
+  {#if index == 1}
+    <SettingsChannels />
+  {/if}
 </div>
 
 <style>
@@ -25,28 +32,20 @@
   }
 
   .tab {
+    display: grid;
     flex-grow: 1;
+  }
+
+  .tab-button {
     padding: 1rem;
-    text-align: center;
     cursor: pointer;
   }
 
-  .tab.focus {
+  .tab-button.focus,
+  .tab-button:focus {
     color: var(--color-fg);
     background-color: var(--color-accent);
-  }
-
-  .settings-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1rem 0;
-  }
-
-  button {
-    color: var(--color-accent);
-    background-color: var(--color-bg-light);
-    border: none;
-    cursor: pointer;
+    outline: none;
+    cursor: default;
   }
 </style>

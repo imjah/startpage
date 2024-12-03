@@ -6,7 +6,10 @@
   let container: HTMLElement;
 </script>
 
-<svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
+<svelte:window
+  onkeyup={e => e.key == 'Escape' && (isOpen = false)}
+  onclick={e => container.contains(e.target) || (isOpen = false)}
+/>
 
 <div bind:this={container}>
   <NavigationButton {value} bind:open={isOpen} />
