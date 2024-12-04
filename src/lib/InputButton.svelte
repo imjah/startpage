@@ -1,9 +1,9 @@
 <script lang="ts">
-  let { value, disabled = $bindable() } = $props()
+  let { value, onclick = $bindable(), disabled = $bindable() } = $props()
 </script>
 
 <div class="container">
-  <input type="submit" value={disabled ? '' : value} {disabled}>
+  <input type="submit" value={disabled ? '' : value} {onclick} {disabled}>
   {#if disabled}
   <div class="gg-spinner-container">
     <i class="gg-spinner"></i>

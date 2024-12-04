@@ -15,5 +15,7 @@ export default {
   'general': 'General',
   'channels': 'Channels',
   'bookmarks': 'Bookmarks',
-  'remove': 'remove'
+  'remove': 'remove',
+  'restore': 'restore',
+  'save': 'save'
 }

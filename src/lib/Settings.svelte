@@ -1,5 +1,6 @@
 <script lang="ts">
   import strings from '../strings'
+  import SettingsBookmarks from './SettingsBookmarks.svelte';
   import SettingsChannels from './SettingsChannels.svelte';
 
   let tabs = [
@@ -23,6 +24,9 @@
   </ul>
   {#if index == 1}
     <SettingsChannels />
+  {/if}
+  {#if index == 2}
+    <SettingsBookmarks />
   {/if}
 </div>
 

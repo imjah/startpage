@@ -6,6 +6,7 @@ export interface Bookmark {
   url: URL;
   tag: string;
   name: string;
+  use: boolean;
 }
 
 export default class Bookmarks {
@@ -18,10 +19,11 @@ export default class Bookmarks {
   )
 
   static set(bookmark: Bookmark) {
-    this.store.update(v => {
-      v.set(bookmark.url, bookmark)
-      return v
-    })
+    this.store.update(v => v.set(bookmark.url, bookmark))
+  }
+
+  static update(url: URL, partial: Bookmark) {
+    this.store.update(v => v.set(url, {...v.get(url), ...partial}))
   }
 
   static delete(url: URL) {
