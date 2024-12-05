@@ -4,12 +4,14 @@
   import Bookmarks from './lib/Bookmarks.svelte';
   import channels from './store/channels'
   import Channels from './lib/Channels.svelte';
+  import { Config } from './store/config'
   import Navigation from './lib/Navigation.svelte'
   import { type ID } from './store/channels.ts'
 
   let id: ID = $state('')
 
   onMount(() => {
+    Config.saveOnChange()
     bookmarks.subscribeToLocalStorage()
     channels.subscribeToLocalStorage()
     channels.refetch()

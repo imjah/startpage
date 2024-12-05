@@ -1,8 +1,5 @@
 import { writable } from 'svelte/store';
-
-let config = {
-  instance: 'https://api.piped.yt'
-}
+import { Config } from './config'
 
 export type ID  = string
 export type URL = string
@@ -76,7 +73,7 @@ export default class Channels {
   }
 
   static async #fetchChannel(id: ID): Promise<Channel> {
-    return fetch(`https://api.piped.yt/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
+    return fetch(`${Config.get.instance}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
           .then(response => response.json())
           .then(response => ({
             'name': response?.content[0]?.uploaderName,
@@ -92,7 +89,7 @@ export default class Channels {
   }
 
   static async #fetchPlaylist(id: ID): Promise<Channel> {
-    return fetch(`${config.instance}/playlists/${id}`)
+    return fetch(`${Config.get.instance}/playlists/${id}`)
           .then(response => response.json())
           .then(response => ({
             'name': response.name,
@@ -121,7 +118,7 @@ export default class Channels {
     const cacheUpdateTime = this.#getCacheUpdateTime()
 
     if (typeof cacheUpdateTime === 'number')
-      return Date.now() < cacheUpdateTime + 3600000
+      return Date.now() < cacheUpdateTime + Config.get.cacheLifetime
 
     return false
   }

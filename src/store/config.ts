@@ -1,20 +1,28 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 
-interface Config {
-  instance: string;
-  cacheLifetime: number;
+export class Config {
+  static name = 'config'
+
+  static get get() {
+    return get(config)
+  }
+
+  static get save() {
+    try {
+      return JSON.parse(localStorage[this.name] || '{}')
+    }
+    catch (e) {
+      return {}
+    }
+  }
+
+  static saveOnChange() {
+    config.subscribe(c => localStorage[this.name] = JSON.stringify(c))
+  }
 }
 
-const init:Config = {
-  'instance': 'https://api.piped.yt',
-  'cacheLifetime': 3600000
-}
-
-export const config = writable<Config>(
-  Object.assign(
-    init,
-    JSON.parse(localStorage.config || '{}')
-  )
-)
-
-config.subscribe(c => localStorage.setItem('config', JSON.stringify(c)))
+export const config = writable({
+  instance: 'https://api.piped.yt',
+  cacheLifetime: 3600000,
+  ...Config.save
+})
