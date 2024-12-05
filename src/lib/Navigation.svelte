@@ -20,7 +20,7 @@
       <BookmarkAdd />
     </NavigationDropdown>
     <NavigationPopup value={strings.settings}>
-      <Settings />
+      <Settings open={1} />
     </NavigationPopup>
   </section>
 </nav>

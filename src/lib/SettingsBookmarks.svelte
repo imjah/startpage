@@ -1,29 +1,18 @@
 <script lang="ts">
   import strings from '../strings'
   import Bookmarks from '../store/bookmarks'
-  import { onDestroy } from 'svelte';
-  import InputButton from './InputButton.svelte';
+  import SettingsRemoveButton from './SettingsRemoveButton.svelte';
 
   let { store } = Bookmarks
-
-  let save = () => $store.entries().forEach(
-    ([id, {use}]) => (use === false) && Bookmarks.delete(id)
-  )
-
-  onDestroy(() => save())
 </script>
 
 <div class="container">
   {#if $store.size}
     <ul class="settings">
-      {#each $store as [url, {tag, name, use}]}
+      {#each $store as [url, {tag, name}]}
         <li class="setting">
           <p>{tag}: {name}</p>
-          <input
-            type="button"
-            class="setting-remove"
-            value={use === false ? strings.restore : strings.remove}
-            onclick={() => use === false ? Bookmarks.update(url, {use: true}) : Bookmarks.update(url, {use: false})}>
+          <SettingsRemoveButton remove={() => Bookmarks.delete(url)} />
         </li>
       {/each}
     </ul>
@@ -60,13 +49,6 @@
   .setting {
     display: flex;
     justify-content: space-between;
-  }
-
-  .setting-remove {
-    color: var(--color-accent);
-    background-color: var(--color-bg-light);
-    border: none;
-    outline: none;
-    cursor: pointer;
+    margin-bottom: .25rem;
   }
 </style>

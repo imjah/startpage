@@ -1,6 +1,7 @@
 <script lang="ts">
   import strings from '../strings'
   import Channels from '../store/channels'
+  import SettingsRemoveButton from './SettingsRemoveButton.svelte';
 
   let { store } = Channels
   let modified: string[] = $state([])
@@ -23,11 +24,7 @@
               oninput={_ => setModified(id)}
               onkeyup={e => e.key == 'Enter' && unsetModified(id) && Channels.update(id, {name: e.target.value})}>
           </div>
-          <input
-            type="button"
-            class="setting-remove"
-            value={strings.remove}
-            onclick={() => Channels.delete(id)}>
+          <SettingsRemoveButton remove={() => Channels.delete(id)} />
         </li>
       {/each}
     </ul>
@@ -45,7 +42,6 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem;
     overflow-y: scroll;
   }
 
@@ -63,6 +59,13 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    height: auto;
+    padding: 1rem;
+    overflow-y: scroll;
+  }
+
+  .container:has(.hint) .settings {
+    padding-bottom: 0;
   }
 
   .fit {
@@ -73,10 +76,14 @@
   .setting {
     display: flex;
     justify-content: space-between;
+    margin-bottom: .25rem;
+  }
+
+  .setting:last-child {
+    margin-bottom: 0;
   }
 
   .setting-name {
-    margin: .5rem 0;
     padding: 0;
     color: inherit;
     background-color: inherit;
@@ -88,16 +95,8 @@
     color: var(--color-warrning);
   }
 
-  .setting-remove {
-    color: var(--color-accent);
-    background-color: var(--color-bg-light);
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
-
   .hint {
-    padding: .5rem 0;
+    padding: 1rem;
     color: var(--color-fg-inactive);
   }
 </style>

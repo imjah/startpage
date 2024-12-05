@@ -3,13 +3,15 @@
   import SettingsBookmarks from './SettingsBookmarks.svelte';
   import SettingsChannels from './SettingsChannels.svelte';
 
+  let { open = 0 } = $props()
+
   let tabs = [
     strings.general,
     strings.channels,
     strings.bookmarks
   ]
 
-  let index = $state(1)
+  let index = $state(open)
 </script>
 
 <div class="container">

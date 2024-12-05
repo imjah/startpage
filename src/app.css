@@ -22,6 +22,7 @@
   --color-error:        var(--gruvbox-dark-red);
   --color-visited:      var(--gruvbox-dark-purple);
   --color-warrning:     var(--gruvbox-dark-yellow);
+  --color-warrning-fg:  var(--gruvbox-dark-bg);
 
   --border-size:  1px;
   --border-style: solid;
