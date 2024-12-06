@@ -15,6 +15,7 @@ export interface Video {
 
 export interface Channel {
   name: string;
+  displayName: string | undefined;
   videos: Video[];
 }
 
@@ -28,7 +29,7 @@ export default class Channels {
     )
   )
 
-  static async set(url: URL | ID): Promise<void> {
+  static async set(url: URL | ID, partial = false): Promise<void> {
     let id = this.#parseId(url)
 
     if (id === undefined)
@@ -38,7 +39,10 @@ export default class Channels {
         this.#isPlaylist(url)
       ? this.#fetchPlaylist(id)
       : this.#fetchChannel(id)
-    ).then(channel => this.store.update(s => s.set(url, channel)))
+    ).then(channel => partial
+      ? this.update(url, {videos: channel.videos})
+      : this.store.update(s => s.set(url, channel))
+    )
   }
 
   static update(id: ID, values) {
@@ -64,8 +68,10 @@ export default class Channels {
     if (cache && this.#isCacheUpToDate())
       return
 
+    console.log('Fetching ...')
+
     this.store.update(v => {
-      v.forEach((_, id) => this.set(id))
+      v.forEach((_, id) => this.set(id, true))
       return v
     })
 
@@ -77,6 +83,7 @@ export default class Channels {
           .then(response => response.json())
           .then(response => ({
             'name': response?.content[0]?.uploaderName,
+            'displayName': undefined,
             'videos': response.content.map((video: Video) => ({
               'url': video.url,
               'title': video.title,
@@ -93,6 +100,7 @@ export default class Channels {
           .then(response => response.json())
           .then(response => ({
             'name': response.name,
+            'displayName': undefined,
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': video.url,
               'title': video.title,
@@ -118,7 +126,7 @@ export default class Channels {
     const cacheUpdateTime = this.#getCacheUpdateTime()
 
     if (typeof cacheUpdateTime === 'number')
-      return Date.now() < cacheUpdateTime + Config.get.cacheLifetime
+      return Date.now() < (cacheUpdateTime + Config.get.cacheLifetime)
 
     return false
   }

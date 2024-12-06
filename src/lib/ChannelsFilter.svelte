@@ -10,7 +10,11 @@
 
   let storeSortedByName = $derived(
     $store.entries().map(
-      ([id, channel]) => ({id: id, name: channel.name, nameLowerCase: channel.name.toLowerCase()})
+      ([id, channel]) => ({
+        id: id,
+        name: channel.displayName || channel.name,
+        nameLowerCase: (channel.displayName || channel.name).toLowerCase()
+      })
     )
     .toArray()
     .sort((a,b) => a.nameLowerCase < b.nameLowerCase ? -1 : (a.nameLowerCase > b.nameLowerCase ? 1 : 0))
@@ -24,7 +28,7 @@
 {/snippet}
 
 <div class="container" bind:this={container}>
-  {@render button($store.get(id)?.name || strings.all, () => isOpen = !isOpen)}
+  {@render button($store.get(id)?.displayName || strings.all, () => isOpen = !isOpen)}
   {#if isOpen}
     <ul class="content">
       {#if id}

@@ -12,17 +12,17 @@
 <div class="container">
   {#if $store.size}
     <ul class="settings">
-      {#each $store as [id, {name}]}
+      {#each $store as [id, {name, displayName}]}
         <li class="setting">
           <div class="fit">
             <input
               type="text"
               class="setting-name"
               class:modified={modified.includes(id)}
-              value={name}
+              value={displayName || name}
               placeholder={name}
               oninput={_ => setModified(id)}
-              onkeyup={e => e.key == 'Enter' && unsetModified(id) && Channels.update(id, {name: e.target.value})}>
+              onkeyup={e => e.key == 'Enter' && unsetModified(id) && Channels.update(id, {displayName: e.target.value})}>
           </div>
           <SettingsRemoveButton remove={() => Channels.delete(id)} />
         </li>

@@ -5,11 +5,15 @@
   let { id = $bindable(), width = '100%' } = $props()
   let { store } = Channels
 
-  let videos = $derived(
-    $store.get(id)?.videos || Array.from($store.values()).flatMap(
-      channel => channel.videos.map(v => ({...v, ...{uploaderName: channel.name}}))
-    ).sort((a,b) => b.uploaded - a.uploaded)
-  )
+  let videos = $derived.by(() => {
+    let c = $store.get(id)
+
+    return c
+      ? c.videos.map(v => ({...v, uploaderName: c.displayName || c.name}))
+      : Array.from($store.values()).flatMap(
+          channel => channel.videos.map(v => ({...v, uploaderName: channel.displayName || channel.name}))
+        ).sort((a,b) => b.uploaded - a.uploaded)
+  })
 </script>
 
 <div class="container" style:flex-basis={width}>
