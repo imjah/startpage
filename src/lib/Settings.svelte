@@ -2,6 +2,7 @@
   import strings from '../strings'
   import SettingsBookmarks from './SettingsBookmarks.svelte';
   import SettingsChannels from './SettingsChannels.svelte';
+  import SettingsGeneral from './SettingsGeneral.svelte';
 
   let { open = 0 } = $props()
 
@@ -24,6 +25,9 @@
       </li>
     {/each}
   </ul>
+  {#if index == 0}
+    <SettingsGeneral />
+  {/if}
   {#if index == 1}
     <SettingsChannels />
   {/if}

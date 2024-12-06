@@ -12,6 +12,7 @@ export default {
   'noBookmarksFound': 'No bookmarks found',
   'noChannelsFound': 'No channels found',
   'noVideosFound': 'No videos found',
+  'noConfigFound': 'No config found',
   'general': 'General',
   'channels': 'Channels',
   'bookmarks': 'Bookmarks',
