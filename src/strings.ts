@@ -17,5 +17,7 @@ export default {
   'channels': 'Channels',
   'bookmarks': 'Bookmarks',
   'remove': 'Remove',
-  'restore': 'Restore'
+  'restore': 'Restore',
+  'instance': 'Instance',
+  'instanceId': 'instance'
 }

@@ -22,7 +22,12 @@ export class Config {
 }
 
 export const config = writable({
-  instance: 'https://api.piped.yt',
+  instance:
+    { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
+  instances: [
+    { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
+    { label: 'piped.yt',    value: 'https://api.piped.yt' }
+  ],
   cacheLifetime: 3600000,
   ...Config.save
 })

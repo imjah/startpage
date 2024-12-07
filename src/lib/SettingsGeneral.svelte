@@ -1,11 +1,17 @@
 <script lang="ts">
+  import strings from '../strings'
   import { config } from '../store/config'
+  import SettingsSelectButton from './SettingsSelectButton.svelte';
 </script>
 
 <div class="container">
   <ul class="settings">
     <li class="setting">
-      <p>Instance: {$config.instance}</p>
+      <SettingsSelectButton
+        id={strings.instanceId}
+        label={strings.instance}
+        bind:use={$config.instance}
+        bind:options={$config.instances} />
     </li>
     <li class="setting">
       <p>Cache time: {$config.cacheLifetime / 1000}s</p>

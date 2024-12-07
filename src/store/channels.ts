@@ -79,7 +79,7 @@ export default class Channels {
   }
 
   static async #fetchChannel(id: ID): Promise<Channel> {
-    return fetch(`${Config.get.instance}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
+    return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
           .then(response => response.json())
           .then(response => ({
             'name': response?.content[0]?.uploaderName,
@@ -96,7 +96,7 @@ export default class Channels {
   }
 
   static async #fetchPlaylist(id: ID): Promise<Channel> {
-    return fetch(`${Config.get.instance}/playlists/${id}`)
+    return fetch(`${Config.get.instance.value}/playlists/${id}`)
           .then(response => response.json())
           .then(response => ({
             'name': response.name,
