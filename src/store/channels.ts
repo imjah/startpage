@@ -126,7 +126,7 @@ export default class Channels {
     const cacheUpdateTime = this.#getCacheUpdateTime()
 
     if (typeof cacheUpdateTime === 'number')
-      return Date.now() < (cacheUpdateTime + Config.get.cacheLifetime)
+      return Date.now() < (cacheUpdateTime + Config.get.cacheLifetimeInMinutes * 60000)
 
     return false
   }

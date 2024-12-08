@@ -29,6 +29,10 @@
 </select>
 
 <style>
+  label {
+    user-select: none;
+  }
+
   select {
     appearance: none;
     padding: .5rem;

@@ -28,6 +28,6 @@ export const config = writable({
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
     { label: 'piped.yt',    value: 'https://api.piped.yt' }
   ],
-  cacheLifetime: 3600000,
+  cacheLifetimeInMinutes: 10,
   ...Config.save
 })

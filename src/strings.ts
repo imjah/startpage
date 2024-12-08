@@ -19,5 +19,7 @@ export default {
   'remove': 'Remove',
   'restore': 'Restore',
   'instance': 'Instance',
-  'instanceId': 'instance'
+  'instanceId': 'settings-instance',
+  'cache': 'Cache (in minutes)',
+  'cacheId': 'settings-cache'
 }

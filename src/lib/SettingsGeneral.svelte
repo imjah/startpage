@@ -1,20 +1,25 @@
 <script lang="ts">
   import strings from '../strings'
   import { config } from '../store/config'
-  import SettingsSelectButton from './SettingsSelectButton.svelte';
+  import SettingsNumberInput from './SettingsNumberInput.svelte';
+  import SettingsSelectInput from './SettingsSelectInput.svelte';
 </script>
 
 <div class="container">
   <ul class="settings">
     <li class="setting">
-      <SettingsSelectButton
+      <SettingsSelectInput
         id={strings.instanceId}
         label={strings.instance}
         bind:use={$config.instance}
         bind:options={$config.instances} />
     </li>
     <li class="setting">
-      <p>Cache time: {$config.cacheLifetime / 1000}s</p>
+      <SettingsNumberInput
+        id={strings.cacheId}
+        label={strings.cache}
+        min={0}
+        bind:value={$config.cacheLifetimeInMinutes} />
     </li>
   </ul>
 </div>
@@ -36,7 +41,12 @@
 
   .setting {
     display: flex;
+    align-items: center;;
     justify-content: space-between;
-    margin-bottom: .25rem;
+    padding: .5rem;
+  }
+
+  .setting:hover {
+    background-color: var(--color-bg);
   }
 </style>
