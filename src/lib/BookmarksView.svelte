@@ -28,6 +28,7 @@
     display: flex;
     flex-wrap: wrap;
     align-content: center;
+    justify-content: center;
     padding: 1rem;
     overflow-y: scroll;
   }
