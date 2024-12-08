@@ -5,33 +5,24 @@
   import InputSelect from './InputSelect.svelte';
 </script>
 
-<div class="container">
-  <ul class="settings">
-    <li class="setting">
-      <InputSelect
-        id={strings.instanceId}
-        label={strings.instance}
-        bind:use={$config.instance}
-        bind:options={$config.instances} />
-    </li>
-    <li class="setting">
-      <InputNumber
-        id={strings.cacheId}
-        label={strings.cache}
-        min={0}
-        bind:value={$config.cacheLifetimeInMinutes} />
-    </li>
-  </ul>
-</div>
+<ul class="settings">
+  <li class="setting">
+    <InputSelect
+      id={strings.instanceId}
+      label={strings.instance}
+      bind:use={$config.instance}
+      bind:options={$config.instances} />
+  </li>
+  <li class="setting">
+    <InputNumber
+      id={strings.cacheId}
+      label={strings.cache}
+      min={0}
+      bind:value={$config.cacheLifetimeInMinutes} />
+  </li>
+</ul>
 
 <style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow-y: scroll;
-  }
-
   .settings {
     display: flex;
     flex-direction: column;

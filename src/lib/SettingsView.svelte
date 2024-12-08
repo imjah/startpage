@@ -4,36 +4,38 @@
   import SettingsViewChannelsTab from './SettingsViewChannelsTab.svelte';
   import SettingsViewGeneralTab from './SettingsViewGeneralTab.svelte';
 
-  let { open = 0 } = $props()
-
   let tabs = [
     strings.general,
     strings.channels,
     strings.bookmarks
   ]
 
-  let index = $state(open)
+  let tab = $state(0)
 </script>
 
 <div class="container">
   <ul class="tabs">
-    {#each tabs as tab, i}
+    {#each tabs as name, index}
       <li class="tab">
-        <button class="tab-button" class:focus={index == i} onclick={() => index = i}>
-          {tab}
-        </button>
+        <input
+          type="button"
+          class="tab-button"
+          class:focus={tab == index}
+          value={name}
+          onclick={() => tab = index}>
       </li>
     {/each}
   </ul>
-  {#if index == 0}
-    <SettingsViewGeneralTab />
-  {/if}
-  {#if index == 1}
-    <SettingsViewChannelsTab />
-  {/if}
-  {#if index == 2}
-    <SettingsViewBookmarksTab />
-  {/if}
+
+  <div class="content">
+    {#if      tab == 0}
+      <SettingsViewGeneralTab />
+    {:else if tab == 1}
+      <SettingsViewChannelsTab />
+    {:else if tab == 2}
+      <SettingsViewBookmarksTab />
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -54,21 +56,29 @@
 
   .tab-button {
     padding: 1rem;
-    cursor: pointer;
     color: inherit;
     background-color: inherit;
     border: none;
-    outline: none;
   }
 
-  .tab-button.focus,
-  .tab-button:focus {
+  .tab-button:hover {
+    color: var(--color-fg);
+    background-color: var(--color-bg);
+    cursor: pointer;
+  }
+
+  .tab-button:focus,
+  .tab-button.focus {
     color: var(--color-fg);
     background-color: var(--color-accent);
+    outline: none;
     cursor: default;
   }
 
-  .tab-button:not(.focus):hover {
-    background-color: var(--color-bg);
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: scroll;
   }
 </style>
