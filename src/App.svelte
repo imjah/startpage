@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import bookmarks from './store/bookmarks'
-  import Bookmarks from './lib/Bookmarks.svelte';
-  import channels from './store/channels'
-  import Channels from './lib/Channels.svelte';
-  import { Config } from './store/config'
-  import Navigation from './lib/Navigation.svelte'
-  import { type ID } from './store/channels.ts'
+  import bookmarks from './share/bookmarks'
+  import channels from './share/channels'
+  import { type ID } from './share/channels'
+  import { Config } from './share/config'
+  import BookmarksView from './lib/BookmarksView.svelte';
+  import ChannelsView from './lib/ChannelsView.svelte';
+  import NavigationView from './lib/NavigationView.svelte'
 
   let id: ID = $state('')
 
@@ -19,10 +19,10 @@
 </script>
 
 <main>
-  <Navigation bind:id />
+  <NavigationView bind:id />
   <section>
-    <Channels width="33%" bind:id />
-    <Bookmarks width="67%" />
+    <ChannelsView width="33%" bind:id />
+    <BookmarksView width="67%" />
   </section>
 </main>
 

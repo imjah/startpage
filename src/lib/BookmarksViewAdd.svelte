@@ -1,7 +1,7 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Bookmarks from '../store/bookmarks'
-  import InputButton from './InputButton.svelte'
+  import bookmarks from '../share/bookmarks'
+  import strings from '../share/strings'
+  import InputSubmit from './InputSubmit.svelte'
   import InputText from './InputText.svelte'
 
   let url  = $state('')
@@ -28,7 +28,7 @@
     if (errorUrl || errorTag || errorName)
       return
 
-    Bookmarks.set({url: url, tag: tag, name: name})
+    bookmarks.set({url: url, tag: tag, name: name})
 
     url = tag = name = ''
   }
@@ -38,5 +38,5 @@
   <InputText bind:error={errorUrl}  bind:value={url}  placeholder={strings.url} />
   <InputText bind:error={errorTag}  bind:value={tag}  placeholder={strings.tag} />
   <InputText bind:error={errorName} bind:value={name} placeholder={strings.name} />
-  <InputButton value={strings.add} />
+  <InputSubmit value={strings.add} />
 </form>

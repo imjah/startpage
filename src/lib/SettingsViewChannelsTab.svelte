@@ -1,9 +1,9 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Channels from '../store/channels'
-  import SettingsRemoveButton from './SettingsRemoveButton.svelte';
+  import channels from '../share/channels'
+  import strings from '../share/strings'
+  import ButtonRemove from './ButtonRemove.svelte';
 
-  let { store } = Channels
+  let { store } = channels
   let modified: string[] = $state([])
   let setModified = (id: string) => modified.find(v => v == id) || modified.push(id)
   let unsetModified = (id: string) => modified = modified.filter(v => v != id)
@@ -22,9 +22,9 @@
               value={displayName || name}
               placeholder={name}
               oninput={_ => setModified(id)}
-              onkeyup={e => e.key == 'Enter' && unsetModified(id) && Channels.update(id, {displayName: e.target.value})}>
+              onkeyup={e => e.key == 'Enter' && unsetModified(id) && channels.update(id, {displayName: e.target.value})}>
           </div>
-          <SettingsRemoveButton remove={() => Channels.delete(id)} />
+          <ButtonRemove remove={() => channels.delete(id)} />
         </li>
       {/each}
     </ul>

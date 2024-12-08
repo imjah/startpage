@@ -1,10 +1,10 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Channels from '../store/channels'
   import type { MouseEventHandler } from 'svelte/elements';
+  import channels from '../share/channels'
+  import strings from '../share/strings'
 
   let { id = $bindable(), open = false } = $props()
-  let { store } = Channels
+  let { store } = channels
   let isOpen = $state(open)
   let container: HTMLElement
 

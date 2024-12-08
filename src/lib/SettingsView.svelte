@@ -1,8 +1,8 @@
 <script lang="ts">
-  import strings from '../strings'
-  import SettingsBookmarks from './SettingsBookmarks.svelte';
-  import SettingsChannels from './SettingsChannels.svelte';
-  import SettingsGeneral from './SettingsGeneral.svelte';
+  import strings from '../share/strings'
+  import SettingsViewBookmarksTab from './SettingsViewBookmarksTab.svelte';
+  import SettingsViewChannelsTab from './SettingsViewChannelsTab.svelte';
+  import SettingsViewGeneralTab from './SettingsViewGeneralTab.svelte';
 
   let { open = 0 } = $props()
 
@@ -26,13 +26,13 @@
     {/each}
   </ul>
   {#if index == 0}
-    <SettingsGeneral />
+    <SettingsViewGeneralTab />
   {/if}
   {#if index == 1}
-    <SettingsChannels />
+    <SettingsViewChannelsTab />
   {/if}
   {#if index == 2}
-    <SettingsBookmarks />
+    <SettingsViewBookmarksTab />
   {/if}
 </div>
 

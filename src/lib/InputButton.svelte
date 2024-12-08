@@ -1,89 +1,24 @@
 <script lang="ts">
-  let { value, onclick = $bindable(), disabled = $bindable() } = $props()
+  let { value, open = $bindable() } = $props()
 </script>
 
-<div class="container">
-  <input type="submit" value={disabled ? '' : value} {onclick} {disabled}>
-  {#if disabled}
-  <div class="gg-spinner-container">
-    <i class="gg-spinner"></i>
-  </div>
-  {/if}
-</div>
+<button class:focus={open} onclick={() => open = !open}>{value}</button>
 
 <style>
-  .container {
-    display: grid;
-    position: relative;
-  }
-
-  input[type=submit] {
-    width: 20rem;
-    padding: .5rem;
-    color: var(--color-fg);
-    background-color: var(--color-accent);
+  button {
+    padding: .75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    background-color: var(--color-bg);
     border: none;
-  }
-
-  input[type=submit]:hover {
     cursor: pointer;
   }
 
-  input[type=submit]:focus {
-    outline: var(--outline-size) var(--outline-style) var(--color-accent-light);
-  }
-
-  input[type=submit]:disabled {
-    cursor: default;
-    background-color: var(--color-bg);
-    outline-color: var(--color-bg-light);
-  }
-
-  .gg-spinner-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .gg-spinner {
-    transform: scale(var(--ggs, 1));
-  }
-
-  .gg-spinner,
-  .gg-spinner::after,
-  .gg-spinner::before {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
-
-  .gg-spinner::after,
-  .gg-spinner::before {
-    content: "";
-    position: absolute;
-    border-radius: 100px;
-  }
-
-  .gg-spinner::before {
-    animation: spinner 1s cubic-bezier(0.6, 0, 0.4, 1) infinite;
-    border: 3px solid transparent;
-    border-top-color: currentColor;
-  }
-
-  .gg-spinner::after {
-    border: 3px solid;
-    opacity: 0.2;
-  }
-
-  @keyframes spinner {
-    0% {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
+  button.focus,
+  button:focus,
+  button:hover {
+    background-color: var(--color-bg-light) !important;
+    outline: none;
   }
 </style>

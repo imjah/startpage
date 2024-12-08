@@ -1,9 +1,9 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Channels from '../store/channels'
+  import channels from '../share/channels'
+  import strings from '../share/strings'
 
   let { id = $bindable(), width = '100%' } = $props()
-  let { store } = Channels
+  let { store } = channels
 
   let videos = $derived.by(() => {
     let c = $store.get(id)

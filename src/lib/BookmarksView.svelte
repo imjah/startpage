@@ -1,9 +1,9 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Bookmarks from '../store/bookmarks'
+  import bookmarks from '../share/bookmarks'
+  import strings from '../share/strings'
 
   let { width = '100%' } = $props()
-  let { store } = Bookmarks
+  let { store } = bookmarks
 </script>
 
 <div class="container" style:flex-basis={width}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NavigationButton from "./NavigationButton.svelte";
+  import InputButton from "./InputButton.svelte";
 
   let { value, children, right = false, open = false } = $props()
   let isOpen = $state(open)
@@ -9,7 +9,7 @@
 <svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
 
 <div class="container" bind:this={container}>
-  <NavigationButton {value} bind:open={isOpen} />
+  <InputButton {value} bind:open={isOpen} />
 
   {#if isOpen}
     <div class="content" class:right={right}>

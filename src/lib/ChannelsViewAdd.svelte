@@ -1,7 +1,7 @@
 <script lang="ts">
-  import strings from '../strings.ts'
-  import Channels from '../store/channels.ts'
-  import InputButton from './InputButton.svelte'
+  import channels from '../share/channels.ts'
+  import strings from '../share/strings.ts'
+  import InputSubmit from './InputSubmit.svelte'
   import InputText from './InputText.svelte'
 
   let value = $state('')
@@ -18,7 +18,7 @@
 
     disabled = true
 
-    Channels.set(value)
+    channels.set(value)
     .then(() => {
       value = ''
       error = false
@@ -33,5 +33,5 @@
 
 <form onsubmit={submit}>
   <InputText bind:error={error} bind:value={value} placeholder={strings.youtubeChannelOrPlaylist} />
-  <InputButton value={strings.add} {disabled} />
+  <InputSubmit value={strings.add} {disabled} />
 </form>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import strings from '../strings'
+  import strings from '../share/strings'
 
   let { error = $bindable(), value = $bindable(), placeholder } = $props()
 </script>

@@ -1,21 +1,21 @@
 <script lang="ts">
-  import strings from '../strings'
-  import { config } from '../store/config'
-  import SettingsNumberInput from './SettingsNumberInput.svelte';
-  import SettingsSelectInput from './SettingsSelectInput.svelte';
+  import strings from '../share/strings'
+  import { config } from '../share/config'
+  import InputNumber from './InputNumber.svelte';
+  import InputSelect from './InputSelect.svelte';
 </script>
 
 <div class="container">
   <ul class="settings">
     <li class="setting">
-      <SettingsSelectInput
+      <InputSelect
         id={strings.instanceId}
         label={strings.instance}
         bind:use={$config.instance}
         bind:options={$config.instances} />
     </li>
     <li class="setting">
-      <SettingsNumberInput
+      <InputNumber
         id={strings.cacheId}
         label={strings.cache}
         min={0}

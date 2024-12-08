@@ -1,9 +1,9 @@
 <script lang="ts">
-  import strings from '../strings'
-  import Bookmarks from '../store/bookmarks'
-  import SettingsRemoveButton from './SettingsRemoveButton.svelte';
+  import bookmarks from '../share/bookmarks'
+  import strings from '../share/strings'
+  import ButtonRemove from './ButtonRemove.svelte';
 
-  let { store } = Bookmarks
+  let { store } = bookmarks
 </script>
 
 <div class="container">
@@ -12,7 +12,7 @@
       {#each $store as [url, {tag, name}]}
         <li class="setting">
           <p class="setting-text">{tag}: {name}</p>
-          <SettingsRemoveButton remove={() => Bookmarks.delete(url)} />
+          <ButtonRemove remove={() => bookmarks.delete(url)} />
         </li>
       {/each}
     </ul>

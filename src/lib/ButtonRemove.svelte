@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
-  import strings from '../strings'
+  import strings from '../share/strings'
 
   let { remove } = $props()
   let isRemoved = $state(false)
