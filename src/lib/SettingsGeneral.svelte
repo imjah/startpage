@@ -29,7 +29,6 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem;
     overflow-y: scroll;
   }
 
@@ -43,7 +42,7 @@
     display: flex;
     align-items: center;;
     justify-content: space-between;
-    padding: .5rem;
+    padding:.5rem 1rem;
   }
 
   .setting:hover {

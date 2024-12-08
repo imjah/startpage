@@ -27,9 +27,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50rem;
+    width: 65rem;
     max-width: 100vw;
-    height: 30rem;
+    height: 40rem;
     max-height: 100vh;
     color: var(--color-fg-light);
     background: var(--color-bg-light);

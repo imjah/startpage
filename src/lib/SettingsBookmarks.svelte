@@ -11,7 +11,7 @@
     <ul class="settings">
       {#each $store as [url, {tag, name}]}
         <li class="setting">
-          <p>{tag}: {name}</p>
+          <p class="setting-text">{tag}: {name}</p>
           <SettingsRemoveButton remove={() => Bookmarks.delete(url)} />
         </li>
       {/each}
@@ -26,7 +26,6 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem;
     overflow-y: scroll;
   }
 
@@ -48,7 +47,17 @@
 
   .setting {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: .25rem;
+    padding-right: .5rem;
+  }
+
+  .setting:hover {
+    background-color: var(--color-bg);
+  }
+
+  .setting-text {
+    padding: 1rem;
+    user-select: none;
   }
 </style>

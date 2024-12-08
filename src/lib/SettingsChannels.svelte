@@ -60,7 +60,6 @@
     flex-direction: column;
     flex-grow: 1;
     height: auto;
-    padding: 1rem;
     overflow-y: scroll;
   }
 
@@ -75,16 +74,21 @@
 
   .setting {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: .25rem;
+    padding-right: .5rem;
   }
 
   .setting:last-child {
     margin-bottom: 0;
   }
 
+  .setting:hover {
+    background-color: var(--color-bg);
+  }
+
   .setting-name {
-    padding: 0;
+    padding: 1rem;
     color: inherit;
     background-color: inherit;
     border: none;

@@ -20,7 +20,7 @@
       <BookmarkAdd />
     </NavigationDropdown>
     <NavigationPopup value={strings.settings}>
-      <Settings open={1} />
+      <Settings />
     </NavigationPopup>
   </section>
 </nav>
@@ -34,5 +34,6 @@
 
   section {
     display: flex;
+    gap: .5rem;
   }
 </style>

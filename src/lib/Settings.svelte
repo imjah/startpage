@@ -67,4 +67,8 @@
     background-color: var(--color-accent);
     cursor: default;
   }
+
+  .tab-button:not(.focus):hover {
+    background-color: var(--color-bg);
+  }
 </style>
