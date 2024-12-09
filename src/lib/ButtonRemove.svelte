@@ -15,7 +15,7 @@
 <input
   type="button"
   class:removed={isRemoved}
-  style:margin={margin}
+  style:margin
   value={isRemoved ? strings.restore : strings.remove}
   onclick={() => isRemoved = !isRemoved}>
 

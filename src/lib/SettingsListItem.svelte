@@ -1,8 +1,11 @@
 <script lang="ts">
-  let { children } = $props()
+  let {
+    padding = undefined,
+    children
+  } = $props()
 </script>
 
-<li>
+<li style:padding>
   {@render children()}
 </li>
 

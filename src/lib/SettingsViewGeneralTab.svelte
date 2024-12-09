@@ -3,40 +3,26 @@
   import { config } from '../share/config'
   import InputNumber from './InputNumber.svelte';
   import InputSelect from './InputSelect.svelte';
+  import SettingsList from './SettingsList.svelte';
+  import SettingsListItem from './SettingsListItem.svelte';
+
+  let padding = '1rem'
 </script>
 
-<ul class="settings">
-  <li class="setting">
+<SettingsList>
+  <SettingsListItem {padding}>
     <InputSelect
       id={strings.instanceId}
       label={strings.instance}
       bind:use={$config.instance}
       bind:options={$config.instances} />
-  </li>
-  <li class="setting">
+  </SettingsListItem>
+
+  <SettingsListItem {padding}>
     <InputNumber
       id={strings.cacheId}
       label={strings.cache}
       min={0}
       bind:value={$config.cacheLifetimeInMinutes} />
-  </li>
-</ul>
-
-<style>
-  .settings {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .setting {
-    display: flex;
-    align-items: center;;
-    justify-content: space-between;
-    padding:.5rem 1rem;
-  }
-
-  .setting:hover {
-    background-color: var(--color-bg);
-  }
-</style>
+  </SettingsListItem>
+</SettingsList>
