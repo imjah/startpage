@@ -61,17 +61,16 @@
     border: none;
   }
 
-  .tab-button:hover {
-    color: var(--color-fg);
-    background-color: var(--color-bg);
+  .tab-button:hover,
+  .tab-button:focus {
+    background-color: var(--color-surface-light);
     cursor: pointer;
+    outline: none;
   }
 
-  .tab-button:focus,
   .tab-button.focus {
-    color: var(--color-fg);
+    color: var(--color-accent-fg);
     background-color: var(--color-accent);
-    outline: none;
     cursor: default;
   }
 

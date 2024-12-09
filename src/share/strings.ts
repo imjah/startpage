@@ -21,5 +21,6 @@ export default {
   'instance': 'Instance',
   'instanceId': 'settings-instance',
   'cache': 'Cache (in minutes)',
-  'cacheId': 'settings-cache'
+  'cacheId': 'settings-cache',
+  'saveHint': 'Press Enter to save changes'
 }

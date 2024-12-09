@@ -5,6 +5,7 @@
 
   --gruvbox-dark-bg:         #282828;
   --gruvbox-dark-bg-1:       #3c3836;
+  --gruvbox-dark-bg-2:       #504945;
   --gruvbox-dark-bg-3:       #665c54;
   --gruvbox-dark-fg:         #ebdbb2;
   --gruvbox-dark-fg-1:       #ebdbb2;
@@ -14,17 +15,21 @@
   --gruvbox-dark-purple:     #b16286;
   --gruvbox-dark-yellow:     #d79921;
 
-  --color-bg:           var(--gruvbox-dark-bg);
-  --color-bg-light:     var(--gruvbox-dark-bg-1);
-  --color-fg:           var(--gruvbox-dark-fg);
-  --color-fg-light:     var(--gruvbox-dark-fg-1);
-  --color-fg-inactive:  var(--gruvbox-dark-bg-3);
-  --color-accent:       var(--gruvbox-dark-aqua);
-  --color-accent-light: var(--gruvbox-dark-aqua-light);
-  --color-error:        var(--gruvbox-dark-red);
-  --color-visited:      var(--gruvbox-dark-purple);
-  --color-warrning:     var(--gruvbox-dark-yellow);
-  --color-warrning-fg:  var(--gruvbox-dark-bg);
+  --color-bg:                var(--gruvbox-dark-bg);
+  --color-bg-light:          var(--gruvbox-dark-bg-1);
+  --color-fg:                var(--gruvbox-dark-fg);
+  --color-fg-light:          var(--gruvbox-dark-fg-1);
+  --color-fg-inactive:       var(--gruvbox-dark-bg-3);
+  --color-surface:           var(--gruvbox-dark-bg-1);
+  --color-surface-fg:        var(--gruvbox-dark-fg-1);
+  --color-surface-light:     var(--gruvbox-dark-bg-2);
+  --color-accent:            var(--gruvbox-dark-aqua);
+  --color-accent-fg:         var(--gruvbox-dark-fg);
+  --color-accent-light:      var(--gruvbox-dark-aqua-light);
+  --color-error:             var(--gruvbox-dark-red);
+  --color-visited:           var(--gruvbox-dark-purple);
+  --color-warrning:          var(--gruvbox-dark-yellow);
+  --color-warrning-fg:       var(--gruvbox-dark-bg);
 
   --border-size:  1px;
   --border-style: solid;
