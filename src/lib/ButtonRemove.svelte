@@ -2,7 +2,11 @@
   import { onDestroy } from 'svelte';
   import strings from '../share/strings'
 
-  let { remove } = $props()
+  let {
+    margin,
+    remove
+  } = $props()
+
   let isRemoved = $state(false)
 
   onDestroy(() => isRemoved && remove())
@@ -11,6 +15,7 @@
 <input
   type="button"
   class:removed={isRemoved}
+  style:margin={margin}
   value={isRemoved ? strings.restore : strings.remove}
   onclick={() => isRemoved = !isRemoved}>
 

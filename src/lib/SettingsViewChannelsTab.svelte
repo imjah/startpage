@@ -1,106 +1,23 @@
 <script lang="ts">
   import channels from '../share/channels'
   import strings from '../share/strings'
-  import ButtonRemove from './ButtonRemove.svelte';
+  import Empty from './Empty.svelte';
+  import SettingsList from './SettingsList.svelte';
+  import SettingsListChannelsItem from './SettingsListChannelsItem.svelte';
 
   let { store } = channels
-  let modified: string[] = $state([])
-  let setModified = (id: string) => modified.find(v => v == id) || modified.push(id)
-  let unsetModified = (id: string) => modified = modified.filter(v => v != id)
 </script>
 
-<div class="container">
-  {#if $store.size}
-    <ul class="settings">
-      {#each $store as [id, {name, displayName}]}
-        <li class="setting">
-          <div class="fit">
-            <input
-              type="text"
-              class="setting-name"
-              class:modified={modified.includes(id)}
-              value={displayName || name}
-              placeholder={name}
-              oninput={_ => setModified(id)}
-              onkeyup={e => e.key == 'Enter' && unsetModified(id) && channels.update(id, {displayName: e.target.value})}>
-          </div>
-          <ButtonRemove remove={() => channels.delete(id)} />
-        </li>
-      {/each}
-    </ul>
-
-    {#if modified.length}
-      <p class="hint">Press enter to save channel name</p>
-    {/if}
-  {:else}
-    <p class="no-channels">{strings.noChannelsFound}</p>
-  {/if}
-</div>
-
-<style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow-y: scroll;
-  }
-
-  .container:has(.no-channels) {
-    align-items: center;
-    justify-content: center;
-  }
-
-  .no-channels {
-    color: var(--color-fg-inactive);
-    user-select: none;
-  }
-
-  .settings {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    height: auto;
-    overflow-y: scroll;
-  }
-
-  .container:has(.hint) .settings {
-    padding-bottom: 0;
-  }
-
-  .fit {
-    display: grid;
-    width: 100%;
-  }
-
-  .setting {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: .5rem;
-  }
-
-  .setting:last-child {
-    margin-bottom: 0;
-  }
-
-  .setting:hover {
-    background-color: var(--color-bg);
-  }
-
-  .setting-name {
-    padding: 1rem;
-    color: inherit;
-    background-color: inherit;
-    border: none;
-    outline: none;
-  }
-
-  .setting-name.modified {
-    color: var(--color-warrning);
-  }
-
-  .hint {
-    padding: 1rem;
-    color: var(--color-fg-inactive);
-  }
-</style>
+{#if $store.size}
+  <SettingsList>
+    {#each $store as [id, {name, displayName}]}
+      <SettingsListChannelsItem
+        {id}
+        {name}
+        bind:displayName={displayName}
+        remove={() => channels.delete(id)} />
+    {/each}
+  </SettingsList>
+{:else}
+  <Empty message={strings.noChannelsFound} />
+{/if}
