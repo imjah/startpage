@@ -8,27 +8,20 @@
   let isOpen = $state(open)
   let container: HTMLElement
 
-  let storeSortedByName = $derived(
-    $store.entries().map(
-      ([id, channel]) => ({
-        id: id,
-        name: channel.displayName || channel.name,
-        nameLowerCase: (channel.displayName || channel.name).toLowerCase()
-      })
-    )
-    .toArray()
-    .sort((a,b) => a.nameLowerCase < b.nameLowerCase ? -1 : (a.nameLowerCase > b.nameLowerCase ? 1 : 0))
+  let channelsSortedByDisplayName = $derived(
+    new Map([...$store].sort((a, b) =>
+      (a[1].displayName || a[1].name).localeCompare((b[1].displayName || b[1].name))))
   )
 </script>
 
 <svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
 
-{#snippet button(value: string, onclick: MouseEventHandler<HTMLInputElement>)}
+{#snippet button(value: string | undefined, onclick: MouseEventHandler<HTMLInputElement>)}
   <input class="nav-button" type="button" {value} {onclick}>
 {/snippet}
 
 <div class="container" bind:this={container}>
-  {@render button($store.get(id)?.displayName || strings.all, () => isOpen = !isOpen)}
+  {@render button($store.get(id)?.displayName || $store.get(id)?.name || strings.all, () => isOpen = !isOpen)}
   {#if isOpen}
     <ul class="content">
       {#if id}
@@ -36,10 +29,10 @@
           {@render button(strings.all, () => id = '')}
         </li>
       {/if}
-      {#each storeSortedByName as channel}
-        {#if id != channel.id}
+      {#each channelsSortedByDisplayName as [channel_id, {name, displayName}]}
+        {#if id != channel_id}
           <li>
-            {@render button(channel.name, () => id = channel.id)}
+            {@render button(displayName || name, () => id = channel_id)}
           </li>
         {/if}
       {/each}
