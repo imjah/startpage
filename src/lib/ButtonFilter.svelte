@@ -10,7 +10,8 @@
 
   let channelsSortedByDisplayName = $derived(
     new Map([...$store].sort((a, b) =>
-      (a[1].displayName || a[1].name).localeCompare((b[1].displayName || b[1].name))))
+      (a[1].displayName || a[1].name).localeCompare((b[1].displayName || b[1].name))
+    ))
   )
 </script>
 

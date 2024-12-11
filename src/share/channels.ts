@@ -14,6 +14,7 @@ export interface Video {
 }
 
 export interface Channel {
+  url: string;
   name: string;
   displayName: string | undefined;
   videos: Video[];
@@ -37,8 +38,8 @@ export default class Channels {
 
     return (
         this.#isPlaylist(url)
-      ? this.#fetchPlaylist(id)
-      : this.#fetchChannel(id)
+      ? this.#fetchPlaylist(id, url)
+      : this.#fetchChannel(id, url)
     ).then(channel => partial
       ? this.update(url, {videos: channel.videos})
       : this.store.update(s => s.set(url, channel))
@@ -78,14 +79,15 @@ export default class Channels {
     this.#resetCacheUpdateTime()
   }
 
-  static async #fetchChannel(id: ID): Promise<Channel> {
+  static async #fetchChannel(id: ID, url: URL): Promise<Channel> {
     return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
           .then(response => response.json())
           .then(response => ({
+            'url': url,
             'name': response?.content[0]?.uploaderName,
             'displayName': undefined,
             'videos': response.content.map((video: Video) => ({
-              'url': video.url,
+              'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'uploaderUrl': video.uploaderUrl,
               'uploaderName': video.uploaderName,
@@ -95,14 +97,15 @@ export default class Channels {
           }))
   }
 
-  static async #fetchPlaylist(id: ID): Promise<Channel> {
+  static async #fetchPlaylist(id: ID, url: URL): Promise<Channel> {
     return fetch(`${Config.get.instance.value}/playlists/${id}`)
           .then(response => response.json())
           .then(response => ({
+            'url': url,
             'name': response.name,
             'displayName': undefined,
             'videos': response.relatedStreams.map((video: Video) => ({
-              'url': video.url,
+              'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'uploaderUrl': video.uploaderUrl,
               'uploaderName': video.uploaderName,
@@ -139,5 +142,18 @@ export default class Channels {
 
   static #isPlaylist(url: URL): boolean {
     return url.includes('playlist')
+  }
+
+  static byUploaded(a: Video, b: Video) {
+    return b.uploaded - a.uploaded
+  }
+
+  static toFeedItem(channel: Channel) {
+    return channel.videos.map((video: Video) => ({
+      ...video,
+      channelUrl: channel.url,
+      channelName : channel.name,
+      channelDisplayName : channel.displayName
+    }))
   }
 }

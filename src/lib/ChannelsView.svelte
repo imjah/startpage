@@ -1,39 +1,46 @@
 <script lang="ts">
   import channels from '../share/channels'
   import strings from '../share/strings'
+  import Empty from './Empty.svelte';
 
-  let { id = $bindable(), width = '100%' } = $props()
-  let { store } = channels
+  let {
+    id = $bindable(),
+    width = '100%'
+  } = $props()
 
-  let videos = $derived.by(() => {
-    let c = $store.get(id)
+  let { store, toFeedItem,  byUploaded } = channels
 
-    return c
-      ? c.videos.map(v => ({...v, uploaderName: c.displayName || c.name}))
-      : Array.from($store.values()).flatMap(
-          channel => channel.videos.map(v => ({...v, uploaderName: channel.displayName || channel.name}))
-        ).sort((a,b) => b.uploaded - a.uploaded)
+  let filteredChannels = $derived.by(() => {
+    let selected = $store.get(id)
+
+    return selected === undefined ? [...$store.values()] : [selected]
   })
+
+  let feed = $derived(
+    filteredChannels.flatMap(toFeedItem).sort(byUploaded)
+  )
 </script>
 
 <div class="container" style:flex-basis={width}>
-{#if videos.length}
-  <ul>
-    {#each videos as video}
-    <li class="video">
-      <h4 class="video-title">
-        <a class="video-url" href={`https://youtube.com${video.url}`}>{video.title}</a>
-      </h4>
-      <p class="video-description">
-        <a class="video-uploader" href={`https://youtube.com${video.uploaderUrl}`}>{video.uploaderName}</a>
-        {video.uploadedDate}
-      </p>
-    </li>
-    {/each}
-  </ul>
-{:else}
-  <p class="no-videos">{strings.noVideosFound}</p>
-{/if}
+  {#if feed.length}
+    <ul>
+      {#each feed as video}
+        <li class="video">
+          <h4 class="video-title">
+            <a class="video-url" href={video.url}>{video.title}</a>
+          </h4>
+          <p class="video-description">
+            <a class="video-uploader" href={video.channelUrl}>
+              {video.channelDisplayName || video.channelName}
+            </a>
+            {video.uploadedDate}
+          </p>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <Empty message={strings.noVideosFound} /> 
+  {/if}
 </div>
 
 <style>
@@ -47,16 +54,6 @@
   .container:focus {
     background-color: var(--color-bg-light);
     outline: none;
-  }
-
-  .container:has(.no-videos) {
-    align-items: center;
-    justify-content: center;
-  }
-
-  .no-videos {
-    color: var(--color-fg-inactive);
-    user-select: none;
   }
 
   .video {
