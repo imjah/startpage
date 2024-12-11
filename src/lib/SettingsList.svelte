@@ -21,14 +21,17 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow-y: scroll;
     user-select: none;
   }
 
   .list {
+    flex-grow: 1;
     overflow-y: scroll;
   }
 
   .hint {
     padding: 1rem;
+    color: var(--color-surface-inactive);
   }
 </style>

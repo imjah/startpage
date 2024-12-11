@@ -7,6 +7,7 @@
   --gruvbox-dark-bg-1:       #3c3836;
   --gruvbox-dark-bg-2:       #504945;
   --gruvbox-dark-bg-3:       #665c54;
+  --gruvbox-dark-bg-4:       #7c6f64;
   --gruvbox-dark-fg:         #ebdbb2;
   --gruvbox-dark-fg-1:       #ebdbb2;
   --gruvbox-dark-aqua:       #689d6a;
@@ -22,6 +23,7 @@
   --color-fg-inactive:       var(--gruvbox-dark-bg-3);
   --color-surface:           var(--gruvbox-dark-bg-1);
   --color-surface-fg:        var(--gruvbox-dark-fg-1);
+  --color-surface-inactive:  var(--gruvbox-dark-bg-4);
   --color-surface-light:     var(--gruvbox-dark-bg-2);
   --color-accent:            var(--gruvbox-dark-aqua);
   --color-accent-fg:         var(--gruvbox-dark-fg);
