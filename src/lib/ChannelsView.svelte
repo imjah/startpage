@@ -8,17 +8,14 @@
     width = '100%'
   } = $props()
 
-  let { toFeedItem,  byUploaded } = Channels
+  let feed = $derived.by(() => {
+    const selected = $channels.get(id)
 
-  let filteredChannels = $derived.by(() => {
-    let selected = $channels.get(id)
-
-    return selected === undefined ? [...$channels.values()] : [selected]
+    return Channels.toArray(
+      selected === undefined ? $channels : [id, selected]
+    )
+    .sort(Channels.BY_UPLOADED)
   })
-
-  let feed = $derived(
-    filteredChannels.flatMap(toFeedItem).sort(byUploaded)
-  )
 </script>
 
 <div class="container" style:flex-basis={width}>

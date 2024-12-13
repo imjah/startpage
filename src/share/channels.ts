@@ -4,7 +4,6 @@ import { Config } from './config'
 export type URL  = string
 
 export interface Channel {
-  url: string;
   name: string;
   displayName: string;
   videos: Video[];
@@ -13,10 +12,14 @@ export interface Channel {
 export interface Video {
   url: string;
   title: string;
-  uploaderUrl: string;
-  uploaderName: string;
   uploaded: number;
   uploadedDate: string;
+}
+
+export interface ChannelVideo extends Video {
+  channelUrl: string;
+  channelName: string;
+  channelDisplayName: string;
 }
 
 export class Channels {
@@ -77,6 +80,23 @@ export class Channels {
     channels.subscribe(c => localStorage[this.LS_CACHE] = JSON.stringify([...c]))
   }
 
+  static toArray(selected: [URL, Channel] | Map<URL, Channel>): ChannelVideo[] {
+    return this.#toArray(
+      selected instanceof Map ? [...selected.entries()] : [selected]
+    )
+  }
+
+  static #toArray(selected: Array<[URL, Channel]>): ChannelVideo[] {
+    return selected.flatMap(([url, channel]) => channel.videos.map(video => ({
+      ...video,
+      channelUrl: url,
+      channelName : channel.name,
+      channelDisplayName : channel.displayName
+    })))
+  }
+
+  static BY_UPLOADED = (a: Video, b: Video) => b.uploaded - a.uploaded
+
   static async #fetchChannel(id: URL, url: string): Promise<Channel> {
     return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
           .then(response => response.json())
@@ -87,8 +107,6 @@ export class Channels {
             'videos': response.content.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
-              'uploaderUrl': video.uploaderUrl,
-              'uploaderName': video.uploaderName,
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
@@ -105,8 +123,6 @@ export class Channels {
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
-              'uploaderUrl': video.uploaderUrl,
-              'uploaderName': video.uploaderName,
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
@@ -140,19 +156,6 @@ export class Channels {
 
   static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
-  }
-
-  static byUploaded(a: Video, b: Video) {
-    return b.uploaded - a.uploaded
-  }
-
-  static toFeedItem(channel: Channel) {
-    return channel.videos.map((video: Video) => ({
-      ...video,
-      channelUrl: channel.url,
-      channelName : channel.name,
-      channelDisplayName : channel.displayName
-    }))
   }
 }
 
