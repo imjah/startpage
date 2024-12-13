@@ -1,5 +1,5 @@
 <script lang="ts">
-  import channels from '../share/channels'
+  import { Channels, channels } from '../share/channels'
   import strings from '../share/strings'
   import Empty from './Empty.svelte';
 
@@ -8,12 +8,12 @@
     width = '100%'
   } = $props()
 
-  let { store, toFeedItem,  byUploaded } = channels
+  let { toFeedItem,  byUploaded } = Channels
 
   let filteredChannels = $derived.by(() => {
-    let selected = $store.get(id)
+    let selected = $channels.get(id)
 
-    return selected === undefined ? [...$store.values()] : [selected]
+    return selected === undefined ? [...$channels.values()] : [selected]
   })
 
   let feed = $derived(

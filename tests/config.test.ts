@@ -25,7 +25,7 @@ test('Get config from local storage', () => {
 test('Save config in local storage on change', () => {
   const value = 'bar'
 
-  Config.saveOnChange()
+  Config.saveOnUpdate()
 
   config.update(s => {
     s[value] = value

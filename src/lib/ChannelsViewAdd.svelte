@@ -1,5 +1,5 @@
 <script lang="ts">
-  import channels from '../share/channels.ts'
+  import { Channels } from '../share/channels.ts'
   import strings from '../share/strings.ts'
   import InputSubmit from './InputSubmit.svelte'
   import InputText from './InputText.svelte'
@@ -18,7 +18,7 @@
 
     disabled = true
 
-    channels.set(value)
+    Channels.set(value)
     .then(() => {
       value = ''
       error = false

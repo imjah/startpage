@@ -1,15 +1,14 @@
 <script lang="ts">
   import type { MouseEventHandler } from 'svelte/elements';
-  import channels from '../share/channels'
+  import { channels } from '../share/channels'
   import strings from '../share/strings'
 
   let { id = $bindable(), open = false } = $props()
-  let { store } = channels
   let isOpen = $state(open)
   let container: HTMLElement
 
   let channelsSortedByDisplayName = $derived(
-    new Map([...$store].sort((a, b) =>
+    new Map([...$channels].sort((a, b) =>
       (a[1].displayName || a[1].name).localeCompare((b[1].displayName || b[1].name))
     ))
   )
@@ -22,7 +21,7 @@
 {/snippet}
 
 <div class="container" bind:this={container}>
-  {@render button($store.get(id)?.displayName || $store.get(id)?.name || strings.all, () => isOpen = !isOpen)}
+  {@render button($channels.get(id)?.displayName || $channels.get(id)?.name || strings.all, () => isOpen = !isOpen)}
   {#if isOpen}
     <ul class="content">
       {#if id}

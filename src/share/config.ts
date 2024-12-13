@@ -1,4 +1,4 @@
-import { writable, get } from 'svelte/store';
+import { writable, get } from 'svelte/store'
 
 export class Config {
   static name = 'config'
@@ -16,7 +16,7 @@ export class Config {
     }
   }
 
-  static saveOnChange() {
+  static saveOnUpdate() {
     config.subscribe(c => localStorage[this.name] = JSON.stringify(c))
   }
 }

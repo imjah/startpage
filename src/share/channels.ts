@@ -1,8 +1,14 @@
 import { writable } from 'svelte/store';
 import { Config } from './config'
 
-export type ID  = string
-export type URL = string
+export type URL  = string
+
+export interface Channel {
+  url: string;
+  name: string;
+  displayName: string;
+  videos: Video[];
+}
 
 export interface Video {
   url: string;
@@ -13,28 +19,15 @@ export interface Video {
   uploadedDate: string;
 }
 
-export interface Channel {
-  url: string;
-  name: string;
-  displayName: string | undefined;
-  videos: Video[];
-}
-
-export default class Channels {
+export class Channels {
   static LS_CACHE = 'channels'
   static LS_CACHE_UPDATE_TIME = 'channelsUpdateTime'
 
-  static store = writable<Map<ID, Channel>>(
-    new Map(
-      JSON.parse(localStorage[this.LS_CACHE] || '[]')
-    )
-  )
-
-  static async set(url: URL | ID, partial = false): Promise<void> {
+  static async set(url: string | URL, partial = false): Promise<void> {
     let id = this.#parseId(url)
 
     if (id === undefined)
-      return new Promise((_, reject) => reject(`No ID found in ${url}`))
+      return new Promise((_, reject) => reject(`No URL found in ${url}`))
 
     return (
         this.#isPlaylist(url)
@@ -42,27 +35,19 @@ export default class Channels {
       : this.#fetchChannel(id, url)
     ).then(channel => partial
       ? this.update(url, {videos: channel.videos})
-      : this.store.update(s => s.set(url, channel))
+      : channels.update(s => s.set(url, channel))
     )
   }
 
-  static update(id: ID, values) {
-    this.store.update(s => s.set(id, {...s.get(id), ...values}))
+  static update(id: URL, values: any) {
+    channels.update(s => s.set(id, {...s.get(id), ...values}))
   }
 
-  static delete(id: ID) {
-    this.store.update(s => {
+  static delete(id: URL) {
+    channels.update(s => {
       s.delete(id)
       return s
     })
-  }
-
-  static subscribeToLocalStorage() {
-    this.store.subscribe(v => 
-      localStorage[this.LS_CACHE] = JSON.stringify(v, (_, value) => 
-        value instanceof Map ? [...value] : value
-      )
-    )
   }
 
   static async refetch(cache = true) {
@@ -71,7 +56,7 @@ export default class Channels {
 
     console.log('Fetching ...')
 
-    this.store.update(v => {
+    channels.update(v => {
       v.forEach((_, id) => this.set(id, true))
       return v
     })
@@ -79,13 +64,26 @@ export default class Channels {
     this.#resetCacheUpdateTime()
   }
 
-  static async #fetchChannel(id: ID, url: URL): Promise<Channel> {
+  static get save() {
+    try {
+      return JSON.parse(localStorage[this.LS_CACHE] || '[]')
+    }
+    catch (e) {
+      return {}
+    }
+  }
+
+  static saveOnUpdate() {
+    channels.subscribe(c => localStorage[this.LS_CACHE] = JSON.stringify([...c]))
+  }
+
+  static async #fetchChannel(id: URL, url: string): Promise<Channel> {
     return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
           .then(response => response.json())
           .then(response => ({
             'url': url,
             'name': response?.content[0]?.uploaderName,
-            'displayName': undefined,
+            'displayName': '',
             'videos': response.content.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
@@ -97,13 +95,13 @@ export default class Channels {
           }))
   }
 
-  static async #fetchPlaylist(id: ID, url: URL): Promise<Channel> {
+  static async #fetchPlaylist(id: URL, url: string): Promise<Channel> {
     return fetch(`${Config.get.instance.value}/playlists/${id}`)
           .then(response => response.json())
           .then(response => ({
             'url': url,
             'name': response.name,
-            'displayName': undefined,
+            'displayName': '',
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
@@ -134,13 +132,13 @@ export default class Channels {
     return false
   }
 
-  static #parseId(url: URL): ID | undefined {
+  static #parseId(url: string): URL | undefined {
     let delimeter = this.#isPlaylist(url) ? '=' : '/'
 
     return url.split(delimeter).pop()
   }
 
-  static #isPlaylist(url: URL): boolean {
+  static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
   }
 
@@ -157,3 +155,5 @@ export default class Channels {
     }))
   }
 }
+
+export let channels = writable<Map<URL, Channel>>(new Map(Channels.save))

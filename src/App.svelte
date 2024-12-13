@@ -1,20 +1,19 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import bookmarks from './share/bookmarks'
-  import channels from './share/channels'
-  import { type ID } from './share/channels'
+  import { Channels, type URL } from './share/channels'
   import { Config } from './share/config'
   import BookmarksView from './lib/BookmarksView.svelte';
   import ChannelsView from './lib/ChannelsView.svelte';
   import NavigationView from './lib/NavigationView.svelte'
 
-  let id: ID = $state('')
+  let id: URL = $state('')
 
   onMount(() => {
-    Config.saveOnChange()
+    Config.saveOnUpdate()
+    Channels.saveOnUpdate()
     bookmarks.subscribeToLocalStorage()
-    channels.subscribeToLocalStorage()
-    channels.refetch()
+    Channels.refetch()
   })
 </script>
 
