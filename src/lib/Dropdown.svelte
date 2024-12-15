@@ -1,22 +1,28 @@
 <script lang="ts">
+  import Closeable from "./Closeable.svelte";
   import InputButton from "./InputButton.svelte";
 
-  let { value, children, right = false, open = false } = $props()
+  let {
+    value,
+    children,
+    open = false,
+    right = false
+  } = $props()
+
   let isOpen = $state(open)
-  let container: HTMLElement;
 </script>
 
-<svelte:window onclick={e => container.contains(e.target) || (isOpen = false)} />
+<Closeable bind:open={isOpen}>
+  <div class="container">
+    <InputButton {value} bind:open={isOpen} />
 
-<div class="container" bind:this={container}>
-  <InputButton {value} bind:open={isOpen} />
-
-  {#if isOpen}
-    <div class="content" class:right={right}>
-    	{@render children()}
-    </div>
-  {/if}
-</div>
+    {#if isOpen}
+      <div class="content" class:right>
+      	{@render children()}
+      </div>
+    {/if}
+  </div>
+</Closeable>
 
 <style>
   .container {

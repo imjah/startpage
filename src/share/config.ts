@@ -22,6 +22,9 @@ export class Config {
 }
 
 export const config = writable({
+  keybind: {
+    close: 'Escape'
+  },
   instance:
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
   instances: [

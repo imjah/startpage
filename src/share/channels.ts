@@ -57,8 +57,6 @@ export class Channels {
     if (cache && this.#isCacheUpToDate())
       return
 
-    console.log('Fetching ...')
-
     channels.update(v => {
       v.forEach((_, id) => this.set(id, true))
       return v

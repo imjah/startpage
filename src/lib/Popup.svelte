@@ -1,17 +1,17 @@
 <script lang="ts">
+  import Closeable from "./Closeable.svelte";
   import InputButton from "./InputButton.svelte";
 
-  let { value, children,  open = false } = $props()
+  let {
+    value,
+    children,
+    open = false
+  } = $props()
+
   let isOpen = $state(open)
-  let container: HTMLElement;
 </script>
 
-<svelte:window
-  onkeyup={e => e.key == 'Escape' && (isOpen = false)}
-  onclick={e => container.contains(e.target) || (isOpen = false)}
-/>
-
-<div bind:this={container}>
+<Closeable bind:open={isOpen}>
   <InputButton {value} bind:open={isOpen} />
 
   {#if isOpen}
@@ -19,7 +19,7 @@
     	{@render children()}
     </div>
   {/if}
-</div>
+</Closeable>
 
 <style>
   .content {
