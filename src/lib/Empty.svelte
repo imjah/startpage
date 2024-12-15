@@ -13,5 +13,6 @@
     align-items: center;
     justify-content: center;
     color: var(--color-fg-inactive);
+    user-select: none;
   }
 </style>
