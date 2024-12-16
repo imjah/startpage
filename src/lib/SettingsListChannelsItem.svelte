@@ -4,43 +4,17 @@
 
   let {
     name,
-    displayName,
-    update,
-    remove,
-    onChange,
-    onDiscard
+    displayName = $bindable(),
+    remove
   } = $props()
-
-  let changed = $state(false)
-
-  let handleChange = (e, discard = false) => {
-    changed = !discard && e.target.value !== displayName
-
-    if (changed)
-      onChange()
-    else
-      onDiscard()
-  }
-
-  let updateOnEnterKey = e => {
-    if (e.key !== 'Enter')
-      return
-
-    update({displayName: e.target.value})
-
-    handleChange(e, true)
-  }
 </script>
 
 <SettingsListItem>
   <div class="stretch">
     <input
       class="name"
-      class:changed={changed}
-      value={displayName}
-      placeholder={name}
-      oninput={e => handleChange(e)}
-      onkeyup={e => updateOnEnterKey(e)}>
+      bind:value={displayName}
+      placeholder={name}>
   </div>
   <ButtonRemove {remove} margin="0 1rem" />
 </SettingsListItem>
@@ -57,9 +31,5 @@
   .stretch {
     display: grid;
     flex-grow: 1;
-  }
-
-  .changed {
-    color: var(--color-warrning);
   }
 </style>

@@ -1,11 +1,15 @@
 <script lang="ts">
-  let { value, open = $bindable() } = $props()
+  let {
+    value,
+    focus = undefined,
+    onclick
+  } = $props()
 </script>
 
-<button class:focus={open} onclick={() => open = !open}>{value}</button>
+<input type="button" class:focus {value} {onclick}>
 
 <style>
-  button {
+  input {
     padding: .75rem;
     font-size: 1rem;
     font-weight: bold;
@@ -15,9 +19,9 @@
     cursor: pointer;
   }
 
-  button.focus,
-  button:focus,
-  button:hover {
+  input.focus,
+  input:focus,
+  input:hover {
     background-color: var(--color-bg-light) !important;
     outline: none;
   }

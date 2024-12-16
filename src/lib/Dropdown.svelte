@@ -14,7 +14,7 @@
 
 <Closeable bind:open={isOpen}>
   <div class="container">
-    <InputButton {value} bind:open={isOpen} />
+    <InputButton {value} focus={isOpen} onclick={() => isOpen = !isOpen} />
 
     {#if isOpen}
       <div class="content" class:right>

@@ -1,13 +1,16 @@
 <script lang="ts">
+  import routes from '../share/routes'
   import strings from '../share/strings'
   import BookmarksViewAdd from './BookmarksViewAdd.svelte';
   import ButtonFilter from './ButtonFilter.svelte';
   import ChannelsViewAdd from './ChannelsViewAdd.svelte';
   import Dropdown from './Dropdown.svelte';
-  import Popup from './Popup.svelte';
-  import SettingsView from './SettingsView.svelte';
+  import InputButton from './InputButton.svelte';
 
-  let { id = $bindable() } = $props()
+  let {
+    id = $bindable(),
+    route
+  } = $props()
 </script>
 
 <nav>
@@ -16,12 +19,14 @@
     <Dropdown value={strings.addChannel}>
       <ChannelsViewAdd />
     </Dropdown>
+
     <Dropdown value={strings.addBookmark}>
       <BookmarksViewAdd />
     </Dropdown>
-    <Popup value={strings.settings}>
-      <SettingsView />
-    </Popup>
+
+    <InputButton
+      value={strings.settings}
+      onclick={() => route(routes.settings)} />
   </section>
 </nav>
 

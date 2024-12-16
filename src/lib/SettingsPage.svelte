@@ -1,8 +1,13 @@
 <script lang="ts">
   import strings from '../share/strings'
+  import InputSubmit from './InputSubmit.svelte';
   import SettingsViewBookmarksTab from './SettingsViewBookmarksTab.svelte';
   import SettingsViewChannelsTab from './SettingsViewChannelsTab.svelte';
   import SettingsViewGeneralTab from './SettingsViewGeneralTab.svelte';
+
+  let {
+    back
+  } = $props()
 
   let tabs = [
     strings.general,
@@ -35,6 +40,10 @@
     {:else if tab == 2}
       <SettingsViewBookmarksTab />
     {/if}
+  </div>
+
+  <div class="back">
+    <InputSubmit value={strings.back} onclick={back} />
   </div>
 </div>
 
@@ -79,5 +88,11 @@
     flex-direction: column;
     flex-grow: 1;
     overflow-y: scroll;
+  }
+
+  .back {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
   }
 </style>

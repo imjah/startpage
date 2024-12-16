@@ -1,15 +1,27 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import navaid from 'navaid';
+  import config from './config'
   import bookmarks from './share/bookmarks'
-  import { Channels, type URL } from './share/channels'
+  import routes from './share/routes'
+  import strings from './share/strings';
+  import { Channels } from './share/channels'
   import { Config } from './share/config'
-  import BookmarksView from './lib/BookmarksView.svelte';
-  import ChannelsView from './lib/ChannelsView.svelte';
+  import Empty from './lib/Empty.svelte';
+  import HomePage from './lib/HomePage.svelte';
   import NavigationView from './lib/NavigationView.svelte'
+  import SettingsPage from './lib/SettingsPage.svelte';
 
-  let id: URL = $state('')
+  let id     = $state('')
+  let route  = $state(routes.home)
+  let router = navaid(config.base, () => route = routes.notFound)
+
+  router
+  .on(routes.home,     () => route = routes.home)
+  .on(routes.settings, () => route = routes.settings)
 
   onMount(() => {
+    router.listen()
     Config.saveOnUpdate()
     Channels.saveOnUpdate()
     bookmarks.subscribeToLocalStorage()
@@ -17,24 +29,22 @@
   })
 </script>
 
-<main>
-  <NavigationView bind:id />
-  <section>
-    <ChannelsView width="33%" bind:id />
-    <BookmarksView width="67%" />
-  </section>
-</main>
+<div class="stack">
+  <NavigationView route={router.route} bind:id />
+
+  {#if      route == routes.home}
+  	<HomePage />
+  {:else if route == routes.settings}
+  	<SettingsPage back={() => router.route(routes.home)} />
+  {:else}
+    <Empty message={strings.notFound} />
+  {/if}
+</div>
 
 <style>
-  main {
+  .stack {
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-
-  section {
-    display: flex;
-    flex-grow: 1;
-    overflow-y: hidden;
   }
 </style>
