@@ -25,7 +25,6 @@
     Config.saveOnUpdate()
     Channels.saveOnUpdate()
     bookmarks.subscribeToLocalStorage()
-    Channels.refetch()
   })
 </script>
 

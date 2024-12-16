@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { Channels, channels } from '../share/channels'
   import strings from '../share/strings'
   import Empty from './Empty.svelte';
@@ -15,6 +16,10 @@
       selected === undefined ? $channels : [id, selected]
     )
     .sort(Channels.BY_UPLOADED)
+  })
+
+  onMount(() => {
+    Channels.refetch()
   })
 </script>
 
