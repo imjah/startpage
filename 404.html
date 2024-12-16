@@ -1,0 +1,7 @@
+<script>
+  // Github Pages single page application redirect handler
+  const redirect = window.location.pathname.replace('/startpage', '')
+
+  if (!redirect.includes('/', ''))
+    window.location.href = localStorage.redirect = redirect
+</script>
