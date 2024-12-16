@@ -41,6 +41,7 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 - [ ] Offline mode
 - [ ] Keyboard shortcuts
 - [ ] Encrypted server synchronization
+- [ ] Not Found page
 
 # Development
 
