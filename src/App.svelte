@@ -11,6 +11,7 @@
   import HomePage from './lib/HomePage.svelte';
   import NavigationView from './lib/NavigationView.svelte'
   import SettingsPage from './lib/SettingsPage.svelte';
+  import { redirectIfGithubPages404PageSetRedirectPath } from './util/github'
 
   let id     = $state('')
   let route  = $state(routes.home)
@@ -19,6 +20,8 @@
   router
   .on(routes.home,     () => route = routes.home)
   .on(routes.settings, () => route = routes.settings)
+
+  redirectIfGithubPages404PageSetRedirectPath(router.route)
 
   onMount(() => {
     router.listen()

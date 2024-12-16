@@ -1,3 +1,4 @@
 export default {
-  base: '/startpage/'
+  base: '/startpage/',
+  GH_PAGES_REDIRECT: 'redirect'
 }
