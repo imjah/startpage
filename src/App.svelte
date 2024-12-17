@@ -35,7 +35,7 @@
   <NavigationView route={router.route} bind:id />
 
   {#if      route == routes.home}
-  	<HomePage />
+  	<HomePage bind:id />
   {:else if route == routes.settings}
   	<SettingsPage back={() => router.route(routes.home)} />
   {:else}
