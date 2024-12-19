@@ -6,7 +6,8 @@
 
   let {
     error = $bindable(),
-    results = $bindable()
+    suggestions = $bindable(),
+    isOpen = $bindable(),
   } = $props()
 
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
@@ -14,6 +15,9 @@
   let input: HTMLElement
   let value = $state('')
   let placeholder = `${strings.searchForChannel} (${focusKeybind})`
+
+  let open = () =>
+    isOpen = true
 
   let focus = (e: KeyboardEvent) => {
     if (e.key != focusKeybind || input.contains(e.target))
@@ -24,7 +28,7 @@
 
   let search = () =>
     Channels.search(value)
-    .then(r => results = r.items || [])
+    .then(r => suggestions = r.items || [])
     .catch(e => error = e)
 
   let searchDelayed = () => {
@@ -43,6 +47,7 @@
     size={placeholder.length}
     placeholder={placeholder}
     oninput={searchDelayed}
+    onfocus={open}
     bind:value
     bind:this={input}
   >

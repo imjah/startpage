@@ -96,3 +96,7 @@ ul, li, h1, h2, h3, h4, p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.relative {
+  position: relative;
+}

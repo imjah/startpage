@@ -1,37 +1,19 @@
 <script lang="ts">
-  import SearchInput from './SearchInput.svelte';
+  import Closeable from './Closeable.svelte';
+import SearchInput from './SearchInput.svelte';
+  import SearchSuggestions from './SearchSuggestions.svelte';
 
+  let isOpen = $state(false)
   let error = $state('')
-  let results = $state([])
+  let suggestions = $state([])
 </script>
 
-<search class="container">
-  <SearchInput bind:results bind:error />
+<Closeable bind:open={isOpen}>
+  <search class="relative">
+    <SearchInput bind:suggestions bind:error bind:isOpen />
 
-  {#if results.length}
-    <div class="results">
-      <ul>
-        {#each results as {name}}
-          <li>{name}</li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
-</search>
-
-<style>
-  .container {
-    position: relative
-  }
-
-  .results {
-    position: absolute;
-    top: 100%;
-    display: flex;
-    width: 100%;
-    min-height: 10rem;
-    color: var(--color-surface-fg);
-    background: var(--color-surface);
-    overflow-y: scroll;
-  }
-</style>
+    {#if isOpen}
+      <SearchSuggestions bind:suggestions />
+    {/if}
+  </search>
+</Closeable>
