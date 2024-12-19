@@ -19,11 +19,16 @@ export class Config {
   static saveOnUpdate() {
     config.subscribe(c => localStorage[this.name] = JSON.stringify(c))
   }
+
+  static getUsedKeybind(keybind: Keybind) {
+    return keybind.user || keybind.default
+  }
 }
 
 export const config = writable({
   keybind: {
-    close: 'Escape'
+    close: 'Escape',
+    focusSearch: { user: '', default: 's' }
   },
   instance:
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
@@ -31,6 +36,12 @@ export const config = writable({
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
     { label: 'piped.yt',    value: 'https://api.piped.yt' }
   ],
+  timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10,
   ...Config.save
 })
+
+interface Keybind {
+  user: string;
+  default: string;
+}

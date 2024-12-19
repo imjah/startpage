@@ -24,5 +24,6 @@ export default {
   'cacheId': 'settings-cache',
   'saveHint': 'Press Enter to save changes',
   'notFound': 'Not found',
-  'back': 'Back'
+  'back': 'Back',
+  'searchForChannel': 'Search for channel'
 }

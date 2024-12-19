@@ -26,6 +26,21 @@ export class Channels {
   static LS_CACHE = 'channels'
   static LS_CACHE_UPDATE_TIME = 'channelsUpdateTime'
 
+  static async search(query: string) {
+    if (query.length == 0)
+      return Promise.resolve([])
+
+    return this.#piped(`/search?q=${query}&filter=channels`).then(r => r.json())
+  }
+
+  static async #piped(endpoint: string) {
+    const c = Config.get
+
+    return fetch(c.instance.value + endpoint, {
+      signal: AbortSignal.timeout(c.timeoutInSeconds * 1000)
+    })
+  }
+
   static async set(url: string | URL, partial = false): Promise<void> {
     let id = this.#parseId(url)
 
