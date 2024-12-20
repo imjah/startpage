@@ -22,6 +22,8 @@ export default {
   'instanceId': 'settings-instance',
   'cache': 'Cache (in minutes)',
   'cacheId': 'settings-cache',
+  'feedLimit': 'Number of videos in feed',
+  'feedLimitId': 'settings-number-of-videos-in-feed',
   'saveHint': 'Press Enter to save changes',
   'notFound': 'Not found',
   'back': 'Back',

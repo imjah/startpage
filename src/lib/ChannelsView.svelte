@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from 'svelte'
   import { Channels, channels } from '../share/channels'
+  import { config } from '../share/config'
   import strings from '../share/strings'
-  import Empty from './Empty.svelte';
+  import Empty from './Empty.svelte'
 
   let {
     id = $bindable(),
@@ -16,6 +17,7 @@
       selected === undefined ? $channels : [id, selected]
     )
     .sort(Channels.BY_UPLOADED)
+    .slice(0, $config.feedLimit)
   })
 
   onMount(() => {

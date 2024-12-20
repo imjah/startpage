@@ -36,6 +36,7 @@ export const config = writable({
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
     { label: 'piped.yt',    value: 'https://api.piped.yt' }
   ],
+  feedLimit: 100,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10,
   ...Config.save

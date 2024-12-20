@@ -25,4 +25,12 @@
       min={0}
       bind:value={$config.cacheLifetimeInMinutes} />
   </SettingsListItem>
+
+  <SettingsListItem {padding}>
+    <InputNumber
+      id={strings.feedLimitId}
+      label={strings.feedLimit}
+      min={0}
+      bind:value={$config.feedLimit} />
+  </SettingsListItem>
 </SettingsList>
