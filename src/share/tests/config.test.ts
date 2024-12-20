@@ -1,6 +1,6 @@
 import { assert, test } from 'vitest'
 import { get } from 'svelte/store'
-import { config, Config } from '../src/share/config'
+import { config, Config } from '../config'
 
 test('Get config copy using <Config> class', () => {
   assert.deepStrictEqual(

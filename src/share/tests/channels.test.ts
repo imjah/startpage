@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { Channels } from '../src/share/channels'
+import { Channels } from '../channels'
 
 const t = test.extend({
   url: 'myUrl',
