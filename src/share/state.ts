@@ -12,5 +12,6 @@ export class State extends LocalStorage {
 export const state = writable({
   feed: {
     fetchedAt: 0
-  }
+  },
+  ...State.get()
 })
