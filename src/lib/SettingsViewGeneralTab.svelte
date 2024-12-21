@@ -20,8 +20,8 @@
 
   <SettingsListItem {padding}>
     <InputNumber
-      id={strings.cacheId}
-      label={strings.cache}
+      id={strings.feedReloadId}
+      label={strings.feedReload}
       min={0}
       bind:value={$config.cacheLifetimeInMinutes} />
   </SettingsListItem>

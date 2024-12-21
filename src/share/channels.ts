@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
-import { Config } from './config'
+import { writable, get } from 'svelte/store';
+import { Config, config } from './config'
+import { state } from './state'
 
 export type URL  = string
 
@@ -30,18 +31,10 @@ export class Channels {
     if (query.length == 0)
       return Promise.resolve([])
 
-    return this.#piped(`/search?q=${query}&filter=channels`).then(r => r.json())
+    return Piped.get(`/search?q=${query}&filter=channels`).then(r => r.json())
   }
 
-  static async #piped(endpoint: string) {
-    const c = Config.get
-
-    return fetch(c.instance.value + endpoint, {
-      signal: AbortSignal.timeout(c.timeoutInSeconds * 1000)
-    })
-  }
-
-  static async set(url: string | URL, partial = false): Promise<void> {
+  static async set(url: string | URL, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
     if (id === undefined)
@@ -49,8 +42,8 @@ export class Channels {
 
     return (
         this.#isPlaylist(url)
-      ? this.#fetchPlaylist(id, url)
-      : this.#fetchChannel(id, url)
+      ? this.#fetchPlaylist(id, url, reload)
+      : this.#fetchChannel(id, url, reload)
     ).then(channel => partial
       ? this.update(url, {videos: channel.videos})
       : channels.update(s => s.set(url, channel))
@@ -66,18 +59,6 @@ export class Channels {
       s.delete(id)
       return s
     })
-  }
-
-  static async refetch(cache = true) {
-    if (cache && this.#isCacheUpToDate())
-      return
-
-    channels.update(v => {
-      v.forEach((_, id) => this.set(id, true))
-      return v
-    })
-
-    this.#resetCacheUpdateTime()
   }
 
   static get save() {
@@ -110,8 +91,27 @@ export class Channels {
 
   static BY_UPLOADED = (a: Video, b: Video) => b.uploaded - a.uploaded
 
-  static async #fetchChannel(id: URL, url: string): Promise<Channel> {
-    return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`)
+  static async refetch() {
+    const reload = !this.#isFeedFresh()
+
+    channels.update(v => {
+      v.forEach((_, id) => this.set(id, true, reload))
+      return v
+    })
+
+    this.#resetFeedFetchedAt()
+  }
+
+  static #isFeedFresh() {
+    return Date.now() < (get(state).feed.fetchedAt + get(config).cacheLifetimeInMinutes * 60000)
+  }
+
+  static #resetFeedFetchedAt() {
+    state.update(s => { s.feed.fetchedAt = Date.now(); return s })
+  }
+
+  static async #fetchChannel(id: URL, url: string, reload: boolean): Promise<Channel> {
+    return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
             'url': url,
@@ -126,8 +126,8 @@ export class Channels {
           }))
   }
 
-  static async #fetchPlaylist(id: URL, url: string): Promise<Channel> {
-    return fetch(`${Config.get.instance.value}/playlists/${id}`)
+  static async #fetchPlaylist(id: URL, url: string, reload: boolean): Promise<Channel> {
+    return fetch(`${Config.get.instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
             'url': url,
@@ -142,25 +142,6 @@ export class Channels {
           }))
   }
 
-  static #getCacheUpdateTime(): number {
-    return parseInt(
-      localStorage[this.LS_CACHE_UPDATE_TIME]
-    )
-  }
-
-  static #resetCacheUpdateTime() {
-    localStorage[this.LS_CACHE_UPDATE_TIME] = Date.now()
-  }
-
-  static #isCacheUpToDate(): boolean {
-    const cacheUpdateTime = this.#getCacheUpdateTime()
-
-    if (typeof cacheUpdateTime === 'number')
-      return Date.now() < (cacheUpdateTime + Config.get.cacheLifetimeInMinutes * 60000)
-
-    return false
-  }
-
   static #parseId(url: string): URL | undefined {
     let delimeter = this.#isPlaylist(url) ? '=' : '/'
 
@@ -169,6 +150,25 @@ export class Channels {
 
   static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
+  }
+}
+
+class Piped {
+  static get(endpoint: string, reload = false) {
+    const {instance, timeoutInSeconds} = get(config)
+
+    return fetch(instance.value + endpoint, {
+      cache: reload ? 'reload' : 'default',
+      signal: AbortSignal.timeout(timeoutInSeconds * 1000)
+    })
+  }
+
+  static getChannel(id: string) {
+    return this.get(`/channel/${id}`)
+  }
+
+  static getPlaylist(id: string) {
+    return this.get(`/playlists/${id}`)
   }
 }
 
