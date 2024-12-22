@@ -1,4 +1,5 @@
 import { writable, get } from 'svelte/store';
+import { Piped } from '../util/piped'
 import { Config, config } from './config'
 import { state } from './state'
 
@@ -31,7 +32,7 @@ export class Channels {
     if (query.length == 0)
       return Promise.resolve([])
 
-    return Piped.get(`/search?q=${query}&filter=channels`).then(r => r.json())
+    return Piped.search(query, Piped.FILTER_CHANNELS).then(r => r.json())
   }
 
   static async set(url: string | URL, partial = false, reload = false): Promise<void> {
@@ -150,25 +151,6 @@ export class Channels {
 
   static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
-  }
-}
-
-class Piped {
-  static get(endpoint: string, reload = false) {
-    const {instance, timeoutInSeconds} = get(config)
-
-    return fetch(instance.value + endpoint, {
-      cache: reload ? 'reload' : 'default',
-      signal: AbortSignal.timeout(timeoutInSeconds * 1000)
-    })
-  }
-
-  static getChannel(id: string) {
-    return this.get(`/channel/${id}`)
-  }
-
-  static getPlaylist(id: string) {
-    return this.get(`/playlists/${id}`)
   }
 }
 
