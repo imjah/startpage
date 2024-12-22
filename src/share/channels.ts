@@ -1,5 +1,6 @@
 import { writable, get } from 'svelte/store';
 import { Piped } from '../util/piped'
+import { LocalStorage } from '../util/storage'
 import { Config, config } from './config'
 import { state } from './state'
 
@@ -24,9 +25,12 @@ export interface ChannelVideo extends Video {
   channelDisplayName: string;
 }
 
-export class Channels {
-  static LS_CACHE = 'channels'
-  static LS_CACHE_UPDATE_TIME = 'channelsUpdateTime'
+export class Channels extends LocalStorage {
+  static LS_NAME = 'channels'
+
+  static saveOnUpdate() {
+    channels.subscribe(s => super.set([...s]))
+  }
 
   static async search(query: string) {
     if (query.length == 0)
@@ -60,19 +64,6 @@ export class Channels {
       s.delete(id)
       return s
     })
-  }
-
-  static get save() {
-    try {
-      return JSON.parse(localStorage[this.LS_CACHE] || '[]')
-    }
-    catch (e) {
-      return {}
-    }
-  }
-
-  static saveOnUpdate() {
-    channels.subscribe(c => localStorage[this.LS_CACHE] = JSON.stringify([...c]))
   }
 
   static toArray(selected: [URL, Channel] | Map<URL, Channel>): ChannelVideo[] {
@@ -154,4 +145,4 @@ export class Channels {
   }
 }
 
-export let channels = writable<Map<URL, Channel>>(new Map(Channels.save))
+export let channels = writable<Map<URL, Channel>>(new Map(Channels.get()))
