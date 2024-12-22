@@ -18,7 +18,7 @@
 
     disabled = true
 
-    Channels.set(value)
+    Channels.add(value)
     .then(() => {
       value = ''
       error = false

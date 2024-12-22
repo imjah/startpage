@@ -12,7 +12,7 @@
       <SettingsListChannelsItem
         {name}
         bind:displayName
-        remove={() => Channels.delete(id)} />
+        remove={() => Channels.remove(id)} />
     {/each}
   </SettingsList>
 {:else}

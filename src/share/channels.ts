@@ -35,7 +35,7 @@ export class Channels {
     return Piped.search(query, Piped.FILTER_CHANNELS).then(r => r.json())
   }
 
-  static async set(url: string | URL, partial = false, reload = false): Promise<void> {
+  static async add(url: string | URL, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
     if (id === undefined)
@@ -55,7 +55,7 @@ export class Channels {
     channels.update(s => s.set(id, {...s.get(id), ...values}))
   }
 
-  static delete(id: URL) {
+  static remove(id: URL) {
     channels.update(s => {
       s.delete(id)
       return s
@@ -96,7 +96,7 @@ export class Channels {
     const reload = !this.#isFeedFresh()
 
     channels.update(v => {
-      v.forEach((_, id) => this.set(id, true, reload))
+      v.forEach((_, id) => this.add(id, true, reload))
       return v
     })
 
