@@ -26,22 +26,22 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 - [x] Youtube channel support
 - [x] Youtube playlist support
 - [x] Feed
+- [x] Feed cache
+- [ ] Feed fetch indicator
 - [x] Feed filter
-- [x] ~Feed editor~
-- [x] ~Feed add item~
+- [x] Feed editor
+- [x] Feed add item
 - [ ] Feed lazyloading
-- [x] Search bar input
+- [x] Search bar
 - [ ] Search bar indicator
 - [x] Search bar suggestions
-- [ ] Channel editor
+- [ ] Channel editor page
 - [ ] Bookmarks
 - [ ] Bookmarks editor
 - [x] Bookmarks add item
 - [x] Settings
 - [x] Settings editor
 - [ ] Settings import/export
-- [x] Fetch cache
-- [ ] Fetch indicator
 - [ ] Offline mode
 - [ ] Keyboard shortcuts
 - [ ] Encrypted server synchronization
@@ -55,8 +55,14 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 npm install
 ```
 
-#### Build and hot reload
+#### Build
 
 ```sh
-npm dev
+npm run build
+```
+
+#### Hot reload build
+
+```sh
+npm run dev
 ```
