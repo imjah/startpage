@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { Piped } from '../util/piped'
 import { LocalStorage } from '../util/storage'
-import { Config, config } from './config'
+import { config } from './config'
 import { status } from './status'
 
 export type URL  = string
@@ -103,7 +103,7 @@ export class Channels extends LocalStorage {
   }
 
   static async #fetchChannel(id: URL, url: string, reload: boolean): Promise<Channel> {
-    return fetch(`${Config.get.instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
+    return fetch(`${get(config).instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
             'url': url,
@@ -119,7 +119,7 @@ export class Channels extends LocalStorage {
   }
 
   static async #fetchPlaylist(id: URL, url: string, reload: boolean): Promise<Channel> {
-    return fetch(`${Config.get.instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
+    return fetch(`${get(config).instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
             'url': url,

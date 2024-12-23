@@ -1,23 +1,11 @@
 import { writable, get } from 'svelte/store'
+import { LocalStorage } from '../util/storage'
 
-export class Config {
-  static name = 'config'
-
-  static get get() {
-    return get(config)
-  }
-
-  static get save() {
-    try {
-      return JSON.parse(localStorage[this.name] || '{}')
-    }
-    catch (e) {
-      return {}
-    }
-  }
+export class Config extends LocalStorage{
+  static LS_NAME = 'config'
 
   static saveOnUpdate() {
-    config.subscribe(c => localStorage[this.name] = JSON.stringify(c))
+    config.subscribe(s => super.set(s))
   }
 
   static getUsedKeybind(keybind: Keybind) {
@@ -39,7 +27,7 @@ export const config = writable({
   feedLimit: 100,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10,
-  ...Config.save
+  ...(Config.get() || {})
 })
 
 interface Keybind {

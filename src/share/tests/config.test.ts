@@ -1,39 +1,16 @@
-import { assert, test } from 'vitest'
-import { get } from 'svelte/store'
-import { config, Config } from '../config'
+import { describe, it, expect,  beforeAll } from 'vitest'
+import { Config, config } from '../config'
 
-test('Get config copy using <Config> class', () => {
-  assert.deepStrictEqual(
-    get(config),
-    Config.get
-  )
-})
+describe('Config', () => {
+  it('Updates local storage after store update', () => {
+    config.update(s => ({...s, sto_zlotych: 'bierz'}))
 
-test('Get config from local storage', () => {
-  const value = {
-    foo: 'bar'
-  }
-
-  localStorage[Config.name] = JSON.stringify(value)
-
-  assert.deepStrictEqual(
-    value,
-    Config.save
-  )
-})
- 
-test('Save config in local storage on change', () => {
-  const value = 'bar'
-
-  Config.saveOnUpdate()
-
-  config.update(s => {
-    s[value] = value
-    return s
+    expect(
+      Config.get()
+    ).toHaveProperty('sto_zlotych', 'bierz')
   })
+})
 
-  assert.strictEqual(
-    value,
-    JSON.parse(localStorage[Config.name] || '{}')[value]
-  )
+beforeAll(() => {
+  Config.saveOnUpdate()
 })
