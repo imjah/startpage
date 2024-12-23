@@ -7,7 +7,7 @@
   import strings from './share/strings';
   import { Channels } from './share/channels'
   import { Config } from './share/config'
-  import { State } from './share/state'
+  import { Status } from './share/status'
   import Empty from './lib/Empty.svelte';
   import HomePage from './lib/HomePage.svelte';
   import NavigationView from './lib/NavigationView.svelte'
@@ -26,9 +26,9 @@
 
   onMount(() => {
     router.listen()
+    Status.saveOnUpdate()
     Config.saveOnUpdate()
     Channels.saveOnUpdate()
-    State.saveOnUpdate()
     bookmarks.subscribeToLocalStorage()
   })
 </script>

@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 import { Piped } from '../util/piped'
 import { LocalStorage } from '../util/storage'
 import { Config, config } from './config'
-import { state } from './state'
+import { status } from './status'
 
 export type URL  = string
 
@@ -95,11 +95,11 @@ export class Channels extends LocalStorage {
   }
 
   static #isFeedFresh() {
-    return Date.now() < (get(state).feed.fetchedAt + get(config).cacheLifetimeInMinutes * 60000)
+    return Date.now() < (get(status).feed.fetchedAt + get(config).cacheLifetimeInMinutes * 60000)
   }
 
   static #resetFeedFetchedAt() {
-    state.update(s => { s.feed.fetchedAt = Date.now(); return s })
+    status.update(s => { s.feed.fetchedAt = Date.now(); return s })
   }
 
   static async #fetchChannel(id: URL, url: string, reload: boolean): Promise<Channel> {

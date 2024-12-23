@@ -1,16 +1,16 @@
 import { describe, it, expect,  beforeAll } from 'vitest'
-import { State, state } from '../state'
+import { Status, status } from '../status'
 
-describe('State', () => {
+describe('Status', () => {
   it('Updates local storage after store update', () => {
-    state.update(s => ({...s, tak_pachnie: 'sto złotych'}))
+    status.update(s => ({...s, tak_pachnie: 'sto złotych'}))
 
     expect(
-      State.get()
+      Status.get()
     ).toHaveProperty('tak_pachnie', 'sto złotych')
   })
 })
 
 beforeAll(() => {
-  State.saveOnUpdate()
+  Status.saveOnUpdate()
 })
