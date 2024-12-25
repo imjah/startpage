@@ -67,6 +67,6 @@
   }
 
   input:focus {
-    outline: var(--outline-size) var(--outline-style) var(--color-accent);
+    outline: var(--outline) var(--color-accent);
   }
 </style>

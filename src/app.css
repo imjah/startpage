@@ -23,13 +23,15 @@
   --color-fg-inactive:       var(--gruvbox-dark-bg-3);
   --color-surface:           var(--gruvbox-dark-bg-1);
   --color-surface-fg:        var(--gruvbox-dark-fg-1);
-  --color-surface-inactive:  var(--gruvbox-dark-bg-4);
   --color-surface-light:     var(--gruvbox-dark-bg-2);
+  --color-surface-inactive:  var(--gruvbox-dark-bg-4);
   --color-accent:            var(--gruvbox-dark-aqua);
   --color-accent-fg:         var(--gruvbox-dark-fg);
   --color-accent-light:      var(--gruvbox-dark-aqua-light);
   --color-error:             var(--gruvbox-dark-red);
+  --color-error-fg:          var(--gruvbox-dark-fg);
   --color-visited:           var(--gruvbox-dark-purple);
+  --color-visited-fg:        var(--gruvbox-dark-fg);
   --color-warrning:          var(--gruvbox-dark-yellow);
   --color-warrning-fg:       var(--gruvbox-dark-bg);
 
@@ -47,18 +49,13 @@
   --gap-3: 1rem;
   --gap-4: 1.25rem;
 
-  --border-size:   1px;
-  --border-style:  solid;
-  --outline-size:  3px;
-  --outline-style: solid;
-}
-
-html, body, #app {
-  height: 100%;
+  --border : .1rem solid;
+  --outline: .2rem solid;
 }
 
 body {
   font-family: monospace;
+  line-height: 1.2;
   color: var(--color-fg);
   background-color: var(--color-bg);
 }
@@ -68,8 +65,7 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus {
+a:hover, a:focus {
   outline: none;
   text-decoration: underline;
 }
@@ -81,23 +77,6 @@ ul {
 
 ul, li, h1, h2, h3, h4, p {
   margin: 0;
-}
-
-.nav-button {
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--color-accent);
-  background-color: var(--color-bg);
-  border: none;
-  cursor: pointer;
-}
-
-.nav-button.focus,
-.nav-button:focus,
-.nav-button:hover {
-  background-color: var(--color-bg-light) !important;
-  outline: none;
 }
 
 .ellipsis {

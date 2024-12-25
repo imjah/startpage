@@ -64,4 +64,20 @@
     color: var(--color-fg);
     text-align: left;
   }
+
+  .nav-button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    background-color: var(--color-bg);
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-button:focus,
+  .nav-button:hover {
+    background-color: var(--color-bg-light) !important;
+    outline: none;
+  }
 </style>

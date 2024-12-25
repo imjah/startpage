@@ -30,7 +30,7 @@
   }
 
   input[type=submit]:focus {
-    outline: var(--outline-size) var(--outline-style) var(--color-accent-light);
+    outline: var(--outline) var(--color-accent-light);
   }
 
   input[type=submit]:disabled {
