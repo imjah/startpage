@@ -29,6 +29,7 @@
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    height: 100%;
     padding: 1rem;
     overflow-y: scroll;
   }

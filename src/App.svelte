@@ -10,7 +10,7 @@
   import { Status } from './share/status'
   import Empty from './lib/Empty.svelte';
   import HomePage from './lib/HomePage.svelte';
-  import NavigationView from './lib/NavigationView.svelte'
+  import Navigation from './lib/NavigationView.svelte'
   import SettingsPage from './lib/SettingsPage.svelte';
   import { redirectIfGithubPages404PageSetRedirectPath } from './util/github'
 
@@ -33,12 +33,13 @@
   })
 </script>
 
-<div class="stack">
-  <NavigationView route={router.route} bind:id />
+<div class="app-grid">
+  <Navigation route={router.route} bind:id />
 
-  {#if      route == routes.home}
+  {#if route == routes.home}
   	<HomePage bind:id />
-  {:else if route == routes.settings}
+  {:else
+    if route == routes.settings}
   	<SettingsPage back={() => router.route(routes.home)} />
   {:else}
     <Empty message={strings.notFound} />
@@ -46,9 +47,9 @@
 </div>
 
 <style>
-  .stack {
-    display: flex;
-    flex-direction: column;
+  .app-grid {
+    display: grid;
+    grid-template-rows: auto 1fr;
     height: 100vh;
   }
 </style>
