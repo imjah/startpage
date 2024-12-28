@@ -7,11 +7,12 @@
   import strings from './share/strings';
   import { Channels } from './share/channels'
   import { Config } from './share/config'
-  import { Status } from './share/status'
+  import { Status, status } from './share/status'
   import Empty from './lib/Empty.svelte';
   import HomePage from './lib/HomePage.svelte';
   import Navigation from './lib/NavigationView.svelte'
   import SettingsPage from './lib/SettingsPage.svelte';
+  import FetchProgressBar from './lib/FetchProgressBar.svelte'
   import { redirectIfGithubPages404PageSetRedirectPath } from './util/github'
 
   let id     = $state('')
@@ -34,6 +35,8 @@
 </script>
 
 <div class="app-grid">
+  <FetchProgressBar />
+  
   <Navigation route={router.route} bind:id />
 
   {#if route == routes.home}

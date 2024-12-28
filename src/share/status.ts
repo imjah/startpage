@@ -11,6 +11,10 @@ export class Status extends LocalStorage {
 
 export const status = writable({
   feed: {
+    fetching: {
+      now: [],
+      max: 0
+    },
     fetchedAt: 0
   },
   ...Status.get()

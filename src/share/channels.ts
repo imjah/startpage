@@ -49,9 +49,23 @@ export class Channels extends LocalStorage {
         this.#isPlaylist(url)
       ? this.#fetchPlaylist(id, url, reload)
       : this.#fetchChannel(id, url, reload)
-    ).then(channel => partial
-      ? this.update(url, {videos: channel.videos})
-      : channels.update(s => s.set(url, channel))
+    ).then(channel => {
+        if (partial)
+          this.update(url, {videos: channel.videos})
+        else
+          channels.update(s => s.set(url, channel))
+
+        status.update(s => {
+          s.feed.fetching.now = s.feed.fetching.now.filter(
+            (u: URL) => u != url
+          )
+
+          if (s.feed.fetching.now.length == 0)
+            s.feed.fetching.max = 0
+
+          return s
+        })
+      }
     )
   }
 
@@ -87,6 +101,12 @@ export class Channels extends LocalStorage {
     const reload = !this.#isFeedFresh()
 
     channels.update(v => {
+      status.update(s => {
+        s.feed.fetching.now = [...v].map(c => c[0])
+        s.feed.fetching.max = v.size
+        return s
+      })
+
       v.forEach((_, id) => this.add(id, true, reload))
       return v
     })
