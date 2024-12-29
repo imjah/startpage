@@ -2,7 +2,7 @@
   import { status } from '../share/status'
 
   let max   = $derived($status.feed.fetching.max)
-  let now   = $derived(max - $status.feed.fetching.now.length)
+  let now   = $derived(max - $status.feed.fetching.now.length + 1)
   let width = $derived(max ? now / max * 100 + 'vw' : 0)
 </script>
 
