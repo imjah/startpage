@@ -2,14 +2,13 @@
   import bookmarks from '../share/bookmarks'
   import strings from '../share/strings'
 
-  let { width = '100%' } = $props()
   let { store } = bookmarks
 </script>
 
-<div class="container" style:flex-basis={width}>
+<div class="container">
 {#if $store.size}
 	{#each Map.groupBy($store.values(), ({tag}) => tag) as [tag, bookmarks]}
-  <ul class="tag">
+  <ul>
     <h3 class="tag-name">{tag}</h3>
     {#each bookmarks as {url, name}}
     <li class="tag-bookmark">
@@ -23,29 +22,27 @@
 {/if}
 </div>
 
-<style>
+<style lang="scss">
+  @use 'scss/variables' as *;
+
   .container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, max-content));
     align-content: center;
     justify-content: center;
     height: 100%;
-    padding: 1rem;
+    gap: $gap-1;
+    padding: $gap-3;
     overflow-y: scroll;
   }
 
   .container:has(.no-bookmarks) {
-    justify-content: center;
+    grid-template-columns: none;;
   }
 
   .no-bookmarks {
     color: var(--color-fg-inactive);
     user-select: none;
-  }
-
-  .tag {
-    width: 20%;
-    padding: .5rem;
   }
 
   .tag-name {
