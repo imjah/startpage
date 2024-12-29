@@ -10,7 +10,8 @@
 }
 
 .nav-btn:hover,
-.nav-btn:focus {
+.nav-btn:focus,
+.nav-btn.focus {
   background: var(--color-bg-light);
   cursor: pointer;
 }

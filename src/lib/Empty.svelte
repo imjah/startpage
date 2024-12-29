@@ -12,7 +12,6 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    min-width: 20rem;
     color: var(--color-fg-inactive);
     user-select: none;
   }

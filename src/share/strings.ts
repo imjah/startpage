@@ -28,5 +28,6 @@ export default {
   'notFound': 'Not found',
   'back': 'Back',
   'searchForChannel': 'Search for channel',
-  'sync': 'Synchronize'
+  'sync': 'Synchronize',
+  'menu': 'Menu'
 }

@@ -7,7 +7,7 @@
   import strings from './share/strings';
   import { Channels } from './share/channels'
   import { Config } from './share/config'
-  import { Status, status } from './share/status'
+  import { Status } from './share/status'
   import Empty from './lib/Empty.svelte';
   import HomePage from './lib/HomePage.svelte';
   import Navigation from './lib/NavigationView.svelte'
@@ -34,10 +34,9 @@
   })
 </script>
 
-<div class="app-grid">
+<div class="app">
   <FetchProgressBar />
-  
-  <Navigation route={router.route} bind:id />
+  <Navigation {route} {router} bind:id controls={route == routes.home} />
 
   {#if route == routes.home}
   	<HomePage bind:id />
@@ -50,7 +49,7 @@
 </div>
 
 <style>
-  .app-grid {
+  .app {
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;

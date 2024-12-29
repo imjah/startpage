@@ -13,8 +13,8 @@
     padding: .75rem;
     font-size: 1rem;
     font-weight: bold;
-    color: var(--color-accent);
-    background-color: var(--color-bg);
+    color: inherit;
+    background-color: inherit;
     border: none;
     cursor: pointer;
   }

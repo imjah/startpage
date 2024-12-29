@@ -24,22 +24,36 @@
   </div>
 </Closeable>
 
-<style>
+<style lang="scss">
+  @use 'scss/variables' as *;
+  @use 'scss/breakpoints' as *;
+
   .container {
     position: relative;
   }
 
   .content {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    padding: 1rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: $gap-3;
     color: var(--color-fg-light);
     background: var(--color-bg-light);
   }
 
-  .right {
-    left: 0;
-    right: auto;
+  @include breakpoint-md {
+    .content {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: unset;
+      transform: none;
+    }
+
+    .right {
+      left: 0;
+      right: auto;
+    }
   }
 </style>

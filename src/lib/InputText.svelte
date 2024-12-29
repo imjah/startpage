@@ -9,6 +9,7 @@
 <style>
   input[type=text] {
     width: 20rem;
+    max-width: 100vw;
     padding: .5rem;
     margin-bottom: .5rem;
     color: var(--color-fg);

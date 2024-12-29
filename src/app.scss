@@ -77,6 +77,10 @@ ul, li, h1, h2, h3, h4, p {
   margin: 0;
 }
 
+button, input, optgroup, select, textarea {
+  line-height: inherit;
+}
+
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;

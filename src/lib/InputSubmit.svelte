@@ -19,6 +19,7 @@
 
   input[type=submit] {
     width: 20rem;
+    max-width: 100vw;
     padding: .5rem;
     color: var(--color-fg);
     background-color: var(--color-accent);

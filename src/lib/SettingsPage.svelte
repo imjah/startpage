@@ -27,7 +27,8 @@
           class="tab-button"
           class:focus={tab == index}
           value={name}
-          onclick={() => tab = index}>
+          onclick={() => tab = index}
+          tabindex={tab == index ? -1 : 0}>
       </li>
     {/each}
   </ul>
@@ -47,7 +48,9 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
+  @use 'scss/breakpoints' as *;
+  
   .container {
     display: flex;
     flex-direction: column;
@@ -92,7 +95,13 @@
 
   .back {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 1rem;
+  }
+
+  @include breakpoint-sm {
+    .back {
+      justify-content: flex-end;
+    }
   }
 </style>
