@@ -29,6 +29,7 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 - [x] Feed cache
 - [x] Feed fetch indicator
 - [x] Feed filter
+- [x] Feed sync button
 - [x] Feed editor
 - [x] Feed add item
 - [ ] Feed lazyloading

@@ -1,0 +1,23 @@
+@use 'variables' as *;
+
+.nav-btn {
+  padding: $gap-2;
+  font-size: 1rem;
+  color: var(--color-accent);
+  background: var(--color-bg);
+  border: none;
+  outline: none;
+}
+
+.nav-btn:hover,
+.nav-btn:focus {
+  background: var(--color-bg-light);
+  cursor: pointer;
+}
+
+.nav-btn--icon {
+  display: flex;
+  align-items: center;
+  padding: $gap-1;
+  font-size: calc(1rem + $gap-2 - $gap-1);
+}

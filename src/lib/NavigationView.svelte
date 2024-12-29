@@ -3,6 +3,7 @@
   import strings from '../share/strings'
   import BookmarksViewAdd from './BookmarksViewAdd.svelte';
   import ButtonFilter from './ButtonFilter.svelte';
+  import ChannelsSyncButton from './ChannelsSyncButton.svelte';
   import ChannelsViewAdd from './ChannelsViewAdd.svelte';
   import Dropdown from './Dropdown.svelte';
   import InputButton from './InputButton.svelte';
@@ -14,7 +15,10 @@
 </script>
 
 <nav>
-  <ButtonFilter bind:id />
+  <section>
+    <ButtonFilter bind:id />
+    <ChannelsSyncButton />
+  </section>
   <section>
     <Dropdown value={strings.addChannel}>
       <ChannelsViewAdd />

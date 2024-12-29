@@ -1,4 +1,5 @@
-@import '../node_modules/modern-normalize/modern-normalize.css';
+@use '../node_modules/modern-normalize/modern-normalize.css';
+@use 'lib/scss/buttons';
 
 :root {
   /* https://github.com/morhetz/gruvbox#palette */
@@ -43,6 +44,11 @@
 
   --border : .1rem solid;
   --outline: .2rem solid;
+}
+
+svg {
+  width: 1em;
+  height: 1em;
 }
 
 body {

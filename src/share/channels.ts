@@ -97,8 +97,8 @@ export class Channels extends LocalStorage {
 
   static BY_UPLOADED = (a: Video, b: Video) => b.uploaded - a.uploaded
 
-  static async refetch() {
-    const reload = !this.#isFeedFresh()
+  static async refetch({reload = false} = {}) {
+    const r = reload || !this.#isFeedFresh()
 
     channels.update(v => {
       status.update(s => {
@@ -107,7 +107,7 @@ export class Channels extends LocalStorage {
         return s
       })
 
-      v.forEach((_, id) => this.add(id, true, reload))
+      v.forEach((_, id) => this.add(id, true, r))
       return v
     })
 
