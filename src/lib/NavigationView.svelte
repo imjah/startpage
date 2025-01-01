@@ -7,6 +7,7 @@
   import ChannelsViewAdd from './ChannelsViewAdd.svelte';
   import Closeable from './Closeable.svelte';
   import Dropdown from './Dropdown.svelte';
+  import Search from './Search.svelte';
   import IconMenu from './icons/Menu.svelte';
   import { preventDefault } from '../util/wrappers';
 
@@ -39,6 +40,8 @@
       <ChannelsSyncButton />
     {/if}
   </div>
+
+  <Search />
 
   <Closeable bind:open={expand}>
     <div class="nav__menu">

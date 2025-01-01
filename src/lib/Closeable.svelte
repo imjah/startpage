@@ -3,13 +3,13 @@
 
   let {
     children,
-    open = $bindable(),
+    open = $bindable()
   } = $props()
 
   let container: HTMLElement;
 
   let close = () =>
-    open = false
+    open = false;
 
   let closeIfPressedCloseKey = (e: KeyboardEvent) =>
     e.key == $config.keybind.close && close()
