@@ -41,11 +41,11 @@
     {/if}
   </div>
 
-  <Search />
+  <!-- <Search /> -->
 
   <Closeable bind:open={expand}>
     <div class="nav__menu">
-      <button class="nav__menu-toggler nav-btn nav-btn--icon" class:expand onclick={toggle} aria-label={strings.menu}>
+      <button class="nav__menu-toggler nav__item nav__item--icon" class:expand onclick={toggle} aria-label={strings.menu}>
         <IconMenu />
       </button>
 

@@ -5,7 +5,7 @@
   import { status } from '../share/status'
 
   let {
-    skin = 'nav-btn nav-btn--icon'
+    skin = 'nav__item nav__item--icon'
   } = $props()
 
   let date = $derived((new Date($status.feed.fetchedAt)).toLocaleString())

@@ -1,24 +1,32 @@
 @use 'variables' as *;
 
-.nav-btn {
+.nav__item {
   padding: $gap-2;
   font-size: 1rem;
   color: var(--color-accent);
   background: var(--color-bg);
   border: none;
   outline: none;
+
+  &:hover,
+  &:focus,
+  &.focus {
+    background: var(--color-bg-light);
+    cursor: pointer;
+  }
 }
 
-.nav-btn:hover,
-.nav-btn:focus,
-.nav-btn.focus {
-  background: var(--color-bg-light);
-  cursor: pointer;
-}
-
-.nav-btn--icon {
+.nav__item--icon {
   display: flex;
   align-items: center;
   padding: $gap-1;
   font-size: calc(1rem + $gap-2 - $gap-1);
+}
+
+.nav__item--input {
+  font-size: .9rem;
+
+  &:hover {
+    cursor: text;
+  }
 }

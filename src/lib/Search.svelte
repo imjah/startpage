@@ -47,7 +47,7 @@
   <search class="search">
     <form>
       <input
-        class="search__input"
+        class="search__input nav__item nav__item--input"
         type="search"
         size={placeholder.length}
         placeholder={placeholder}
@@ -75,10 +75,8 @@
   }
 
   .search__input {
-    padding: var(--gap-2);
     color: var(--color-surface-fg);
     background: var(--color-surface);
-    border: none;
 
     &:hover {
       background: var(--color-surface-light);
