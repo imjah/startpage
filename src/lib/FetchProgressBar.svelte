@@ -1,24 +1,37 @@
 <script lang="ts">
-  import global from '../config'
   import { status } from '../share/status'
 
-  let max = $derived($status.feed.fetching.max)
-  let now = $derived(max - $status.feed.fetching.now.length)
+  /* In order to animate progress bar we will manually control <max>:
+   * 1. While fetching, use current value
+   * 2. After fetching is done, reset
+   */
 
-  let width = $derived(
-    max
-    ? Math.max(
-        Math.min(now, max) / max * 100,
-        global.fetching.widthInVw
-      ) + 'vw'
-    : 0
-  )
+  let max   = $state(0)
+  let now   = $derived(max - $status.feed.fetching.now.length)
+  let width = $derived(max ? Math.max(now / max * 100, 5) + 'vw' : 0)
+
+  let isFetching = () =>
+    $status.feed.fetching.max
+
+  let isFetchingDone = () =>
+    now === max
+
+  let resetMaxIfFetchingIsDone = () => {
+    if (isFetchingDone())
+      max = 0
+  }
+
+  $effect(() => {
+    if (isFetching())
+      max = $status.feed.fetching.max
+  })
 </script>
 
 <aside
   class="progress-bar"
   class:animate={width}
   style:width
+  ontransitionend={resetMaxIfFetchingIsDone}
   role="progressbar"
   aria-valuemax={max}
   aria-valuenow={now}
@@ -31,7 +44,7 @@
     background: var(--color-accent);
 
     &.animate {
-      transition: width .01s
+      transition: width .1618s
     }
   }
 </style>
