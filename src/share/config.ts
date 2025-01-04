@@ -1,3 +1,4 @@
+import { merge } from 'lodash'
 import { writable } from 'svelte/store'
 import { LocalStorage } from '../util/storage'
 
@@ -13,7 +14,7 @@ export class Config extends LocalStorage{
   }
 }
 
-export const config = writable({
+export const config = writable(merge({
   keybind: {
     close: 'Escape',
     focusSearch: { user: '', default: 's' }
@@ -26,9 +27,8 @@ export const config = writable({
   ],
   feedLimit: 100,
   timeoutInSeconds: 5,
-  cacheLifetimeInMinutes: 10,
-  ...(Config.get() || {})
-})
+  cacheLifetimeInMinutes: 10
+}, Config.get()))
 
 interface Keybind {
   user: string;

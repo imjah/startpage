@@ -1,3 +1,4 @@
+import { merge } from 'lodash'
 import { writable } from 'svelte/store'
 import { LocalStorage } from '../util/storage'
 
@@ -9,13 +10,12 @@ export class Status extends LocalStorage {
   }
 }
 
-export const status = writable({
+export const status = writable(merge({
   feed: {
     fetching: {
       now: [],
       max: 0
     },
     fetchedAt: 0
-  },
-  ...Status.get()
-})
+  }
+}, Status.get()))
