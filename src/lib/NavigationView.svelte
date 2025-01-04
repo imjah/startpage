@@ -41,33 +41,35 @@
     {/if}
   </div>
 
-  <!-- <Search /> -->
+  <div class="nav__search">
+    <Search />
 
-  <Closeable bind:open={expand}>
-    <div class="nav__menu">
-      <button class="nav__menu-toggler nav__item nav__item--icon" class:expand onclick={toggle} aria-label={strings.menu}>
-        <IconMenu />
-      </button>
+    <Closeable bind:open={expand}>
+      <div class="nav__menu">
+        <button class="nav__menu-toggler nav__item nav__item--icon" class:expand onclick={toggle} aria-label={strings.menu}>
+          <IconMenu />
+        </button>
 
-      <ul class="nav__menu-list" class:expand>
-        <li>
-          <Dropdown value={strings.addChannel}>
-            <ChannelsViewAdd />
-          </Dropdown>
-        </li>
+        <ul class="nav__menu-list" class:expand>
+          <li>
+            <Dropdown value={strings.addChannel}>
+              <ChannelsViewAdd />
+            </Dropdown>
+          </li>
 
-        <li>
-          <Dropdown value={strings.addBookmark}>
-            <BookmarksViewAdd />
-          </Dropdown>
-        </li>
+          <li>
+            <Dropdown value={strings.addBookmark}>
+              <BookmarksViewAdd />
+            </Dropdown>
+          </li>
 
-        <li>
-          {@render link(routes.settings, strings.settings)}
-        </li>
-      </ul>
-    </div>
-  </Closeable>
+          <li>
+            {@render link(routes.settings, strings.settings)}
+          </li>
+        </ul>
+      </div>
+    </Closeable>
+  </div>
 </nav>
 
 <style lang="scss">
@@ -87,6 +89,12 @@
 
   .nav__controls {
     display: flex;
+  }
+
+  .nav__search {
+    display: flex;
+    align-items: center;
+    gap: $gap-3;
   }
 
   .nav__menu {
@@ -139,7 +147,7 @@
     .nav__menu-list {
       position: unset;
       display: flex;
-      gap: $gap-0;
+      gap: $gap-1;
       background: inherit;
 
       &.expand {

@@ -3,9 +3,11 @@
   import strings from '../share/strings'
   import { Channels } from '../share/channels'
   import { Config, config } from '../share/config'
+  import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
 
-  let isOpen = $state(false)
+  let isOutputOpen = $state(false)
+  let isOutputLocked = $state(false)
   let error = $state('')
   let suggestions = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
@@ -14,14 +16,14 @@
   let value = $state('')
   let placeholder = `${strings.searchForChannel} (${focusKeybind})`
 
-  let open = () =>
-    isOpen = true
+  let openOutput = () =>
+    isOutputOpen = true
 
-  let close = () =>
-    isOpen = false
+  let closeOutput = () =>
+    isOutputOpen = false
 
   let focus = (e: KeyboardEvent) => {
-    if (e.key != focusKeybind || input.contains(e.target))
+    if (e.key != focusKeybind || input.contains(e.target as HTMLAnchorElement))
       return
 
     input.focus()
@@ -29,21 +31,37 @@
 
   let search = () =>
     Channels.search(value)
-    .then(r => suggestions = r.items || [])
-    .then(_ => open())
+    .then(r => suggestions = r.items.slice(0, global.search.max) || [])
+    .then(_ => openOutput())
     .catch(e => error = e)
 
   let searchDelayed = () => {
     if (timeout)
       clearTimeout(timeout)
 
-    timeout = setTimeout(search, global.searchDelayInMiliseconds)
+    timeout = setTimeout(search, global.search.delayInMs)
+  }
+
+  let lockOutput = () =>
+    isOutputLocked = true
+
+  let unlockOutput = () =>
+    isOutputLocked = false
+
+  let lockOutputAndAddChannel = (e: MouseEvent) => {
+    if (isOutputLocked)
+      return
+
+    lockOutput()
+
+    Channels.add((e.currentTarget as HTMLAnchorElement).href)
+    .then(unlockOutput)
   }
 </script>
 
 <svelte:window onkeyup={focus} />
 
-<Closeable bind:open={isOpen}>
+<Closeable bind:open={isOutputOpen}>
   <search class="search">
     <form>
       <input
@@ -52,17 +70,33 @@
         size={placeholder.length}
         placeholder={placeholder}
         oninput={searchDelayed}
-        onblur={close}
-        onfocus={open}
+        onfocus={openOutput}
         bind:value
         bind:this={input}
       >
     </form>
 
-    {#if isOpen}
+    {#if isOutputOpen}
       <ul class="search__output" tabindex="-1">
-        {#each suggestions as {name}}
-          <li class="search__output-item">{name}</li>
+        {#each suggestions as {url, name, thumbnail}}
+          <li>
+            <a
+              class="search__output-link"
+              href={url}
+              onclick={preventDefault(lockOutputAndAddChannel)}
+            >
+              <img
+                class="search__output-thumbnail"
+                src={thumbnail}
+                alt={strings.thumbnail}
+                crossorigin="anonymous"
+              >
+              <p
+                class="search__output-name"
+                title={name}
+              >{name}</p>
+            </a>
+          </li>
         {/each}
       </ul>
     {/if}
@@ -75,6 +109,8 @@
   }
 
   .search__input {
+    position: relative;
+    z-index: 1;
     color: var(--color-surface-fg);
     background: var(--color-surface);
 
@@ -88,22 +124,40 @@
   }
 
   .search__output {
+    $thumbnail-height: 2.7rem;
+
     position: absolute;
     top: 100%;
     width: 100%;
-    max-height: 10rem;
+    max-height: calc($thumbnail-height * 5);
     color: var(--color-surface-fg);
     background: var(--color-surface);
     overflow-y: scroll;
 
-    &-item {
-      padding: var(--gap-1) var(--gap-0);
-      user-select: none;
+    &-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
 
       &:hover,
       &:focus {
         background: var(--color-surface-light);
       }
+    }
+
+    &-name {
+      width: 100%;
+      padding: var(--gap-0);
+      overflow: hidden;
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    &-thumbnail {
+      width: $thumbnail-height;
+      height: $thumbnail-height;
+      padding: var(--gap-1) var(--gap-0);
+      border-radius: 50%;
     }
   }
 </style>

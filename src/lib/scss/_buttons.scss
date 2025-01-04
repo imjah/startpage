@@ -24,7 +24,8 @@
 }
 
 .nav__item--input {
-  font-size: .9rem;
+  padding: $gap-1;
+  font-size: .8rem;
 
   &:hover {
     cursor: text;

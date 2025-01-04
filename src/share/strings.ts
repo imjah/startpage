@@ -29,5 +29,6 @@ export default {
   'back': 'Back',
   'searchForChannel': 'Search for channel',
   'sync': 'Synchronize',
-  'menu': 'Menu'
+  'menu': 'Menu',
+  thumbnail: 'Thumbnail'
 }
