@@ -4,7 +4,7 @@
   import ChannelsView from './ChannelsView.svelte';
 
   let {
-    id = $bindable()
+    filter = $bindable()
   } = $props()
 
   let tabs = [
@@ -18,7 +18,7 @@
 <main class="home-page">
   <div class="home-page__content">
     <div class="home-page__content-item" class:show={focused == 0}>
-      <ChannelsView bind:id />
+      <ChannelsView bind:filter />
     </div>
     <div class="home-page__content-item" class:show={focused == 1}>
       <BookmarksView />

@@ -6,15 +6,15 @@
   import Empty from './Empty.svelte'
 
   let {
-    id = $bindable(),
+    filter = $bindable(),
     width = '100%'
   } = $props()
 
   let feed = $derived.by(() => {
-    const selected = $channels.get(id)
+    const selected = $channels.get(filter)
 
     return Channels.toArray(
-      selected === undefined ? $channels : [id, selected]
+      selected === undefined ? $channels : [filter, selected]
     )
     .sort(Channels.BY_UPLOADED)
     .slice(0, $config.feedLimit)

@@ -3,7 +3,6 @@ export default {
   'tag': 'Tag',
   'name': 'Name',
   'add': 'Add',
-  'all': 'All',
   'addBookmark': 'Add bookmark',
   'addChannel': 'Add channel',
   'settings': 'Settings',
@@ -30,5 +29,7 @@ export default {
   'searchForChannel': 'Search for channel',
   'sync': 'Synchronize',
   'menu': 'Menu',
+  all: 'All',
+  allKebabCase: 'all',
   thumbnail: 'Thumbnail'
 }

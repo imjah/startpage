@@ -2,7 +2,7 @@
   import routes from '../share/routes'
   import strings from '../share/strings'
   import BookmarksViewAdd from './BookmarksViewAdd.svelte';
-  import ChannelsFilterButton from './ButtonFilter.svelte';
+  import ChannelsFilterButton from './ChannelsFilterButton.svelte';
   import ChannelsSyncButton from './ChannelsSyncButton.svelte';
   import ChannelsViewAdd from './ChannelsViewAdd.svelte';
   import Closeable from './Closeable.svelte';
@@ -14,7 +14,7 @@
   let {
     route,
     router,
-    id = $bindable(),
+    filter = $bindable(),
     controls = true
   } = $props()
 
@@ -36,7 +36,7 @@
 <nav class="nav">
   <div class="nav__controls">
     {#if controls}
-      <ChannelsFilterButton bind:id />
+      <ChannelsFilterButton bind:filter />
       <ChannelsSyncButton />
     {/if}
   </div>
@@ -80,7 +80,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: $gap-0;
+    margin: $nav-gap;
     font-size: 1rem;
     font-weight: $font-bold;
     color: var(--color-accent);

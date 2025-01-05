@@ -15,7 +15,7 @@
     e.key == $config.keybind.close && close()
 
   let closeIfClickedElementNotInContainer = (e: MouseEvent) =>
-    container.contains(e.target) || close()
+    container.contains(e.target as HTMLElement) || close()
 </script>
 
 <svelte:window

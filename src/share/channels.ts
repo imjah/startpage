@@ -95,7 +95,11 @@ export class Channels extends LocalStorage {
     })))
   }
 
-  static BY_UPLOADED = (a: Video, b: Video) => b.uploaded - a.uploaded
+  static BY_UPLOADED = (a: Video, b: Video) =>
+    b.uploaded - a.uploaded
+
+  static BY_NAME = ([, a]: [URL, Channel], [, b]: [URL, Channel]) =>
+    (a.displayName || a.name).localeCompare(b.displayName || b.name)
 
   static async refetch({reload = false} = {}) {
     const r = reload || !this.#isFeedFresh()

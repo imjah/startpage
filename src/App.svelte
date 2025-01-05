@@ -15,7 +15,7 @@
   import FetchProgressBar from './lib/FetchProgressBar.svelte'
   import { redirectIfGithubPages404PageSetRedirectPath } from './util/github'
 
-  let id     = $state('')
+  let filter = $state('')
   let route  = $state(routes.home)
   let router = navaid(config.base, () => route = routes.notFound)
 
@@ -36,10 +36,10 @@
 
 <div class="app">
   <FetchProgressBar />
-  <Navigation {route} {router} bind:id controls={route == routes.home} />
+  <Navigation {route} {router} bind:filter controls={route == routes.home} />
 
   {#if route == routes.home}
-  	<HomePage bind:id />
+  	<HomePage bind:filter />
   {:else
     if route == routes.settings}
   	<SettingsPage back={() => router.route(routes.home)} />
