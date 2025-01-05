@@ -14,7 +14,7 @@
   let timeout = 0
   let input: HTMLElement
   let value = $state('')
-  let placeholder = `${strings.searchForChannel} (${focusKeybind})`
+  let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
 
   let openOutput = () =>
     isOutputOpen = true
@@ -23,10 +23,13 @@
     isOutputOpen = false
 
   let focus = (e: KeyboardEvent) => {
-    if (e.key != focusKeybind || input.contains(e.target as HTMLAnchorElement))
+    if (e.repeat || !e.ctrlKey)
       return
 
-    input.focus()
+    if (e.key == focusKeybind) {
+      e.preventDefault()
+      input.focus()
+    }
   }
 
   let search = () =>
@@ -59,7 +62,7 @@
   }
 </script>
 
-<svelte:window onkeyup={focus} />
+<svelte:document onkeydown={focus} />
 
 <Closeable bind:open={isOutputOpen}>
   <search class="search">
