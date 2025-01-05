@@ -111,7 +111,14 @@ export class Channels extends LocalStorage {
         return s
       })
 
-      v.forEach((_, id) => this.add(id, true, r))
+      v.forEach((_, id) => 
+        this.add(id, true, r)
+        .catch(_ => status.update(s => {
+          s.feed.fetching.now = []
+          s.feed.fetching.max = 0
+          return s
+        })))
+
       return v
     })
 
