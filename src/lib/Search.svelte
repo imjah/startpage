@@ -61,13 +61,12 @@
 
 <svelte:document onkeydown={focus} />
 
-<Closeable bind:open={isOutputOpen}>
-  <search class="search">
+<search class="search">
+  <Closeable bind:open={isOutputOpen}>
     <form>
       <input
         class="search__input nav__item nav__item--input"
         type="search"
-        size={placeholder.length}
         placeholder={placeholder}
         oninput={searchDelayed}
         onfocus={openOutput}
@@ -100,18 +99,20 @@
         {/each}
       </ul>
     {/if}
-  </search>
-</Closeable>
+  </Closeable>
+</search>
 
 <style lang="scss">
   @use 'scss/variables' as *;
 
   .search {
     position: relative;
+    
 
     &__input {
       position: relative;
       z-index: 1;
+      width: 100%;
       color: var(--color-surface-fg);
       background: var(--color-surface);
 

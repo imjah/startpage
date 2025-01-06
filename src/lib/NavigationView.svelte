@@ -87,9 +87,8 @@
   @use 'scss/breakpoints' as *;
 
   .nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr;
     margin: $nav-gap;
     font-size: 1rem;
     font-weight: $font-bold;
@@ -102,9 +101,12 @@
   }
 
   .nav__search {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(auto, 15.5rem) auto;
     align-items: center;
-    gap: $gap-3;
+    justify-content: right;
+    margin-left: $gap-0;
+    gap: $gap-0;
   }
 
   .nav__menu {
@@ -150,6 +152,11 @@
   }
 
   @include breakpoint-md {
+    .nav__search {
+      margin-left: 0;
+      gap: $gap-1;
+    }
+
     .nav__menu-toggler {
       display: none;
     }
