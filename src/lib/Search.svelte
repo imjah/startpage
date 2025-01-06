@@ -19,9 +19,6 @@
   let openOutput = () =>
     isOutputOpen = true
 
-  let closeOutput = () =>
-    isOutputOpen = false
-
   let focus = (e: KeyboardEvent) => {
     if (e.repeat || !e.ctrlKey)
       return
@@ -107,60 +104,62 @@
 </Closeable>
 
 <style lang="scss">
+  @use 'scss/variables' as *;
+
   .search {
     position: relative;
-  }
 
-  .search__input {
-    position: relative;
-    z-index: 1;
-    color: var(--color-surface-fg);
-    background: var(--color-surface);
+    &__input {
+      position: relative;
+      z-index: 1;
+      color: var(--color-surface-fg);
+      background: var(--color-surface);
 
-    &:hover {
-      background: var(--color-surface-light);
-    }
-
-    &:focus {
-      outline: var(--outline) var(--color-accent);
-    }
-  }
-
-  .search__output {
-    $thumbnail-height: 2.7rem;
-
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    max-height: calc($thumbnail-height * 5);
-    color: var(--color-surface-fg);
-    background: var(--color-surface);
-    overflow-y: scroll;
-
-    &-link {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-
-      &:hover,
-      &:focus {
+      &:hover {
         background: var(--color-surface-light);
+      }
+
+      &:focus {
+        outline: $outline var(--color-accent);
       }
     }
 
-    &-name {
-      width: 100%;
-      padding: var(--gap-0);
-      overflow: hidden;
-      text-wrap: nowrap;
-      text-overflow: ellipsis;
-    }
+    &__output {
+      $thumbnail-height: 2.7rem;
 
-    &-thumbnail {
-      width: $thumbnail-height;
-      height: $thumbnail-height;
-      padding: var(--gap-1) var(--gap-0);
-      border-radius: 50%;
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      max-height: calc($thumbnail-height * 5);
+      color: var(--color-surface-fg);
+      background: var(--color-surface);
+      overflow-y: scroll;
+
+      &-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+          background: var(--color-surface-light);
+        }
+      }
+
+      &-name {
+        width: 100%;
+        padding: $gap-0;
+        overflow: hidden;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &-thumbnail {
+        width: $thumbnail-height;
+        height: $thumbnail-height;
+        padding: $gap-1 $gap-0;
+        border-radius: 50%;
+      }
     }
   }
 </style>

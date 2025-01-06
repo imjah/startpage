@@ -28,7 +28,12 @@
 </script>
 
 {#snippet link(href: string, name: string)}
-  <a {href} class="nav__link" class:active={route == href} onclick={preventDefault(() => { router.route(href); close() })}>
+  <a
+    {href}
+    class="nav__link"
+    class:active={route == href}
+    onclick={preventDefault(() => { router.route(href); close() })}
+  >
     {name}
   </a>
 {/snippet}
@@ -46,7 +51,12 @@
 
     <Closeable bind:open={expand}>
       <div class="nav__menu">
-        <button class="nav__menu-toggler nav__item nav__item--icon" class:expand onclick={toggle} aria-label={strings.menu}>
+        <button
+          class="nav__menu-toggler nav__item nav__item--icon"
+          class:expand
+          onclick={toggle}
+          aria-label={strings.menu}
+        >
           <IconMenu />
         </button>
 
