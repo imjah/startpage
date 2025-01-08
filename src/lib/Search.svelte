@@ -3,6 +3,7 @@
   import strings from '../share/strings'
   import { Channels } from '../share/channels'
   import { Config, config } from '../share/config'
+  import { Piped, rejectIfResponseIsNotOk } from '../util/piped';
   import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
 
@@ -13,7 +14,7 @@
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
   let input: HTMLElement
-  let value = $state('')
+  let query = $state('')
   let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
 
   let openOutput = () =>
@@ -29,11 +30,17 @@
     }
   }
 
-  let search = () =>
-    Channels.search(value)
+  let search = () => {
+    if (!query)
+      return
+
+    Piped.search(query, {filter: Piped.FILTER_CHANNELS})
+    .then(rejectIfResponseIsNotOk)
+    .then(r => r.json())
     .then(r => suggestions = r.items.slice(0, global.search.max) || [])
     .then(_ => openOutput())
     .catch(e => error = e)
+  }
 
   let searchDelayed = () => {
     if (timeout)
@@ -70,7 +77,7 @@
         placeholder={placeholder}
         oninput={searchDelayed}
         onfocus={openOutput}
-        bind:value
+        bind:value={query}
         bind:this={input}
       >
     </form>

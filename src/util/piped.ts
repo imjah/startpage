@@ -36,3 +36,10 @@ export class Piped {
     return this.get(`/search?q=${query}&filter=${filter}`, reload)
   }
 }
+
+export function rejectIfResponseIsNotOk(response: Response) {
+  if (response.ok)
+    return response
+
+  return Promise.reject(response.status)
+}
