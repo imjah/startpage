@@ -102,7 +102,7 @@
 
   .nav__search {
     display: grid;
-    grid-template-columns: minmax(auto, 15.5rem) auto;
+    grid-template-columns: minmax(auto, 14rem) auto;
     align-items: center;
     justify-content: right;
     margin-left: $gap-0;
