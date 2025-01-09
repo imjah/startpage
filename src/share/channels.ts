@@ -32,13 +32,6 @@ export class Channels extends LocalStorage {
     channels.subscribe(s => super.set([...s]))
   }
 
-  static async search(query: string) {
-    if (query.length == 0)
-      return Promise.resolve([])
-
-    return Piped.search(query, Piped.FILTER_CHANNELS).then(r => r.json())
-  }
-
   static async add(url: string | URL, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
