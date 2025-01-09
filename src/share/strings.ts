@@ -31,5 +31,6 @@ export default {
   'menu': 'Menu',
   all: 'All',
   allKebabCase: 'all',
-  thumbnail: 'Thumbnail'
+  thumbnail: 'Thumbnail',
+  imageFailed: 'Failed to load image'
 }

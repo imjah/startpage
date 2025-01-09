@@ -3,9 +3,11 @@
   import strings from '../share/strings'
   import { Channels } from '../share/channels'
   import { Config, config } from '../share/config'
-  import { Piped, rejectIfResponseIsNotOk } from '../util/piped';
+  import { Piped } from '../util/piped';
+  import { rejectIfResponseIsNotOk } from '../util/fetch';
   import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
+  import Image from './Image.svelte';
 
   let isOutputOpen = $state(false)
   let isOutputLocked = $state(false)
@@ -37,7 +39,7 @@
     Piped.search(query, {filter: Piped.FILTER_CHANNELS})
     .then(rejectIfResponseIsNotOk)
     .then(r => r.json())
-    .then(r => suggestions = r.items.slice(0, global.search.max) || [])
+    .then(r => suggestions = r.items || [])
     .then(_ => openOutput())
     .catch(e => error = e)
   }
@@ -84,19 +86,20 @@
 
     {#if isOutputOpen}
       <ul class="search__output" tabindex="-1">
-        {#each suggestions as {url, name, thumbnail}}
+        {#each suggestions.slice(0, 5) as {url, name, thumbnail}}
           <li>
             <a
               class="search__output-link"
               href={url}
               onclick={preventDefault(lockOutputAndAddChannel)}
             >
-              <img
-                class="search__output-thumbnail"
-                src={thumbnail}
-                alt={strings.thumbnail}
-                crossorigin="anonymous"
-              >
+              <div class="search__output-thumbnail">
+                <Image
+                  src={thumbnail}
+                  alt={strings.thumbnail}
+                  crossorigin="anonymous"
+                />
+              </div>
               <p
                 class="search__output-name"
                 title={name}
@@ -114,7 +117,6 @@
 
   .search {
     position: relative;
-    
 
     &__input {
       position: relative;
@@ -133,12 +135,10 @@
     }
 
     &__output {
-      $thumbnail-height: 2.7rem;
-
       position: absolute;
       top: 100%;
       width: 100%;
-      max-height: calc($thumbnail-height * 5);
+      max-height: calc($search-thumbnail-height * 5);
       color: var(--color-surface-fg);
       background: var(--color-surface);
       overflow-y: scroll;
@@ -163,8 +163,8 @@
       }
 
       &-thumbnail {
-        width: $thumbnail-height;
-        height: $thumbnail-height;
+        width: $search-thumbnail-height;
+        height: $search-thumbnail-height;
         padding: $gap-1 $gap-0;
         border-radius: 50%;
       }
