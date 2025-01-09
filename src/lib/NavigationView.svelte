@@ -34,7 +34,7 @@
     class:active={route == href}
     onclick={preventDefault(() => { router.route(href); close() })}
   >
-    {name}
+    <span class="nav__link-text">{name}</span>
   </a>
 {/snippet}
 
@@ -140,14 +140,12 @@
       cursor: pointer;
     }
 
-    &.active {
-      color: var(--color-accent-fg);
-      background: var(--color-accent);
+    &-text {
+      border-bottom: $border transparent;
+    }
 
-      &:focus,
-      &:hover {
-        background: var(--color-accent-light);
-      }
+    &.active &-text {
+      border-bottom-color: var(--color-accent);
     }
   }
 
