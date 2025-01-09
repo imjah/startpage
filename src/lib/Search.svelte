@@ -28,9 +28,14 @@
   let openOutput = () =>
     isOutputOpen = true
 
+  let clearSuggestions = () =>
+    suggestions = [];
+
   let search = () => {
-    if (!query)
-      return
+    if (!query) {
+      clearSuggestions();
+      return;
+    };
 
     Piped.search(query, {filter: Piped.FILTER_CHANNELS})
     .then(rejectIfResponseIsNotOk)
