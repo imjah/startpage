@@ -8,16 +8,21 @@
   import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
   import Image from './Image.svelte';
+  import type { SearchChannelsResult } from '../util/piped';
 
   let isOutputOpen = $state(false)
   let isOutputLocked = $state(false)
   let error = $state('')
-  let suggestions = $state([])
+  let suggestions: SearchChannelsResult[] = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
   let input: HTMLElement
   let query = $state('')
   let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
+
+  let suggestionsSortedBySubscribers = $derived(
+    [...suggestions].sort((a,b) => b.subscribers - a.subscribers)
+  )
 
   let openOutput = () =>
     isOutputOpen = true
@@ -86,7 +91,9 @@
 
     {#if isOutputOpen}
       <ul class="search__output" tabindex="-1">
-        {#each suggestions.slice(0, 5) as {url, name, thumbnail}}
+        {#each suggestionsSortedBySubscribers.slice(0, 5) as {
+          url, name, thumbnail
+        }}
           <li>
             <a
               class="search__output-link"

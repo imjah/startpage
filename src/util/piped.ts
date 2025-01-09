@@ -36,3 +36,10 @@ export class Piped {
     return this.get(`/search?q=${query}&filter=${filter}`, reload)
   }
 }
+
+export interface SearchChannelsResult {
+  url: string,
+  name: string,
+  thumbnail: string,
+  subscribers: number
+}
