@@ -35,6 +35,10 @@ export class Piped {
   } = {}) {
     return this.get(`/search?q=${query}&filter=${filter}`, reload)
   }
+
+  static parseId(url: string) {
+    return url.split('/').pop() || ''
+  }
 }
 
 export interface SearchChannelsResult {
