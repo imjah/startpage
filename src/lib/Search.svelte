@@ -5,18 +5,19 @@
   import { Config, config } from '../share/config'
   import { Piped } from '../util/piped';
   import { rejectIfResponseIsNotOk } from '../util/fetch';
+  import { FocusNavigator } from '../util/focus.svelte';
   import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
   import Image from './Image.svelte';
   import type { SearchChannelsResult } from '../util/piped';
 
+  let focus = new FocusNavigator();
   let isOutputOpen = $state(false)
   let isOutputLocked = $state(false)
   let error = $state('')
   let suggestions: SearchChannelsResult[] = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
-  let input: HTMLElement
   let query = $state('')
   let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
 
@@ -26,16 +27,6 @@
 
   let openOutput = () =>
     isOutputOpen = true
-
-  let focus = (e: KeyboardEvent) => {
-    if (e.repeat || !e.ctrlKey)
-      return
-
-    if (e.key == focusKeybind) {
-      e.preventDefault()
-      input.focus()
-    }
-  }
 
   let search = () => {
     if (!query)
@@ -71,11 +62,38 @@
     Channels.add(Piped.parseId((e.currentTarget as HTMLAnchorElement).href))
     .then(unlockOutput)
   }
+
+  let handleGlobalKeybinds = (e: KeyboardEvent) => {
+    if (!e.ctrlKey)
+      return
+
+    switch (e.key) {
+      case focusKeybind:
+        e.preventDefault();
+        focus.at(0);
+        break;
+    }
+  }
+
+  let handleLocalKeybinds = (e: KeyboardEvent) => {
+    e.stopPropagation()
+
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault();
+        focus.prev();
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        focus.next();
+        break;
+    }
+  }
 </script>
 
-<svelte:document onkeydown={focus} />
+<svelte:document onkeydown={handleGlobalKeybinds} />
 
-<search class="search">
+<search class="search" role="presentation" onkeydown={handleLocalKeybinds}>
   <Closeable bind:open={isOutputOpen}>
     <form>
       <input
@@ -85,7 +103,7 @@
         oninput={searchDelayed}
         onfocus={openOutput}
         bind:value={query}
-        bind:this={input}
+        bind:this={focus.items[0]}
       >
     </form>
 
@@ -93,12 +111,13 @@
       <ul class="search__output" tabindex="-1">
         {#each suggestionsSortedBySubscribers.slice(0, 5) as {
           url, name, thumbnail
-        }}
+        }, i }
           <li>
             <a
               class="search__output-link"
               href={url}
               onclick={preventDefault(lockOutputAndAddChannel)}
+              bind:this={focus.items[i+1]}
             >
               <div class="search__output-thumbnail">
                 <Image
