@@ -30,9 +30,9 @@
     <ul>
       {#each feed as video}
         <li class="video">
-          <h4 class="video-title">
+          <h1 class="video-title">
             <a class="video-url" href={video.url}>{video.title}</a>
-          </h4>
+          </h1>
           <p class="video-description">
             <a class="video-uploader" href={video.channelUrl}>
               {video.channelDisplayName || video.channelName}
@@ -71,6 +71,7 @@
 
   .video-title {
     margin-bottom: 1rem;
+    font-size: .75rem;
     overflow: hidden;
     text-overflow: ellipsis;
   }
