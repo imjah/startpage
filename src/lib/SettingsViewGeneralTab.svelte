@@ -6,7 +6,7 @@
   import SettingsList from './SettingsList.svelte';
   import SettingsListItem from './SettingsListItem.svelte';
 
-  let padding = '1rem'
+  let padding = '.5rem'
 </script>
 
 <SettingsList>
