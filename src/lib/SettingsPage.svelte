@@ -67,7 +67,7 @@
       }
 
       &-button {
-        padding: 2 * $gap-3 + .51rem;
+        padding: $gap-3;
         color: inherit;
         background-color: inherit;
         border: none;
@@ -121,6 +121,10 @@
         grid-template-rows: repeat(3, auto) 1fr;
         grid-template-columns: auto;
         overflow-y: scroll;
+
+        &-button {
+          padding: 2 * $gap-3 + .51rem;
+        }
       }
 
       &__exit {

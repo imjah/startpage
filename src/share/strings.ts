@@ -19,10 +19,6 @@ export default {
   'restore': 'Restore',
   'instance': 'Instance',
   'instanceId': 'settings-instance',
-  'feedReload': 'Reload feed after (minutes)',
-  'feedReloadId': 'settings-reload-feed-after',
-  'feedLimit': 'Number of videos in feed',
-  'feedLimitId': 'settings-number-of-videos-in-feed',
   'saveHint': 'Press Enter to save changes',
   'notFound': 'Not found',
   'back': 'Back',
@@ -32,5 +28,14 @@ export default {
   all: 'All',
   allKebabCase: 'all',
   thumbnail: 'Thumbnail',
-  imageFailed: 'Failed to load image'
+  imageFailed: 'Failed to load image',
+  piped: 'Piped',
+  feed: 'Feed',
+  always: 'Always',
+  minute: 'minute',
+  minutes: 'minutes',
+  feedCache: 'Reload after',
+  feedCacheKebabCase: 'feed-cache',
+  feedLimit: 'Videos limit',
+  feedLimitKebabCase: 'feed-limit'
 }
