@@ -121,6 +121,7 @@
     position: absolute;
     top: 100%;
     right: 0;
+    z-index: $nav-z-index;
     display: none;
     background: var(--color-surface);
 

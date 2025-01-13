@@ -73,6 +73,7 @@
 
     &__list {
       position: absolute;
+      z-index: $nav-z-index;
       min-width: 100%;
       max-width: min(calc(100vw - 100% - $nav-gap), 20rem);
       max-height: min(calc(100vh - 100% - $nav-gap), 1000%);

@@ -168,6 +168,7 @@
     &__output {
       position: absolute;
       top: 100%;
+      z-index: $nav-z-index;
       width: 100%;
       max-height: calc($search-thumbnail-height * 5);
       color: var(--color-surface-fg);

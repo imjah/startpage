@@ -36,6 +36,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: $nav-z-index;
     transform: translate(-50%, -50%);
     padding: $gap-3;
     color: var(--color-fg-light);
