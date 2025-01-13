@@ -9,6 +9,7 @@
   import { preventDefault } from '../util/wrappers';
   import Closeable from './Closeable.svelte';
   import Image from './Image.svelte';
+  import IconSearch from './icons/Search.svelte'
   import type { SearchChannelsResult } from '../util/piped';
 
   let focus = new FocusNavigator();
@@ -125,11 +126,15 @@
               bind:this={focus.items[i+1]}
             >
               <div class="search__output-thumbnail">
-                <Image
-                  src={thumbnail}
-                  alt={strings.thumbnail}
-                  crossorigin="anonymous"
-                />
+                {#if i == 0}
+                  <Image
+                    src={thumbnail}
+                    alt={strings.thumbnail}
+                    crossorigin="anonymous"
+                  />
+                {:else}
+                  <IconSearch />
+                {/if}
               </div>
               <p
                 class="search__output-name"
@@ -195,6 +200,9 @@
       }
 
       &-thumbnail {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: $search-thumbnail-height;
         height: $search-thumbnail-height;
         padding: $gap-1 $gap-0;

@@ -63,11 +63,6 @@
   }
 
   .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-
     &.error {
       color: var(--color-error);
     }
