@@ -20,7 +20,7 @@ export const config = writable(merge({
     focusSearch: { user: '', default: 's' }
   },
   instance:
-    { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
+    { label: 'piped.yt',    value: 'https://api.piped.yt' },
   instances: [
     { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
     { label: 'piped.yt',    value: 'https://api.piped.yt' }
