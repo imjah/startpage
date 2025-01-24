@@ -12,5 +12,12 @@ export default defineConfig({
 		? {
 				conditions: ['browser']
 			}
-		: undefined
+		: undefined,
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+	}
 });
