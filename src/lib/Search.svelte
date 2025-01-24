@@ -14,7 +14,6 @@
 
   let focus = new FocusNavigator();
   let isOutputOpen = $state(false)
-  let isOutputLocked = $state(false)
   let error = $state('')
   let suggestions: SearchChannelsResult[] = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
@@ -28,6 +27,9 @@
 
   let openOutput = () =>
     isOutputOpen = true
+
+  let closeOutput = () =>
+    isOutputOpen = false
 
   let clearSuggestions = () =>
     suggestions = [];
@@ -53,20 +55,9 @@
     timeout = setTimeout(search, global.search.delayInMs)
   }
 
-  let lockOutput = () =>
-    isOutputLocked = true
-
-  let unlockOutput = () =>
-    isOutputLocked = false
-
-  let lockOutputAndAddChannel = (e: MouseEvent) => {
-    if (isOutputLocked)
-      return
-
-    lockOutput()
-
+  let AddChannelAndClose = (e: MouseEvent) => {
     Channels.add(Piped.parseId((e.currentTarget as HTMLAnchorElement).href))
-    .then(unlockOutput)
+    closeOutput()
   }
 
   let handleGlobalKeybinds = (e: KeyboardEvent) => {
@@ -122,7 +113,7 @@
             <a
               class="search__output-link"
               href={url}
-              onclick={preventDefault(lockOutputAndAddChannel)}
+              onclick={preventDefault(AddChannelAndClose)}
               bind:this={focus.items[i+1]}
             >
               <div class="search__output-thumbnail">
