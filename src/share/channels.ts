@@ -7,6 +7,7 @@ import { status } from './status'
 export type URL  = string
 
 export interface Channel {
+  url: string;
   name: string;
   displayName: string;
   videos: Video[];
@@ -40,8 +41,8 @@ export class Channels extends LocalStorage {
 
     return (
         this.#isPlaylist(url)
-      ? this.#fetchPlaylist(id, url, reload)
-      : this.#fetchChannel(id, url, reload)
+      ? this.#fetchPlaylist(id, reload)
+      : this.#fetchChannel(id, reload)
     ).then(channel => {
         if (partial)
           this.update(url, {videos: channel.videos})
@@ -82,7 +83,7 @@ export class Channels extends LocalStorage {
   static #toArray(selected: Array<[URL, Channel]>): ChannelVideo[] {
     return selected.flatMap(([url, channel]) => channel.videos.map(video => ({
       ...video,
-      channelUrl: url,
+      channelUrl: channel.url,
       channelName : channel.name,
       channelDisplayName : channel.displayName
     })))
@@ -126,11 +127,11 @@ export class Channels extends LocalStorage {
     status.update(s => { s.feed.fetchedAt = Date.now(); return s })
   }
 
-  static async #fetchChannel(id: URL, url: string, reload: boolean): Promise<Channel> {
+  static async #fetchChannel(id: URL, reload: boolean): Promise<Channel> {
     return fetch(`${get(config).instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
-            'url': url,
+            'url': `https://youtube.com/channel/${id}`,
             'name': response?.content[0]?.uploaderName,
             'displayName': '',
             'videos': response.content.map((video: Video) => ({
@@ -142,11 +143,11 @@ export class Channels extends LocalStorage {
           }))
   }
 
-  static async #fetchPlaylist(id: URL, url: string, reload: boolean): Promise<Channel> {
+  static async #fetchPlaylist(id: URL, reload: boolean): Promise<Channel> {
     return fetch(`${get(config).instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
-            'url': url,
+            'url': `https://youtube.com/playlist?list=${id}`,
             'name': response.name,
             'displayName': '',
             'videos': response.relatedStreams.map((video: Video) => ({

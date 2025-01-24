@@ -56,7 +56,7 @@
   }
 
   let AddChannelAndClose = (e: MouseEvent) => {
-    Channels.add(Piped.parseId((e.currentTarget as HTMLAnchorElement).href))
+    Channels.add((e.currentTarget as HTMLAnchorElement).href)
     closeOutput()
   }
 

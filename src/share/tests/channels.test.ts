@@ -2,8 +2,9 @@ import { test, expect } from 'vitest'
 import { Channels } from '../channels'
 
 const t = test.extend({
-  url: 'myUrl',
+  id: 'myId',
   channel: {
+    url: 'https://my.url/myId',
     name: 'myChannelName',
     displayName: 'myChannelDisplayName',
     videos: [
@@ -23,20 +24,20 @@ const t = test.extend({
   }
 })
 
-t('toArray(Map<URL, Channel>) returns ChannelVideo[]', ({url, channel}) => {
-  const actual = Channels.toArray(new Map([[url, channel]]))
+t('toArray(Map<URL, Channel>) returns ChannelVideo[]', ({id, channel}) => {
+  const actual = Channels.toArray(new Map([[id, channel]]))
 
   expect(actual).toEqual(
     [
       {
         ...channel.videos[0],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       },
       {
         ...channel.videos[1],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       }
@@ -44,20 +45,20 @@ t('toArray(Map<URL, Channel>) returns ChannelVideo[]', ({url, channel}) => {
   )
 })
 
-t('toArray([URL, Channel]) returns ChannelVideo[]', ({url, channel}) => {
-  const actual = Channels.toArray([url, channel])
+t('toArray([URL, Channel]) returns ChannelVideo[]', ({id, channel}) => {
+  const actual = Channels.toArray([id, channel])
 
   expect(actual).toEqual(
     [
       {
         ...channel.videos[0],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       },
       {
         ...channel.videos[1],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       }
@@ -65,20 +66,20 @@ t('toArray([URL, Channel]) returns ChannelVideo[]', ({url, channel}) => {
   )
 })
 
-t('BY_UPLOADED sorts ChannelVideo[] by <uploaded> descending', ({url, channel}) => {
-  const actual = Channels.toArray([url, channel]).sort(Channels.BY_UPLOADED)
+t('BY_UPLOADED sorts ChannelVideo[] by <uploaded> descending', ({id, channel}) => {
+  const actual = Channels.toArray([id, channel]).sort(Channels.BY_UPLOADED)
 
   expect(actual).toEqual(
     [
       {
         ...channel.videos[1],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       },
       {
         ...channel.videos[0],
-        channelUrl: url,
+        channelUrl: channel.url,
         channelName: channel.name,
         channelDisplayName: channel.displayName
       }
