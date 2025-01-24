@@ -20,10 +20,11 @@ export const config = writable(merge({
     focusSearch: { user: '', default: 's' }
   },
   instance:
-    { label: 'piped.yt',    value: 'https://api.piped.yt' },
+    { label: 'private.coffee', value: 'https://api.piped.private.coffee' },
   instances: [
-    { label: 'kavin.rocks', value: 'https://pipedapi.kavin.rocks' },
-    { label: 'piped.yt',    value: 'https://api.piped.yt' }
+    { label: 'kavin.rocks',    value: 'https://pipedapi.kavin.rocks' },
+    { label: 'piped.yt',       value: 'https://api.piped.yt' },
+    { label: 'private.coffee', value: 'https://api.piped.private.coffee' }
   ],
   feedLimit: 100,
   timeoutInSeconds: 5,
