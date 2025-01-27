@@ -3,10 +3,6 @@
   import BookmarksView from './BookmarksView.svelte';
   import ChannelsView from './ChannelsView.svelte';
 
-  let {
-    filter = $bindable()
-  } = $props()
-
   let tabs = [
     strings.channels,
     strings.bookmarks
@@ -18,7 +14,7 @@
 <main class="home-page">
   <div class="home-page__content">
     <div class="home-page__content-item" class:show={focused == 0}>
-      <ChannelsView bind:filter />
+      <ChannelsView />
     </div>
     <div class="home-page__content-item" class:show={focused == 1}>
       <BookmarksView />

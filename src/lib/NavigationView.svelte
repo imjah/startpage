@@ -1,6 +1,6 @@
 <script lang="ts">
-  import routes from '../share/routes'
   import strings from '../share/strings'
+  import { app } from './state/app.svelte'
   import BookmarksViewAdd from './BookmarksViewAdd.svelte';
   import ChannelsFilterButton from './ChannelsFilterButton.svelte';
   import ChannelsSyncButton from './ChannelsSyncButton.svelte';
@@ -10,13 +10,6 @@
   import Search from './Search.svelte';
   import IconMenu from './icons/Menu.svelte';
   import { preventDefault } from '../util/wrappers';
-
-  let {
-    route,
-    router,
-    filter = $bindable(),
-    controls = true
-  } = $props()
 
   let expand = $state(false)
 
@@ -31,8 +24,8 @@
   <a
     {href}
     class="nav__link"
-    class:active={route == href}
-    onclick={preventDefault(() => { router.route(href); close() })}
+    class:active={app.route.path == href}
+    onclick={preventDefault(() => { app.route.path = href; close() })}
   >
     <span class="nav__link-text">{name}</span>
   </a>
@@ -40,8 +33,8 @@
 
 <nav class="nav">
   <div class="nav__controls">
-    {#if controls}
-      <ChannelsFilterButton bind:filter />
+    {#if app.route.path == strings.paths.home}
+      <ChannelsFilterButton />
       <ChannelsSyncButton />
     {/if}
   </div>
@@ -74,7 +67,7 @@
           </li>
 
           <li>
-            {@render link(routes.settings, strings.settings)}
+            {@render link(strings.paths.settings, strings.settings)}
           </li>
         </ul>
       </div>

@@ -1,10 +1,12 @@
 import config from '../config'
 
-export let redirectIfGithubPages404PageSetRedirectPath = (route: Function) => {
-  if (localStorage[config.GH_PAGES_REDIRECT] == undefined)
+export function getRedirectPathSetBy404Page() {
+  const redirectPath = localStorage[config.GH_PAGES_REDIRECT]
+
+  if (!redirectPath)
     return
 
-  route(localStorage[config.GH_PAGES_REDIRECT])
-
   localStorage.removeItem(config.GH_PAGES_REDIRECT)
+
+  return redirectPath
 }

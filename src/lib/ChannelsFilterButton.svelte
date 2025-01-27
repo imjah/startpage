@@ -1,16 +1,12 @@
 <script lang="ts">
-  import routes from '../share/routes'
   import strings from '../share/strings'
   import { Channels, channels } from '../share/channels'
   import { preventDefault } from '../util/wrappers';
+  import { app } from './state/app.svelte'
   import Closeable from './Closeable.svelte';
 
-  let {
-    filter = $bindable()
-  } = $props()
-  
   let isDropdownOpen       = $state(false)
-  let filtered             = $derived($channels.get(filter))
+  let filtered             = $derived($channels.get(app.filter))
   let filteredName         = $derived(filtered?.displayName || filtered?.name)
   let channelsSortedByName = $derived([...$channels].sort(Channels.BY_NAME))
 
@@ -30,12 +26,12 @@
 
     {#if isDropdownOpen}
       <ul class="filter__list" tabindex="-1">
-        {#if filter}
+        {#if app.filter}
           {@render item(strings.allKebabCase, strings.all)}
         {/if}
 
         {#each channelsSortedByName as [id, {name, displayName}]}
-          {#if id != filter}
+          {#if id != app.filter}
             {@render item(id, displayName || name)}
           {/if}
         {/each}
@@ -48,8 +44,8 @@
   <li>
   	<a
   	  class="filter__list-item nav__item"
-  	  href={routes.home + '?filter=' + id}
-  	  onclick={preventDefault(() => { filter = id; toggleDropdown() })}
+  	  href={strings.paths.home + '?filter=' + id}
+  	  onclick={preventDefault(() => { app.filter = id; toggleDropdown() })}
   	>{text}</a>
   </li>
 {/snippet}

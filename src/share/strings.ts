@@ -37,5 +37,9 @@ export default {
   feedCache: 'Reload after',
   feedCacheKebabCase: 'feed-cache',
   feedLimit: 'Videos limit',
-  feedLimitKebabCase: 'feed-limit'
+  feedLimitKebabCase: 'feed-limit',
+  paths: {
+    home: '/',
+    settings: '/settings'
+  }
 }

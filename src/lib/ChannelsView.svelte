@@ -3,18 +3,18 @@
   import { Channels, channels } from '../share/channels'
   import { config } from '../share/config'
   import strings from '../share/strings'
+  import { app } from './state/app.svelte'
   import Empty from './Empty.svelte'
 
   let {
-    filter = $bindable(),
     width = '100%'
   } = $props()
 
   let feed = $derived.by(() => {
-    const selected = $channels.get(filter)
+    const selected = $channels.get(app.filter)
 
     return Channels.toArray(
-      selected === undefined ? $channels : [filter, selected]
+      selected === undefined ? $channels : [app.filter, selected]
     )
     .sort(Channels.BY_UPLOADED)
     .slice(0, $config.feedLimit)

@@ -1,12 +1,10 @@
 <script lang="ts">
   import strings from '../share/strings'
+  import { routes } from '../routes'
+  import { app } from './state/app.svelte'
   import SettingsViewBookmarksTab from './SettingsViewBookmarksTab.svelte';
   import SettingsViewChannelsTab from './SettingsViewChannelsTab.svelte';
   import SettingsViewGeneralTab from './SettingsViewGeneralTab.svelte';
-
-  let {
-    back
-  } = $props()
 
   let tabs = [
     strings.general,
@@ -15,6 +13,9 @@
   ]
 
   let tab = $state(0)
+
+  let back = () =>
+    app.route.path = routes.home.path
 </script>
 
 <div class="settings">
