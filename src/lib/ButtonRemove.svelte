@@ -3,7 +3,6 @@
   import strings from '../share/strings'
 
   let {
-    margin,
     remove
   } = $props()
 
@@ -15,7 +14,6 @@
 <input
   type="button"
   class:removed={isRemoved}
-  style:margin
   value={isRemoved ? strings.restore : strings.remove}
   onclick={() => isRemoved = !isRemoved}>
 

@@ -8,8 +8,8 @@
   import { Channels } from './share/channels'
   import { Config } from './share/config'
   import { Status } from './share/status'
-  import Navigation from './lib/NavigationView.svelte'
-  import FetchProgressBar from './lib/FetchProgressBar.svelte'
+  import Navigation from './lib/Navigation.svelte'
+  import FetchProgress from './lib/FetchProgress.svelte'
   import Empty from './lib/Empty.svelte';
 
   let main: Route | undefined = $state()
@@ -31,7 +31,7 @@
 </script>
 
 <div class="app">
-  <FetchProgressBar />
+  <FetchProgress />
   <Navigation />
 
   {#if main}

@@ -1,14 +1,16 @@
 <script lang="ts">
+  import config from '../config'
   import strings from '../share/strings'
   import { app } from './state/app.svelte'
-  import BookmarksViewAdd from './BookmarksViewAdd.svelte';
-  import ChannelsFilterButton from './ChannelsFilterButton.svelte';
-  import ChannelsSyncButton from './ChannelsSyncButton.svelte';
-  import ChannelsViewAdd from './ChannelsViewAdd.svelte';
+  import BookmarksAdd from './BookmarksAdd.svelte';
+  import ChannelsFilter from './ChannelsFilter.svelte';
+  import ChannelsSync from './ChannelsSync.svelte';
+  import ChannelsAdd from './ChannelsAdd.svelte';
   import Closeable from './Closeable.svelte';
   import Dropdown from './Dropdown.svelte';
   import Search from './Search.svelte';
   import IconMenu from './icons/Menu.svelte';
+  import IconArrowLeft from './icons/ArrowLeft.svelte';
   import { preventDefault } from '../util/wrappers';
 
   let expand = $state(false)
@@ -34,8 +36,16 @@
 <nav class="nav">
   <div class="nav__controls">
     {#if app.route.path == strings.paths.home}
-      <ChannelsFilterButton />
-      <ChannelsSyncButton />
+      <ChannelsFilter />
+      <ChannelsSync />
+    {:else}
+      <a
+        href={config.base + strings.paths.home}
+        class="nav__item nav__item--icon"
+        onclick={() => app.route.path = strings.paths.home}
+      >
+        <IconArrowLeft />
+      </a>
     {/if}
   </div>
 
@@ -56,13 +66,13 @@
         <ul class="nav__menu-list" class:expand>
           <li>
             <Dropdown value={strings.addChannel}>
-              <ChannelsViewAdd />
+              <ChannelsAdd />
             </Dropdown>
           </li>
 
           <li>
             <Dropdown value={strings.addBookmark}>
-              <BookmarksViewAdd />
+              <BookmarksAdd />
             </Dropdown>
           </li>
 

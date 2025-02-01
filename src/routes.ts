@@ -1,19 +1,29 @@
 import type { Component } from 'svelte';
 import strings from './share/strings'
-import HomePage from './lib/HomePage.svelte'
-import SettingsPage from './lib/SettingsPage.svelte'
+import Home from './lib/Home.svelte'
+import Settings from './lib/Settings.svelte'
 
 export const routes: Routes =  {
   home: {
     path: strings.paths.home,
-    view: HomePage,
+    view: Home,
     args: {}
   },
   settings: {
     path: strings.paths.settings,
-    view: SettingsPage,
-    args: {}
-  }
+    view: Settings,
+    args: { tabIndex: 0 }
+  },
+  channels: {
+    path: strings.paths.channels,
+    view: Settings,
+    args: { tabIndex: 1 }
+  },
+  bookmarks: {
+    path: strings.paths.bookmarks,
+    view: Settings,
+    args: { tabIndex: 2 }
+  },
 }
 
 export interface Route {

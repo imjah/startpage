@@ -1,7 +1,7 @@
 <script lang="ts">
   import strings from '../share/strings'
-  import BookmarksView from './BookmarksView.svelte';
-  import ChannelsView from './ChannelsView.svelte';
+  import Bookmarks from './Bookmarks.svelte';
+  import Channels from './Channels.svelte';
 
   let tabs = [
     strings.channels,
@@ -14,10 +14,10 @@
 <main class="home-page">
   <div class="home-page__content">
     <div class="home-page__content-item" class:show={focused == 0}>
-      <ChannelsView />
+      <Channels />
     </div>
     <div class="home-page__content-item" class:show={focused == 1}>
-      <BookmarksView />
+      <Bookmarks />
     </div>
   </div>
 

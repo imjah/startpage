@@ -39,7 +39,9 @@ export default {
   feedLimit: 'Videos limit',
   feedLimitKebabCase: 'feed-limit',
   paths: {
-    home: '/',
-    settings: '/settings'
+    home:      '/',
+    settings:  '/settings',
+    channels:  '/settings/channels',
+    bookmarks: '/settings/bookmarks'
   }
 }
