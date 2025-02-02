@@ -115,6 +115,7 @@
               href={url}
               onclick={preventDefault(AddChannelAndClose)}
               bind:this={focus.items[i+1]}
+              tabindex="-1"
             >
               <div class="search__output-thumbnail">
                 {#if i == 0}
