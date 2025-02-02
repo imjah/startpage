@@ -14,8 +14,8 @@
     isDropdownOpen = !isDropdownOpen
 </script>
 
-<Closeable bind:open={isDropdownOpen}>
-  <div class="filter">
+<div class="filter">
+  <Closeable bind:open={isDropdownOpen}>
     <input
       class="filter__toggler nav__item"
       class:focus={isDropdownOpen}
@@ -37,8 +37,8 @@
         {/each}
       </ul>
     {/if}
-  </div>
-</Closeable>
+  </Closeable>
+</div>
 
 {#snippet item(id: string, text: string)}
   <li>

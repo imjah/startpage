@@ -2,46 +2,44 @@
   import config from '../config'
   import strings from '../share/strings'
   import { app } from './state/app.svelte'
+  import { preventDefault } from '../util/wrappers';
   import BookmarksAdd from './BookmarksAdd.svelte';
+  import ChannelsAdd from './ChannelsAdd.svelte';
   import ChannelsFilter from './ChannelsFilter.svelte';
   import ChannelsSync from './ChannelsSync.svelte';
-  import ChannelsAdd from './ChannelsAdd.svelte';
   import Closeable from './Closeable.svelte';
   import Dropdown from './Dropdown.svelte';
-  import Search from './Search.svelte';
-  import IconMenu from './icons/Menu.svelte';
   import IconArrowLeft from './icons/ArrowLeft.svelte';
-  import { preventDefault } from '../util/wrappers';
+  import IconMenu from './icons/Menu.svelte';
+  import Search from './Search.svelte';
 
-  let expand = $state(false)
+  let isRightMenuOpen = $state(false)
 
   let toggle = () =>
-    expand = !expand
+    isRightMenuOpen = !isRightMenuOpen
 
   let close = () =>
-    expand = false
+    isRightMenuOpen = false
 </script>
 
 {#snippet link(href: string, name: string)}
   <a
     {href}
-    class="nav__link"
+    class="nav__menu-right-list-link"
     class:active={app.route.path == href}
     onclick={preventDefault(() => { app.route.path = href; close() })}
-  >
-    <span class="nav__link-text">{name}</span>
-  </a>
+  >{name}</a>
 {/snippet}
 
 <nav class="nav">
-  <div class="nav__controls">
+  <div class="nav__menu-left">
     {#if app.route.path == strings.paths.home}
       <ChannelsFilter />
       <ChannelsSync />
     {:else}
       <a
         href={config.base + strings.paths.home}
-        class="nav__item nav__item--icon"
+        class="nav__item"
         onclick={() => app.route.path = strings.paths.home}
       >
         <IconArrowLeft />
@@ -49,38 +47,36 @@
     {/if}
   </div>
 
-  <div class="nav__search">
-    <Search />
+  <Search />
 
-    <Closeable bind:open={expand}>
-      <div class="nav__menu">
-        <button
-          class="nav__menu-toggler nav__item nav__item--icon"
-          class:expand
-          onclick={toggle}
-          aria-label={strings.menu}
-        >
-          <IconMenu />
-        </button>
+  <div class="nav__menu-right">
+    <Closeable bind:open={isRightMenuOpen}>
+      <button
+        class="nav__menu-right-toggler nav__item nav__item--icon"
+        class:expand={isRightMenuOpen}
+        onclick={toggle}
+        aria-label={strings.menu}
+      >
+        <IconMenu />
+      </button>
 
-        <ul class="nav__menu-list" class:expand>
-          <li>
-            <Dropdown value={strings.addChannel}>
-              <ChannelsAdd />
-            </Dropdown>
-          </li>
+      <ul class="nav__menu-right-list" class:expand={isRightMenuOpen}>
+        <li>
+          <Dropdown value={strings.addChannel}>
+            <ChannelsAdd />
+          </Dropdown>
+        </li>
 
-          <li>
-            <Dropdown value={strings.addBookmark}>
-              <BookmarksAdd />
-            </Dropdown>
-          </li>
+        <li>
+          <Dropdown value={strings.addBookmark}>
+            <BookmarksAdd />
+          </Dropdown>
+        </li>
 
-          <li>
-            {@render link(strings.paths.settings, strings.settings)}
-          </li>
-        </ul>
-      </div>
+        <li>
+          {@render link(strings.paths.settings, strings.settings)}
+        </li>
+      </ul>
     </Closeable>
   </div>
 </nav>
@@ -91,92 +87,111 @@
 
   .nav {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: minmax(auto, 1fr) minmax(0, 30rem) minmax(auto, 1fr);
+    gap: $nav-gap;
     margin: $nav-gap;
     font-size: 1rem;
     font-weight: $font-bold;
     color: var(--color-accent);
     background: var(--color-bg);
-  }
 
-  .nav__controls {
-    display: flex;
-  }
+    &__menu {
+      &-left {
+        display: flex;
+        gap: $nav-gap;
+      }
 
-  .nav__search {
-    display: grid;
-    grid-template-columns: minmax(auto, 14rem) auto;
-    align-items: center;
-    justify-content: right;
-    margin-left: $gap-0;
-    gap: $gap-0;
-  }
+      &-right {
+        position: relative;
+        justify-self: right;
 
-  .nav__menu {
-    position: relative;
-  }
+        &-toggler {
+          &.expand {
+            background: var(--color-surface);
+          }
+        }
 
-  .nav__menu-toggler.expand {
-    background: var(--color-surface);
-  }
+        &-list {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          z-index: $nav-z-index;
+          display: none;
+          background: var(--color-surface);
 
-  .nav__menu-list {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: $nav-z-index;
-    display: none;
-    background: var(--color-surface);
+          &.expand {
+            display: initial;
+          }
 
-    &.expand {
-      display: initial;
-    }
-  }
+          &-link {
+            display: block;
+            padding: $gap-2;
+            text-decoration: none;
 
-  .nav__link {
-    display: block;
-    padding: $gap-2;
-    text-decoration: none;
-
-    &:focus,
-    &:hover {
-      background: var(--color-surface-light);
-      cursor: pointer;
-    }
-
-    &-text {
-      border-bottom: $border transparent;
-    }
-
-    &.active &-text {
-      border-bottom-color: var(--color-accent);
+            &:focus,
+            &:hover {
+              background: var(--color-surface-light);
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
   }
 
   @include breakpoint-md {
-    .nav__search {
-      margin-left: 0;
-      gap: $gap-1;
-    }
+    .nav {
+      &__menu {
+        &-right {
+          &-toggler {
+            display: none;
+          }
 
-    .nav__menu-toggler {
-      display: none;
-    }
+          &-list {
+            position: unset;
+            display: flex;
+            gap: $nav-gap;
+            background: inherit;
 
-    .nav__menu-list {
-      position: unset;
-      display: flex;
-      gap: $gap-1;
-      background: inherit;
+            &.expand {
+              display: flex;
+            }
 
-      &.expand {
-        display: flex;
+            &-link {
+              &:focus,
+              &:hover {
+                background: var(--color-bg-light);
+              }
+            }
+          }
+        }
       }
     }
+  }
 
-    .nav__link:focus,
-    .nav__link:hover {
-      background: var(--color-bg-light);
+  :global(.nav__item) {
+    padding: $gap-2;
+    font-size: 1rem;
+    font-weight: $font-bold;
+    color: var(--color-accent);
+    background: var(--color-bg);
+    border: none;
+    outline: none;
+  }
+
+  :global(.nav__item.focus),
+  :global(.nav__item:focus),
+  :global(.nav__item:hover) {
+    background: var(--color-bg-light);
+    cursor: pointer;
+  }
+
+  :global(.nav__item--input) {
+    height: calc(1lh + 2*$gap-2 + .26rem);
+    font-size: .8rem;
+
+    &:hover {
+      cursor: text;
     }
   }
 </style>
