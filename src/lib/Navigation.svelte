@@ -22,12 +22,12 @@
     isRightMenuOpen = false
 </script>
 
-{#snippet link(href: string, name: string)}
+{#snippet link(path: string, name: string)}
   <a
-    {href}
+    href={config.base + path}
     class="nav__menu-right-list-link"
-    class:active={app.route.path == href}
-    onclick={preventDefault(() => { app.route.path = href; close() })}
+    class:active={app.route.path == path}
+    onclick={preventDefault(() => { app.route.path = path; close() })}
   >{name}</a>
 {/snippet}
 
@@ -40,7 +40,7 @@
       <a
         href={config.base + strings.paths.home}
         class="nav__item"
-        onclick={() => app.route.path = strings.paths.home}
+        onclick={preventDefault(() => app.route.path = strings.paths.home)}
       >
         <IconArrowLeft />
       </a>

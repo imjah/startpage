@@ -25,6 +25,7 @@ export default {
   'searchForChannel': 'Search for channel',
   'sync': 'Synchronize',
   'menu': 'Menu',
+  pageNotFound: 'Page not found',
   all: 'All',
   allKebabCase: 'all',
   thumbnail: 'Thumbnail',
@@ -42,6 +43,7 @@ export default {
     home:      '/',
     settings:  '/settings',
     channels:  '/settings/channels',
-    bookmarks: '/settings/bookmarks'
+    bookmarks: '/settings/bookmarks',
+    notFound:  '/not-found'
   }
 }

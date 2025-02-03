@@ -1,4 +1,5 @@
 export default {
+  name: 'Startpage',
   base: '/startpage',
   GH_PAGES_REDIRECT: 'redirect',
   search: {

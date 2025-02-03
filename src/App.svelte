@@ -1,19 +1,17 @@
 <script lang="ts">
   import navaid from 'navaid'
   import config from './config'
-  import strings from './share/strings'
   import bookmarks from './share/bookmarks'
   import { app } from './lib/state/app.svelte'
-  import { routes, type Route } from './routes'
+  import { routes } from './routes'
   import { Channels } from './share/channels'
   import { Config } from './share/config'
   import { Status } from './share/status'
   import Navigation from './lib/Navigation.svelte'
   import FetchProgress from './lib/FetchProgress.svelte'
-  import Empty from './lib/Empty.svelte';
 
-  let main: Route | undefined = $state()
-  let router = navaid(config.base, () => main = undefined)
+  let main = $state(routes.home)
+  let router = navaid(config.base, () => main = routes.notFound)
 
   for (let [_, route] of Object.entries(routes))
     router.on(route.path, () => main = route)
@@ -24,21 +22,24 @@
     router.route(app.route.path)
   })
 
+  let title = $derived(
+    main.name ? `${config.name} - ${main.name}` : config.name
+  )
+
   Status.saveOnUpdate()
   Config.saveOnUpdate()
   Channels.saveOnUpdate()
   bookmarks.subscribeToLocalStorage()
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
 <div class="app">
   <FetchProgress />
   <Navigation />
-
-  {#if main}
-    <main.view {...main.args} />
-  {:else}
-    <Empty message={strings.notFound} />
-  {/if}
+  <main.view {...main.args} />
 </div>
 
 <style>
