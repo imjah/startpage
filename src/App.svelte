@@ -14,7 +14,7 @@
   let router = navaid(config.base, () => main = routes.notFound)
 
   for (let [_, route] of Object.entries(routes))
-    router.on(route.path, () => main = route)
+    router.on(route.path, args => main = {...route, args: {...route.args, ...args}})
 
   router.listen()
 
@@ -23,7 +23,9 @@
   })
 
   let title = $derived(
-    main.name ? `${config.name} - ${main.name}` : config.name
+    main.name
+    ? main.name.replace(/%(\w)+%/g, arg => main.args[arg.slice(1,-1)])
+    : config.name
   )
 
   Status.saveOnUpdate()
