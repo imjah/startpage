@@ -27,6 +27,7 @@ export const config = writable(merge({
     { label: 'private.coffee', value: 'https://api.piped.private.coffee' }
   ],
   feedLimit: 100,
+  feedThumbnailThemed: true,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10
 }, Config.get()))

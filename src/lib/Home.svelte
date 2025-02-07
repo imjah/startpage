@@ -11,20 +11,20 @@
   let focused = $state(0)
 </script>
 
-<main class="home-page">
-  <div class="home-page__content">
-    <div class="home-page__content-item" class:show={focused == 0}>
+<main class="home">
+  <div class="home__content">
+    <div class="home__content-item" class:show={focused == 0} tabindex="-1">
       <Channels />
     </div>
-    <div class="home-page__content-item" class:show={focused == 1}>
+    <div class="home__content-item" class:show={focused == 1} tabindex="-1">
       <Bookmarks />
     </div>
   </div>
 
-  <nav class="home-page__navigation">
+  <nav class="home__navigation">
     {#each tabs as tab, i}
       <input
-        class="home-page__navigation-button"
+        class="home__navigation-button"
         class:focus={focused == i}
         type="button"
         value={tab}
@@ -36,25 +36,25 @@
 <style lang="scss">
   @use 'scss/breakpoints' as *;
 
-  .home-page {
+  .home {
     display: grid;
     grid-template-rows: 1fr auto;
     overflow-y: scroll;
   }
 
-  .home-page__content {
+  .home__content {
     overflow-y: inherit;
   }
 
-  .home-page__content-item {
+  .home__content-item {
     display: none;
   }
 
-  .home-page__content-item.show {
+  .home__content-item.show {
     display: initial;
   }
 
-  .home-page__navigation {
+  .home__navigation {
     display: grid;
     grid-auto-flow: column;
     gap: var(--gap-0);
@@ -63,7 +63,7 @@
     background: var(--color-surface);
   }
 
-  .home-page__navigation-button {
+  .home__navigation-button {
     padding: var(--gap-2);
     font-weight: bold;
     color: inherit;
@@ -71,37 +71,31 @@
     border: none;
   }
 
-  .home-page__navigation-button:hover,
-  .home-page__navigation-button:focus {
+  .home__navigation-button:hover,
+  .home__navigation-button:focus {
     background: var(--color-surface-light);
     outline: none;
     cursor: pointer;
   }
 
-  .home-page__navigation-button.focus {
+  .home__navigation-button.focus {
     color: var(--color-accent);
   }
 
   @include breakpoint-md {
-    .home-page__content {
+    .home__content {
       display: grid;
       grid-template-rows: none;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 32rem 1fr;
     }
 
-    .home-page__content-item {
+    .home__content-item {
       display: initial;
       overflow-y: inherit;
     }
 
-    .home-page__navigation {
+    .home__navigation {
       display: none;
-    }
-  }
-
-  @include breakpoint-lg {
-    .home-page__content {
-      grid-template-columns: 1fr 2fr;
     }
   }
 </style>

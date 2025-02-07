@@ -83,5 +83,6 @@ button, input, optgroup, select, textarea {
 
 .ellipsis {
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }

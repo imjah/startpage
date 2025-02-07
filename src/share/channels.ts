@@ -16,6 +16,7 @@ export interface Channel {
 export interface Video {
   url: string;
   title: string;
+  thumbnail: string;
   uploaded: number;
   uploadedDate: string;
 }
@@ -137,6 +138,7 @@ export class Channels extends LocalStorage {
             'videos': response.content.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
+              'thumbnail': video.thumbnail,
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
@@ -153,6 +155,7 @@ export class Channels extends LocalStorage {
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
+              'thumbnail': video.thumbnail,
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))

@@ -1,93 +1,132 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import strings from '../share/strings'
   import { Channels, channels } from '../share/channels'
   import { config } from '../share/config'
-  import strings from '../share/strings'
   import { app } from './state/app.svelte'
-  import Empty from './Empty.svelte'
+  import Empty from './Empty.svelte';
 
-  let {
-    width = '100%'
-  } = $props()
+  let selected = $derived(
+    $channels.get(app.filter)
+  )
 
-  let feed = $derived.by(() => {
-    const selected = $channels.get(app.filter)
-
-    return Channels.toArray(
+  let feed = $derived(
+    Channels.toArray(
       selected === undefined ? $channels : [app.filter, selected]
     )
     .sort(Channels.BY_UPLOADED)
     .slice(0, $config.feedLimit)
-  })
+  )
 
-  onMount(() => {
-    Channels.refetch()
-  })
+  Channels.refetch()
 </script>
 
-<div class="container" style:flex-basis={width}>
-  {#if feed.length}
-    <ul>
-      {#each feed as video}
-        <li class="video">
-          <h1 class="video-title">
-            <a class="video-url" href={video.url}>{video.title}</a>
-          </h1>
-          <p class="video-description">
-            <a class="video-uploader" href={video.channelUrl}>
-              {video.channelDisplayName || video.channelName}
-            </a>
-            {video.uploadedDate}
-          </p>
-        </li>
-      {/each}
-    </ul>
-  {:else}
-    <Empty message={strings.noVideosFound} /> 
-  {/if}
-</div>
+{#if feed.length}
+  <ul class="feed">
+    {#each feed as video}
+      {@const name = video.channelDisplayName || video.channelName}
 
-<style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1rem;
+      <li class="feed__item">
+        <a
+          class="feed__item-thumbnail"
+          class:themed={$config.feedThumbnailThemed}
+          href={video.url}
+          tabindex="-1">
+          <img
+            class="feed__item-thumbnail-img"
+            src={video.thumbnail}
+            alt=""
+            loading="lazy">
+        </a>
+
+        <h1 class="feed__item-name ellipsis">
+          <a class="feed__item-name-url" href={video.url} title={video.title}>
+            {video.title}
+          </a>
+        </h1>
+
+        <p class="feed__item-user ellipsis">
+          <a href={video.channelUrl} title={name}>
+            {name}
+          </a>
+        </p>
+
+        <p class="feed__item-date ellipsis">
+          {video.uploadedDate}
+        </p>
+      </li>
+    {/each}
+  </ul>
+{:else}
+  <Empty message={strings.noVideosFound} />
+{/if}
+
+<style lang="scss">
+  @use 'scss/mixins' as *;
+  @use 'scss/variables' as *;
+  
+  .feed {
+    display: grid;
+    gap: $gap-1;
+    padding: $gap-0;
+    padding-right: $gap-2;
     overflow-y: scroll;
-  }
 
-  .container:focus {
-    background-color: var(--color-bg-light);
-    outline: none;
-  }
+    &__item {
+      display: grid;
+      gap: $gap-1;
+      grid-template-rows: repeat(4, 1rem);
+      grid-template-columns: 9.8rem 1fr auto;
+      grid-template-areas:
+      't n n'
+      't n n'
+      't n n'
+      't u d';
 
-  .video {
-    margin-bottom: 2rem;
-  }
+      &-thumbnail {
+        grid-area: t;
 
-  .video:last-child {
-    margin-bottom: 0;
-  }
+        &-img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: cover;
+          user-select: none;
+        }
 
-  .video-title {
-    margin-bottom: 1rem;
-    font-size: .75rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+        &.themed {
+          position: relative;
 
-  .video-url:visited {
-    color: var(--color-visited);
-  }
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-accent);
+            opacity: 50%;
+          }
+        }
+      }
 
-  .video-description {
-    display: flex;
-  }
+      &-name {
+        grid-area: n;
+        font-size: .75rem;
 
-  .video-uploader {
-    display: block;
-    margin-right: .5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+        @include line-clamp(4);
+
+        &-url:visited {
+          color: var(--color-visited);
+        }
+      }
+
+      &-user {
+        grid-area: u;
+      }
+
+      &-date {
+        grid-area: d;
+      }
+    }
   }
 </style>

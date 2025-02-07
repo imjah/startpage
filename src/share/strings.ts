@@ -32,6 +32,7 @@ export default {
   imageFailed: 'Failed to load image',
   piped: 'Piped',
   feed: 'Feed',
+  feedThumbnailThemed: 'Themed thumbnails',
   always: 'Always',
   minute: 'minute',
   minutes: 'minutes',

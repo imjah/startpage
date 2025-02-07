@@ -2,16 +2,16 @@
   let { message } = $props()
 </script>
 
-<div class="container">
+<p class="message">
   {message}
-</div>
+</p>
 
 <style>
-  .container {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
+  .message {
+    display: grid;
+    align-content: center;
     justify-content: center;
+    height: 100%;
     color: var(--color-fg-inactive);
     user-select: none;
   }

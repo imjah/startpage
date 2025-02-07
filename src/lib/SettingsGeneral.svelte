@@ -3,6 +3,7 @@
   import { config } from '../share/config'
   import InputNumber from './InputNumber.svelte';
   import InputSelect from './InputSelect.svelte';
+  import ToggleSwitch from './inputs/ToggleSwitch.svelte';
 </script>
 
 {#snippet separator(title: string)}
@@ -30,6 +31,13 @@
     {@render separator(strings.feed)}
 
     <ul class="general__group-list">
+      <li>
+        <label class="general__group-list-item">
+          {strings.feedThumbnailThemed}
+          <ToggleSwitch bind:checked={$config.feedThumbnailThemed} />
+        </label>
+      </li>
+
       <li class="general__group-list-item">
         <InputNumber
           id={strings.feedCacheKebabCase}
