@@ -72,10 +72,7 @@
           align-items: center;
           justify-content: space-between;
           padding: $gap-2 $gap-1;
-
-          &:hover {
-            background: var(--color-bg-light);
-          }
+          user-select: none;
         }
       }
 

@@ -104,8 +104,16 @@
             right: 0;
             bottom: 0;
             background: var(--color-accent);
-            opacity: 50%;
+            opacity: 25%;
           }
+
+          &:visited::after {
+            background: var(--color-visited);
+          }
+        }
+
+        &.themed &-img {
+          filter: saturate(0);
         }
       }
 
