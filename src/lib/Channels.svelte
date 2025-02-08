@@ -4,6 +4,7 @@
   import { config } from '../share/config'
   import { app } from './state/app.svelte'
   import Empty from './Empty.svelte';
+  import Image from './Image.svelte';
 
   let selected = $derived(
     $channels.get(app.filter)
@@ -31,11 +32,9 @@
           class:themed={$config.feedThumbnailThemed}
           href={video.url}
           tabindex="-1">
-          <img
-            class="feed__item-thumbnail-img"
-            src={video.thumbnail}
-            alt=""
-            loading="lazy">
+          <div class="feed__item-thumbnail-img">
+            <Image src={video.thumbnail} alt={strings.thumbnail} loading="lazy" />
+          </div>
         </a>
 
         <h1 class="feed__item-name ellipsis">
@@ -86,11 +85,11 @@
         grid-area: t;
 
         &-img {
-          display: block;
-          max-width: 100%;
-          max-height: 100%;
-          object-fit: cover;
-          user-select: none;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
         }
 
         &.themed {

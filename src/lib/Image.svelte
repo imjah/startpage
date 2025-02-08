@@ -1,70 +1,56 @@
 <script lang="ts">
-  import { config } from '../share/config';
-  import strings from '../share/strings';
-  import { rejectIfResponseIsNotOk } from '../util/fetch';
-  import Tooltip from './Tooltip.svelte';
-  import IconImage from './icons/Image.svelte';
-  import IconSpinner from './icons/Spinner.svelte';
+  import { untrack } from "svelte";
+  import Image from "./icons/Image.svelte";
+  import Spinner from "./icons/Spinner.svelte";
 
   let {
     src,
     alt,
-    crossorigin = undefined
-  } = $props();
+    ...args
+  } = $props()
 
-  let image: HTMLImageElement;
-  let error    = $state();
-  let fetching = $state();
+  let ok: boolean | undefined = $state(undefined)
+  let pv = ''
 
   $effect(() => {
-    if (src === image.src)
-      return;
+    // Skip reset loading state when src changes but has the same value.
+    // Svelte doesn't update image attribute in that case.
+    // Avoides endless animation screen.
+    if (src == untrack(() => pv))
+      return
 
-    error = false;
-    fetching = true;
-
-    fetch(src, {
-      signal: AbortSignal.timeout($config.timeoutInSeconds * 1000)
-    })
-    .then(rejectIfResponseIsNotOk)
-    .then(_ => image.src = src)
-    .catch(_ => error = true);
+    pv = src
+    ok = undefined
   })
 </script>
 
 <img
-  bind:this={image}
-  class:hide={fetching || error}
-  onload={() => fetching = false}
+  class="image"
+  class:hidden={!ok}
+  onload={() => ok = true}
+  onerror={() => ok = false}
+  {src}
   {alt}
-  {crossorigin}
->
+  {...args}>
 
-{#if fetching || error}
-  <i class="icon" class:error>
-    {#if error}
-      <Tooltip text={strings.imageFailed}>
-        <IconImage />
-      </Tooltip>
-    {:else}
-      <IconSpinner />
-    {/if}
-  </i>
+{#if ok === undefined}
+  <Spinner />
+{:else if ok === false}
+  <Image />
 {/if}
 
 <style lang="scss">
-  img {
-    height: 100%;
+  .image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    user-select: none;
     border-radius: inherit;
 
-    &.hide {
-      display: none;
-    }
-  }
-
-  .icon {
-    &.error {
-      color: var(--color-error);
+    &.hidden {
+      width: 0;
+      height: 0;
     }
   }
 </style>
