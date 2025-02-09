@@ -67,3 +67,26 @@ npm run build
 ```sh
 npm run dev
 ```
+
+# Open videos in app
+
+You can configure Startpage to open videos in a desktop app like `mpv`.
+
+1. Register custom protocol in Firefox
+
+In `about:config` create `boolean` variable
+`network.protocol-handler.expose.mpv` with `false` value.
+
+More [here](https://kb.mozillazine.org/Register_protocol).
+
+2. Create launcher
+
+```
+#!/bin/bash
+
+mpv "${1/mpv:/}"
+```
+
+3. In [settings](https://imjah.github.io/startpage/settings) enable `Open videos in app`.
+
+4. Click on a link and select launcher from step 2

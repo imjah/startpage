@@ -26,6 +26,8 @@ export const config = writable(merge({
     { label: 'piped.yt',       value: 'https://api.piped.yt' },
     { label: 'private.coffee', value: 'https://api.piped.private.coffee' }
   ],
+  feedProtocolName: 'mpv',
+  feedProtocolEnabledForVideos: false,
   feedLimit: 100,
   feedThumbnailThemed: true,
   timeoutInSeconds: 5,

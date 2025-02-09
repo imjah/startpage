@@ -25,12 +25,13 @@
   <ul class="feed">
     {#each feed as video}
       {@const name = video.channelDisplayName || video.channelName}
+      {@const videoUrl = $config.feedProtocolEnabledForVideos ? `${$config.feedProtocolName}:${video.url}` : video.url}
 
       <li class="feed__item">
         <a
           class="feed__item-thumbnail"
           class:themed={$config.feedThumbnailThemed}
-          href={video.url}
+          href={videoUrl}
           tabindex="-1">
           <div class="feed__item-thumbnail-img">
             <Image src={video.thumbnail} alt={strings.thumbnail} loading="lazy" />
@@ -38,7 +39,7 @@
         </a>
 
         <h1 class="feed__item-name ellipsis">
-          <a class="feed__item-name-url" href={video.url} title={video.title}>
+          <a class="feed__item-name-url" href={videoUrl} title={video.title}>
             {video.title}
           </a>
         </h1>

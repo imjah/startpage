@@ -3,6 +3,7 @@
   import { config } from '../share/config'
   import InputNumber from './InputNumber.svelte';
   import InputSelect from './InputSelect.svelte';
+  import Text from './inputs/Text.svelte';
   import ToggleSwitch from './inputs/ToggleSwitch.svelte';
 </script>
 
@@ -53,6 +54,26 @@
           min={0}
           bind:value={$config.feedLimit} />
       </li>
+
+      {@render separator(strings.experimental)}
+
+      <li>
+        <label class="general__group-list-item">
+          {strings.openVideosInApp}
+          <ToggleSwitch bind:checked={$config.feedProtocolEnabledForVideos} />
+        </label>
+      </li>
+
+      <li>
+        <label
+          class="general__group-list-item"
+          class:disabled={!$config.feedProtocolEnabledForVideos}>
+          {strings.contentType}
+          <Text
+            bind:value={$config.feedProtocolName}
+            disabled={!$config.feedProtocolEnabledForVideos} />
+        </label>
+      </li>
     </ul>
   </li>
 </ul>
@@ -73,6 +94,10 @@
           justify-content: space-between;
           padding: $gap-2 $gap-1;
           user-select: none;
+
+          &.disabled {
+            color: var(--color-fg-inactive);
+          }
         }
       }
 
