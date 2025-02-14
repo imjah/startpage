@@ -10,6 +10,9 @@
   import Navigation from './lib/Navigation.svelte'
   import FetchProgress from './lib/FetchProgress.svelte'
 
+  if ('serviceWorker' in navigator)
+    navigator.serviceWorker.register(config.base + '/sw.js')
+
   let main = $state(routes.home)
   let router = navaid(config.base, () => main = routes.notFound)
 
