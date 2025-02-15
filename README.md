@@ -1,5 +1,3 @@
-<div align="center">
-
 # Startpage
 
 ![GitHub License](https://img.shields.io/github/license/imjah/startpage?style=flat-square&logo=gnu&label=License&labelColor=282828&color=689d6a)
@@ -7,8 +5,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/imjah/startpage?style=flat-square&label=Last%20commit&labelColor=282828&color=689d6a)
 
 ![Screenshot](.github/screenshot.webp)
-
-</div>
 
 A [startpage](https://reddit.com/r/startpages/) with lightweight and
 privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
@@ -43,10 +39,10 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 - [x] Settings
 - [x] Settings editor
 - [ ] Settings import/export
-- [ ] Offline mode
+- [x] Offline mode
 - [ ] Keyboard shortcuts
 - [ ] Encrypted server synchronization
-- [ ] Not Found page
+- [x] Not Found page
 
 # Development
 
@@ -62,7 +58,7 @@ npm install
 npm run build
 ```
 
-#### Hot reload build
+#### Hot reload
 
 ```sh
 npm run dev
@@ -70,14 +66,11 @@ npm run dev
 
 # Open videos in app
 
-You can configure Startpage to open videos in a desktop app like `mpv`.
+You can configure Startpage to open videos in a desktop app like `mpv` via
+[custom protocol](https://kb.mozillazine.org/Register_protocol).
 
-1. Register custom protocol in Firefox
-
-In `about:config` create `boolean` variable
-`network.protocol-handler.expose.mpv` with `false` value.
-
-More [here](https://kb.mozillazine.org/Register_protocol).
+1. In `about:config` create `boolean` variable
+`network.protocol-handler.expose.mpv` with `false` value
 
 2. Create launcher
 
@@ -87,6 +80,7 @@ More [here](https://kb.mozillazine.org/Register_protocol).
 mpv "${1/mpv:/}"
 ```
 
-3. In [settings](https://imjah.github.io/startpage/settings) enable `Open videos in app`.
+3. In [settings](https://imjah.github.io/startpage/settings) enable
+`Open videos in app`
 
-4. Click on a link and select launcher from step 2
+4. Click any link and select launcher from step 2
