@@ -51,6 +51,7 @@
     &.hidden {
       width: 0;
       height: 0;
+      overflow: hidden;
     }
   }
 </style>
