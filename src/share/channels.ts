@@ -3,6 +3,7 @@ import { Piped } from '../util/piped'
 import { LocalStorage } from '../util/storage'
 import { config } from './config'
 import { status } from './status'
+import humanizeDuration from 'humanize-duration'
 
 export type URL  = string
 
@@ -17,6 +18,7 @@ export interface Video {
   url: string;
   title: string;
   thumbnail: string;
+  duration: number;
   uploaded: number;
   uploadedDate: string;
 }
@@ -139,6 +141,7 @@ export class Channels extends LocalStorage {
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'thumbnail': video.thumbnail,
+              'duration': humanizeDuration(video.duration * 1000),
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
@@ -156,6 +159,7 @@ export class Channels extends LocalStorage {
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'thumbnail': video.thumbnail,
+              'duration': humanizeDuration(video.duration * 1000),
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))

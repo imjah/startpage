@@ -44,6 +44,10 @@
           </a>
         </h1>
 
+        <p class="feed__item-duration ellipsis">
+          {video.duration}
+        </p>
+
         <p class="feed__item-user ellipsis">
           <a href={video.channelUrl} title={name}>
             {name}
@@ -79,8 +83,8 @@
       grid-template-areas:
       't n n'
       't n n'
-      't n n'
-      't u d';
+      't u u'
+      't r d';
 
       &-thumbnail {
         grid-area: t;
@@ -121,7 +125,7 @@
         grid-area: n;
         font-size: .75rem;
 
-        @include line-clamp(4);
+        @include line-clamp(3);
 
         &-url:visited {
           color: var(--color-visited);
@@ -134,6 +138,10 @@
 
       &-date {
         grid-area: d;
+      }
+
+      &-duration {
+        grid-area: r;
       }
     }
   }
