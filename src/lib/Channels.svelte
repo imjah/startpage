@@ -76,15 +76,15 @@
     overflow-y: scroll;
 
     &__item {
+      height: 5.875rem;
       display: grid;
       gap: $gap-1;
-      grid-template-rows: repeat(4, 1rem);
-      grid-template-columns: 9.8rem 1fr auto;
+      grid-template-rows: 3lh 1fr 1fr;
+      grid-template-columns: 10.5rem 1fr auto;
       grid-template-areas:
       't n n'
-      't n n'
-      't u u'
-      't r d';
+      't r r'
+      't u d';
 
       &-thumbnail {
         grid-area: t;

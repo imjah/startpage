@@ -98,4 +98,10 @@
       display: none;
     }
   }
+
+  @include breakpoint-lg {
+    .home__content {
+      grid-template-columns: 36rem 1fr;
+    }
+  }
 </style>
