@@ -141,7 +141,7 @@ export class Channels extends LocalStorage {
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'thumbnail': video.thumbnail,
-              'duration': humanizeDuration(video.duration * 1000),
+              'duration': humanizeDuration(video.duration * 1000, { units: ['h', 'm'], round: true }),
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
@@ -159,7 +159,7 @@ export class Channels extends LocalStorage {
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
               'thumbnail': video.thumbnail,
-              'duration': humanizeDuration(video.duration * 1000),
+              'duration': humanizeDuration(video.duration * 1000, { units: ['h', 'm'], round: true }),
               'uploaded': video.uploaded,
               'uploadedDate': video.uploadedDate
             }))
