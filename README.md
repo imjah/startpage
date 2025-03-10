@@ -44,18 +44,26 @@ privacy-friendly YouTube feed designed for flat gruvbox themed window managers.
 - [ ] Encrypted server synchronization
 - [x] Not Found page
 
+# Install
+
+Use Startpage on your local machine.
+
+#### Docker
+
+```sh
+# build
+docker build -t startpage .
+
+# run
+docker run -dp 80:4173 startpage:latest
+```
+
 # Development
 
 #### Setup
 
 ```sh
 npm install
-```
-
-#### Build
-
-```sh
-npm run build
 ```
 
 #### Hot reload
@@ -74,7 +82,7 @@ You can configure Startpage to open videos in a desktop app like `mpv` via
 
 2. Create launcher
 
-```
+```sh
 #!/bin/bash
 
 mpv "${1/mpv:/}"
