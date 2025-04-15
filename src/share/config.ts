@@ -28,6 +28,7 @@ export const config = writable(merge({
   ],
   feedProtocolName: 'mpv',
   feedProtocolEnabledForVideos: false,
+  feedProtocolEnabledForVideosInTitles: true,
   feedLimit: 100,
   feedThumbnailThemed: true,
   timeoutInSeconds: 5,

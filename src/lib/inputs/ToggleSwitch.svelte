@@ -1,9 +1,12 @@
 <script lang="ts">
-  let { checked = $bindable() } = $props()
+  let {
+    checked = $bindable(),
+    disabled = undefined
+  } = $props()
 </script>
 
 <div class="toggle-switch">
-  <input class="toggle-switch__input" type="checkbox" bind:checked>
+  <input class="toggle-switch__input" type="checkbox" bind:checked {disabled}>
   <div class="toggle-switch__slider"></div>
 </div>
 
@@ -25,6 +28,14 @@
       &:checked + .toggle-switch__slider::before {
         background: var(--color-accent);
         transform: translateX($width - $height);
+      }
+
+      &:disabled + .toggle-switch__slider {
+        cursor: default;
+      }
+
+      &:disabled + .toggle-switch__slider::before {
+        background: var(--color-surface-light);
       }
     }
 

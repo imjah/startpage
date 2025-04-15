@@ -68,6 +68,17 @@
         <label
           class="general__group-list-item"
           class:disabled={!$config.feedProtocolEnabledForVideos}>
+          {strings.useInTitles}
+          <ToggleSwitch
+            bind:checked={$config.feedProtocolEnabledForVideosInTitles}
+            disabled={!$config.feedProtocolEnabledForVideos} />
+        </label>
+      </li>
+
+      <li>
+        <label
+          class="general__group-list-item"
+          class:disabled={!$config.feedProtocolEnabledForVideos}>
           {strings.contentType}
           <Text
             bind:value={$config.feedProtocolName}

@@ -42,6 +42,7 @@ export default {
   feedLimitKebabCase: 'feed-limit',
   experimental: 'Experimental',
   openVideosInApp: 'Open videos in app',
+  useInTitles: 'Use in titles',
   contentType: 'Content type',
   paths: {
     home:      '/',

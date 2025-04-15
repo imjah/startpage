@@ -26,6 +26,7 @@
     {#each feed as video}
       {@const name = video.channelDisplayName || video.channelName}
       {@const videoUrl = $config.feedProtocolEnabledForVideos ? `${$config.feedProtocolName}:${video.url}` : video.url}
+      {@const videoTitleUrl = $config.feedProtocolEnabledForVideosInTitles ? videoUrl : video.url}
 
       <li class="feed__item">
         <a
@@ -39,7 +40,7 @@
         </a>
 
         <h1 class="feed__item-name ellipsis">
-          <a class="feed__item-name-url" href={videoUrl} title={video.title}>
+          <a class="feed__item-name-url" href={videoTitleUrl} title={video.title}>
             {video.title}
           </a>
         </h1>
