@@ -26,7 +26,7 @@
 
     {#if isDropdownOpen}
       <ul class="filter__list" tabindex="-1">
-        {#if app.filter}
+        {#if ![strings.allKebabCase, ''].includes(app.filter)}
           {@render item(strings.allKebabCase, strings.all)}
         {/if}
 
