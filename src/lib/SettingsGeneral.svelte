@@ -55,7 +55,7 @@
           bind:value={$config.feedLimit} />
       </li>
 
-      {@render separator(strings.experimental)}
+      {@render separator(strings.customProtocol)}
 
       <li>
         <label class="general__group-list-item">
@@ -79,7 +79,7 @@
         <label
           class="general__group-list-item"
           class:disabled={!$config.feedProtocolEnabledForVideos}>
-          {strings.contentType}
+          {strings.customProtocolName}
           <Text
             bind:value={$config.feedProtocolName}
             disabled={!$config.feedProtocolEnabledForVideos} />

@@ -40,10 +40,10 @@ export default {
   feedCacheKebabCase: 'feed-cache',
   feedLimit: 'Videos limit',
   feedLimitKebabCase: 'feed-limit',
-  experimental: 'Experimental',
+  customProtocol: 'Custom protocol',
   openVideosInApp: 'Open videos in app',
   useInTitles: 'Use in titles',
-  contentType: 'Content type',
+  customProtocolName: 'App',
   paths: {
     home:      '/',
     settings:  '/settings',
