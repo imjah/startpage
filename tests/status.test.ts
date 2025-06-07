@@ -1,5 +1,5 @@
 import { describe, it, expect,  beforeAll } from 'vitest'
-import { Status, status } from '../status'
+import { Status, status } from '../src/share/status'
 
 describe('Status', () => {
   it('Updates local storage after store update', () => {

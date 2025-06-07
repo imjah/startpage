@@ -1,5 +1,5 @@
 import { describe, it, expect,  beforeAll } from 'vitest'
-import { Config, config } from '../config'
+import { Config, config } from '../src/share/config'
 
 describe('Config', () => {
   it('Updates local storage after store update', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterAll, afterEach } from 'vitest'
-import { LocalStorage } from '../storage'
+import { LocalStorage } from '../src/util/storage'
 
 const consoleErrorMock = vi.spyOn(console, 'error').mockImplementation(m => m)
 
