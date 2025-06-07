@@ -1,40 +1,51 @@
 @use '../node_modules/modern-normalize/modern-normalize.css';
+@use 'lib/scss/themes' as *;
 
 :root {
-  /* https://github.com/morhetz/gruvbox#palette */
+  --color-bg:               #{$gruvbox-light-bg-0};
+  --color-bg-light:         #{$gruvbox-light-bg-1};
+  --color-fg:               #{$gruvbox-light-fg-0};
+  --color-fg-light:         #{$gruvbox-light-fg-1};
+  --color-fg-inactive:      #{$gruvbox-light-bg-3};
+  --color-surface:          #{$gruvbox-light-bg-1};
+  --color-surface-fg:       #{$gruvbox-light-fg-1};
+  --color-surface-light:    #{$gruvbox-light-bg-2};
+  --color-surface-inactive: #{$gruvbox-light-bg-4};
+  --color-accent:           #{$gruvbox-light-aqua-0};
+  --color-accent-fg:        #{$gruvbox-light-fg-0};
+  --color-accent-light:     #{$gruvbox-light-aqua-1};
+  --color-error:            #{$gruvbox-light-red-0};
+  --color-error-fg:         #{$gruvbox-light-fg-0};
+  --color-visited:          #{$gruvbox-light-purple-0};
+  --color-visited-fg:       #{$gruvbox-light-fg-0};
+  --color-warrning:         #{$gruvbox-light-yellow-0};
+  --color-warrning-fg:      #{$gruvbox-light-bg-0};
+}
 
-  --gruvbox-dark-bg:         #282828;
-  --gruvbox-dark-bg-1:       #3c3836;
-  --gruvbox-dark-bg-2:       #504945;
-  --gruvbox-dark-bg-3:       #665c54;
-  --gruvbox-dark-bg-4:       #7c6f64;
-  --gruvbox-dark-fg:         #ebdbb2;
-  --gruvbox-dark-fg-1:       #ebdbb2;
-  --gruvbox-dark-aqua:       #689d6a;
-  --gruvbox-dark-aqua-light: #8ec07c;
-  --gruvbox-dark-red:        #cc241d;
-  --gruvbox-dark-purple:     #b16286;
-  --gruvbox-dark-yellow:     #d79921;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:               #{$gruvbox-dark-bg-0};
+    --color-bg-light:         #{$gruvbox-dark-bg-1};
+    --color-fg:               #{$gruvbox-dark-fg-0};
+    --color-fg-light:         #{$gruvbox-dark-fg-1};
+    --color-fg-inactive:      #{$gruvbox-dark-bg-3};
+    --color-surface:          #{$gruvbox-dark-bg-1};
+    --color-surface-fg:       #{$gruvbox-dark-fg-1};
+    --color-surface-light:    #{$gruvbox-dark-bg-2};
+    --color-surface-inactive: #{$gruvbox-dark-bg-4};
+    --color-accent:           #{$gruvbox-dark-aqua-0};
+    --color-accent-fg:        #{$gruvbox-dark-fg-0};
+    --color-accent-light:     #{$gruvbox-dark-aqua-1};
+    --color-error:            #{$gruvbox-dark-red-0};
+    --color-error-fg:         #{$gruvbox-dark-fg-0};
+    --color-visited:          #{$gruvbox-dark-purple-0};
+    --color-visited-fg:       #{$gruvbox-dark-fg-0};
+    --color-warrning:         #{$gruvbox-dark-yellow-0};
+    --color-warrning-fg:      #{$gruvbox-dark-bg-0};
+  }
+}
 
-  --color-bg:                var(--gruvbox-dark-bg);
-  --color-bg-light:          var(--gruvbox-dark-bg-1);
-  --color-fg:                var(--gruvbox-dark-fg);
-  --color-fg-light:          var(--gruvbox-dark-fg-1);
-  --color-fg-inactive:       var(--gruvbox-dark-bg-3);
-  --color-surface:           var(--gruvbox-dark-bg-1);
-  --color-surface-fg:        var(--gruvbox-dark-fg-1);
-  --color-surface-light:     var(--gruvbox-dark-bg-2);
-  --color-surface-inactive:  var(--gruvbox-dark-bg-4);
-  --color-accent:            var(--gruvbox-dark-aqua);
-  --color-accent-fg:         var(--gruvbox-dark-fg);
-  --color-accent-light:      var(--gruvbox-dark-aqua-light);
-  --color-error:             var(--gruvbox-dark-red);
-  --color-error-fg:          var(--gruvbox-dark-fg);
-  --color-visited:           var(--gruvbox-dark-purple);
-  --color-visited-fg:        var(--gruvbox-dark-fg);
-  --color-warrning:          var(--gruvbox-dark-yellow);
-  --color-warrning-fg:       var(--gruvbox-dark-bg);
-
+:root {
   --gap-0: .25rem;
   --gap-1: .5rem;
   --gap-2: .75rem;
