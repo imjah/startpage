@@ -95,6 +95,9 @@ export class Channels extends LocalStorage {
   static BY_UPLOADED = (a: Video, b: Video) =>
     b.uploaded - a.uploaded
 
+  static BY_CHANNEL_DISPLAY_NAME = (a: ChannelVideo, b: ChannelVideo) =>
+    (a.channelDisplayName || a.channelName).localeCompare(b.channelDisplayName || b.channelName)
+
   static BY_NAME = ([, a]: [URL, Channel], [, b]: [URL, Channel]) =>
     (a.displayName || a.name).localeCompare(b.displayName || b.name)
 

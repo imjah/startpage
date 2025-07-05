@@ -14,6 +14,7 @@
     Channels.toArray(
       selected === undefined ? $channels : [app.filter, selected]
     )
+    .sort(Channels.BY_CHANNEL_DISPLAY_NAME)
     .sort(Channels.BY_UPLOADED)
     .slice(0, $config.feedLimit)
   )
