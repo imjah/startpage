@@ -139,7 +139,7 @@ export class Channels extends LocalStorage {
           .then(response => ({
             'url': `https://youtube.com/channel/${id}`,
             'name': response?.content[0]?.uploaderName,
-            'displayName': '',
+            'displayName': response?.content[0]?.uploaderName,
             'videos': response.content.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
@@ -157,7 +157,7 @@ export class Channels extends LocalStorage {
           .then(response => ({
             'url': `https://youtube.com/playlist?list=${id}`,
             'name': response.name,
-            'displayName': '',
+            'displayName': response?.content[0]?.uploaderName,
             'videos': response.relatedStreams.map((video: Video) => ({
               'url': `https://youtube.com${video.url}`,
               'title': video.title,
