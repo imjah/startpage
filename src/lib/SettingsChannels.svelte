@@ -2,17 +2,19 @@
   import strings from '../share/strings'
   import { Channels, channels } from '../share/channels'
   import ButtonRemove from './ButtonRemove.svelte';
+
+  let channelsSortedByName = $derived([...$channels].sort(Channels.BY_NAME))
 </script>
 
 <div class="channels">
   {#if $channels.size}
     <ul class="channels__list">
-      {#each $channels as [id, {name, displayName}]}
+      {#each channelsSortedByName as [id, channel]}
         <li class="channels__list-item">
           <input
             class="channels__input"
-            bind:value={displayName}
-            placeholder={name}
+            bind:value={channel.displayName}
+            placeholder={channel.name}
           >
           <ButtonRemove remove={() => Channels.remove(id)} />
         </li>
