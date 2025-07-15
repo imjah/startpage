@@ -1,4 +1,4 @@
-const VERSION = '7';
+const VERSION = 'GIT_LAST_COMMIT_HASH';
 
 self.addEventListener('install', e => {
   e.waitUntil(
