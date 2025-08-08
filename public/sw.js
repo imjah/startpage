@@ -1,8 +1,9 @@
-const VERSION = 'GIT_LAST_COMMIT_HASH';
+const APP = 'GIT_LAST_COMMIT_HASH';
+const API = 'api'
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(VERSION)
+    caches.open(APP)
     .then(cache => cache.addAll([
       '.',
       '404.html',
@@ -18,7 +19,7 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
     .then(keys => Promise.all(
-      keys.map(cache => cache == VERSION ? undefined : caches.delete(cache))
+      keys.map(cache => [APP, API].includes(cache) ? undefined : caches.delete(cache))
     ))
   );
 });
@@ -26,6 +27,25 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request)
-    .then(cached => cached || fetch(e.request))
+    .then(cached => cached || fetch(e.request)
+      .then(response => {
+        if (response.ok && isUrlInApiWhitelist(response.url))
+            caches.open(API).then(cache => cache.put(e.request, response));
+
+        return response.clone();
+      })
+    )
   );
 });
+
+function isUrlInApiWhitelist(url) {
+  const whitelist = [
+    '/channel/',
+    '/channels/',
+    '/playlists/',
+    '/search?q=',
+    'piped'
+  ]
+
+  return whitelist.filter(item => url.includes(item)).length > 0
+}

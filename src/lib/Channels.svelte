@@ -36,7 +36,12 @@
           href={videoUrl}
           tabindex="-1">
           <div class="feed__item-thumbnail-img">
-            <Image src={video.thumbnail} alt={strings.thumbnail} loading="lazy" />
+            <Image
+              src={video.thumbnail}
+              alt={strings.thumbnail}
+              loading="lazy"
+              crossorigin="anonymous"
+            />
           </div>
         </a>
 
