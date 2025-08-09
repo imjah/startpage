@@ -1,5 +1,5 @@
 const APP = 'GIT_LAST_COMMIT_HASH';
-const API = 'api'
+const API = 'api';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -29,8 +29,8 @@ self.addEventListener('fetch', e => {
     caches.match(e.request)
     .then(cached => cached || fetch(e.request)
       .then(response => {
-        if (response.ok && isUrlInApiWhitelist(response.url))
-            caches.open(API).then(cache => cache.put(e.request, response));
+        if (isAllowedToCache(response))
+          caches.open(API).then(cache => cache.put(e.request, response));
 
         return response.clone();
       })
@@ -38,14 +38,31 @@ self.addEventListener('fetch', e => {
   );
 });
 
-function isUrlInApiWhitelist(url) {
+function isAllowedToCache({ok, url, headers}) {
+  return (
+    ok
+    && hasAllowedUrl(url)
+    && hasAllowedHeaders(headers)
+  ) ? true : false;
+}
+
+function hasAllowedUrl(url) {
   const whitelist = [
     '/channel/',
     '/channels/',
     '/playlists/',
     '/search?q=',
     'piped'
-  ]
+  ];
 
-  return whitelist.filter(item => url.includes(item)).length > 0
+  return whitelist.filter(item => url.includes(item)).length;
+}
+
+function hasAllowedHeaders(headers) {
+  const contentTypeWhitelist = [
+    'application/json',
+    'image/webp'
+  ];
+
+  return contentTypeWhitelist.includes(headers.get('Content-Type'));
 }
