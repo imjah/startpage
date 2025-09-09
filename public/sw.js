@@ -43,7 +43,7 @@ function isAllowedToCache({ok, url, headers}) {
     ok
     && hasAllowedUrl(url)
     && hasAllowedHeaders(headers)
-  ) ? true : false;
+  );
 }
 
 function hasAllowedUrl(url) {
@@ -55,7 +55,7 @@ function hasAllowedUrl(url) {
     'piped'
   ];
 
-  return whitelist.filter(item => url.includes(item)).length;
+  return whitelist.filter(item => url.includes(item)).length > 0;
 }
 
 function hasAllowedHeaders(headers) {
