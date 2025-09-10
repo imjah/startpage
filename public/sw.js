@@ -1,5 +1,5 @@
-const APP = 'GIT_LAST_COMMIT_HASH';
-const API = 'api';
+const APP_CACHE_NAME = 'GIT_LAST_COMMIT_HASH';
+const API_CACHE_NAME = 'api';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -19,7 +19,10 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
     .then(keys => Promise.all(
-      keys.map(cache => [APP, API].includes(cache) ? undefined : caches.delete(cache))
+      keys.map(cache => [
+        APP_CACHE_NAME,
+        API_CACHE_NAME
+      ].includes(cache) ? undefined : caches.delete(cache))
     ))
   );
 });
