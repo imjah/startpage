@@ -1,6 +1,7 @@
 const APP_CACHE_NAME = 'GIT_LAST_COMMIT_HASH';
 const API_CACHE_NAME = 'api';
 
+
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(APP)
@@ -15,6 +16,7 @@ self.addEventListener('install', e => {
   );
 });
 
+
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
@@ -27,10 +29,11 @@ self.addEventListener('activate', e => {
   );
 });
 
+
 self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request)
-    .then(cached => cached || fetch(e.request)
+    .then(cached => filterFreshCache(cached) || fetch(e.request)
       .then(response => {
         if (isAllowedToCache(response))
           caches.open(API).then(cache => cache.put(e.request, response));
@@ -41,6 +44,7 @@ self.addEventListener('fetch', e => {
   );
 });
 
+
 function isAllowedToCache({ok, url, headers}) {
   return (
     ok
@@ -48,6 +52,7 @@ function isAllowedToCache({ok, url, headers}) {
     && hasAllowedHeaders(headers)
   );
 }
+
 
 function hasAllowedUrl(url) {
   const whitelist = [
@@ -61,6 +66,7 @@ function hasAllowedUrl(url) {
   return whitelist.filter(item => url.includes(item)).length > 0;
 }
 
+
 function hasAllowedHeaders(headers) {
   const contentTypeWhitelist = [
     'application/json',
@@ -68,4 +74,19 @@ function hasAllowedHeaders(headers) {
   ];
 
   return contentTypeWhitelist.includes(headers.get('Content-Type'));
+}
+
+
+function filterFreshCache(request) {
+  const cacheLifetime = cacheLastSync = {};
+
+  try {
+    cacheLifetime = JSON.parse(localStorage.get('cacheLifetime'));
+  } catch (e) {}
+
+  try {
+    cacheLifetime = cacheLifetime[request.headers.get('Content-Type')]
+  } catch (e) {}
+
+  return (Date.now() - cacheLifetime) > cacheLastSync;
 }
