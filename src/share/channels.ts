@@ -5,7 +5,7 @@ import { config } from './config'
 import { status } from './status'
 import humanizeDuration from 'humanize-duration'
 
-export type URL  = string
+export type URL = string
 
 export interface Channel {
   url: string;
@@ -137,7 +137,7 @@ export class Channels extends LocalStorage {
     return fetch(`${get(config).instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
           .then(response => response.json())
           .then(response => ({
-            'url': `https://youtube.com/channel/${id}`,
+            'url': `https://youtube.com${response?.content[0]?.uploaderUrl}`,
             'name': response?.content[0]?.uploaderName,
             'displayName': response?.content[0]?.uploaderName,
             'videos': response.content.map((video: Video) => ({
