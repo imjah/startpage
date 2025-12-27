@@ -1,25 +1,30 @@
-const VERSION = '8459865';
+const VERSION = '6016f27';
 
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(VERSION)
-    .then(cache => cache.addAll([
+    .then(cache => Promise.all([
       '.',
       '404.html',
       'index.html',
       'favicon.svg',
       'assets/index.js',
       'assets/index.css'
-    ]))
+    ].map(url => fetch(new Request(url, {cache: 'no-cache'}))
+      .then(resp => cache.put(url, resp.clone()))
+    )))
+    .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys()
-    .then(keys => Promise.all(
-      keys.map(cache => cache == VERSION ? undefined : caches.delete(cache))
-    ))
+    Promise.all([
+      caches.keys().then(keys => Promise.all(
+        keys.filter(cache => cache !== VERSION).map(cache => caches.delete(cache))
+      )),
+      self.clients.claim()
+    ])
   );
 });
 
