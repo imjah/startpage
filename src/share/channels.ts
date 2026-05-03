@@ -1,8 +1,7 @@
 import { writable, get } from 'svelte/store';
-import { Piped } from '../util/piped'
-import { LocalStorage } from '../util/storage'
-import { config } from './config'
-import { status } from './status'
+import { LocalStorage } from '../util/storage.ts'
+import { config } from './config.ts'
+import { status } from './status.ts'
 import humanizeDuration from 'humanize-duration'
 
 export type URL = string
@@ -18,7 +17,7 @@ export interface Video {
   url: string;
   title: string;
   thumbnail: string;
-  duration: number;
+  duration: string;
   uploaded: number;
   uploadedDate: string;
 }
@@ -36,7 +35,7 @@ export class Channels extends LocalStorage {
     channels.subscribe(s => super.set([...s]))
   }
 
-  static async add(url: string | URL, partial = false, reload = false): Promise<void> {
+  static add(url: string | URL, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
     if (id === undefined)
@@ -88,7 +87,7 @@ export class Channels extends LocalStorage {
   }
 
   static #toArray(selected: Array<[URL, Channel]>): ChannelVideo[] {
-    return selected.flatMap(([url, channel]) => channel.videos.map(video => ({
+    return selected.flatMap(([_url, channel]) => channel.videos.map(video => ({
       ...video,
       channelUrl: channel.url,
       channelName : channel.name,
@@ -105,7 +104,7 @@ export class Channels extends LocalStorage {
   static BY_NAME = ([, a]: [URL, Channel], [, b]: [URL, Channel]) =>
     (a.displayName || a.name).localeCompare(b.displayName || b.name)
 
-  static async refetch({reload = false} = {}) {
+  static refetch({reload = false} = {}) {
     const r = reload || !this.#isFeedFresh()
 
     channels.update(v => {
@@ -137,40 +136,62 @@ export class Channels extends LocalStorage {
     status.update(s => { s.feed.fetchedAt = Date.now(); return s })
   }
 
-  static async #fetchChannel(id: URL, reload: boolean): Promise<Channel> {
-    return fetch(`${get(config).instance.value}/channels/tabs?data={"id":"${id}","contentFilters":["videos"]}`, {cache: reload ? 'reload' : 'default'})
-          .then(response => response.json())
-          .then(response => ({
-            'url': `https://youtube.com${response?.content[0]?.uploaderUrl}`,
-            'name': response?.content[0]?.uploaderName,
-            'displayName': response?.content[0]?.uploaderName,
-            'videos': response.content.map((video: Video) => ({
-              'url': `https://youtube.com${video.url}`,
-              'title': video.title,
-              'thumbnail': video.thumbnail,
-              'duration': humanizeDuration(video.duration * 1000, { units: ['h', 'm'], round: true }),
-              'uploaded': video.uploaded,
-              'uploadedDate': video.uploadedDate
-            }))
-          }))
+  static #mapVideos(streams: any[]) {
+    return streams.map((video) => {
+      let duration = humanizeDuration(video.duration * 1000, { round: true, units: video.duration >= 60 ? ['h', 'm'] : ['s'] })
+      let uploaded = video.uploaded
+      let uploadedDate = video.uploadedDate
+
+      // live
+      if (video.uploaded === -1) {
+        uploaded = Date.now()
+        uploadedDate = 'now'
+        duration = 'live'
+      }
+
+      // premiere
+      if (video.uploaded > Date.now()) {
+        uploadedDate = `in ${humanizeDuration(video.uploaded - Date.now(), { round: true, units: ['h', 'm'] })}`
+      }
+
+      return {
+        url: `https://youtube.com${video.url}`,
+        title: video.title,
+        thumbnail: video.thumbnail,
+        duration: duration,
+        uploaded: uploaded,
+        uploadedDate: uploadedDate
+      }
+    })
   }
 
-  static async #fetchPlaylist(id: URL, reload: boolean): Promise<Channel> {
+  static #fetchChannel(id: URL, reload: boolean): Promise<Channel> {
+    const endpoint = get(config).feedFetchAll
+      ? `/playlists/UU${id.toString().slice(2)}`
+      : `/channels/tabs?data=${encodeURIComponent(JSON.stringify({ id: `${id}`, contentFilters: ["videos"] }))}`
+
+    return fetch(`${get(config).instance.value}${endpoint}`, {cache: reload ? 'reload' : 'default'})
+      .then(response => response.json())
+      .then(response => {
+        const streams = response.relatedStreams ?? response.content
+        return {
+          'url': 'https://youtube.com' + streams?.[0]?.uploaderUrl,
+          'name': streams?.[0]?.uploaderName,
+          'displayName': streams?.[0]?.uploaderName,
+          'videos': this.#mapVideos(streams)
+        }
+      })
+  }
+
+  static #fetchPlaylist(id: URL, reload: boolean): Promise<Channel> {
     return fetch(`${get(config).instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
-          .then(response => response.json())
-          .then(response => ({
-            'url': `https://youtube.com/playlist?list=${id}`,
-            'name': response.name,
-            'displayName': response.name,
-            'videos': response.relatedStreams.map((video: Video) => ({
-              'url': `https://youtube.com${video.url}`,
-              'title': video.title,
-              'thumbnail': video.thumbnail,
-              'duration': humanizeDuration(video.duration * 1000, { units: ['h', 'm'], round: true }),
-              'uploaded': video.uploaded,
-              'uploadedDate': video.uploadedDate
-            }))
-          }))
+      .then(response => response.json())
+      .then(response => ({
+        'url': `https://youtube.com/playlist?list=${id.toString()}`,
+        'name': response.name,
+        'displayName': response.name,
+        'videos': this.#mapVideos(response.relatedStreams)
+      }))
   }
 
   static #parseId(url: string): URL | undefined {
