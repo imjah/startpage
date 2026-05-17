@@ -91,7 +91,8 @@
   }
 
   let handleGlobalKeybinds = (e: KeyboardEvent) => {
-    if (!e.ctrlKey)
+    const tag = (e.target as HTMLElement).tagName.toLowerCase()
+    if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement).isContentEditable)
       return
 
     switch (e.key) {
@@ -121,7 +122,7 @@
 <svelte:document onkeydown={handleGlobalKeybinds} />
 
 <search class="search" role="presentation" onkeydown={handleLocalKeybinds}>
-  <Closeable bind:open={isOutputOpen}>
+  <Closeable bind:open={isOutputOpen} onClose={() => focus.items[0]?.blur()}>
     <form onsubmit={handleSubmit}>
       <div class="search__field">
         <span class="search__icon">
