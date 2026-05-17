@@ -97,3 +97,8 @@ button, input, optgroup, select, textarea {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+// Hide scrollbars in Chromium
+::-webkit-scrollbar {
+  display: none;
+}
