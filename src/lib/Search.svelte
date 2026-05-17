@@ -239,6 +239,11 @@
       color: var(--color-surface-fg);
       background: var(--color-surface);
 
+      // Hide X button in searchbox in Chromium
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
+
       &::placeholder {
         color: var(--color-fg-inactive);
         opacity: 1;
