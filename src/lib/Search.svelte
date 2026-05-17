@@ -19,7 +19,6 @@
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
   let query = $state('')
-  let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
 
   let isUrl = $derived(
     query.includes('youtube.com') || query.includes('youtu.be')
@@ -131,12 +130,13 @@
         <input
           class="search__input nav__item nav__item--input"
           type="search"
-          placeholder={placeholder}
+          placeholder={strings.searchForChannel}
           oninput={searchDelayed}
           onfocus={openOutput}
           bind:value={query}
           bind:this={focus.items[0]}
         >
+        <span class="search__keybind">[{focusKeybind}]</span>
       </div>
     </form>
 
@@ -194,6 +194,10 @@
   .search {
     position: relative;
 
+    &:focus-within .search__keybind {
+      display: none;
+    }
+
     &__field {
       position: relative;
     }
@@ -208,11 +212,22 @@
       pointer-events: none;
     }
 
+    &__keybind {
+      position: absolute;
+      right: $gap-1;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      color: var(--color-fg-inactive);
+      pointer-events: none;
+    }
+
     &__input {
       position: relative;
       z-index: 1;
       width: 100%;
       padding-left: calc($gap-1 + 2rem);
+      padding-right: calc($gap-1 + 2.5rem);
       color: var(--color-surface-fg);
       background: var(--color-surface);
 

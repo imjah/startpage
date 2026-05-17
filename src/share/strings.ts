@@ -22,7 +22,7 @@ export default {
   'saveHint': 'Press Enter to save changes',
   'notFound': 'Not found',
   'back': 'Back',
-  'searchForChannel': 'Search for channel',
+  'searchForChannel': 'Search',
   'sync': 'Synchronize',
   'menu': 'Menu',
   pageNotFound: 'Page not found',
