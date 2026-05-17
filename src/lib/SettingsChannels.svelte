@@ -9,12 +9,15 @@
     isRemoved: boolean
   }
 
-  let items: ChannelItem[] = $state(
-    [...$channels].sort(Channels.BY_NAME).map(([id, channel]) => ({
-      id,
-      channel,
-      isRemoved: false
-    }))
+  let removed = $state(new Map<string, Channel>())
+
+  let items: ChannelItem[] = $derived(
+    [
+      ...[...$channels].map(([id, channel]) => ({ id, channel, isRemoved: false })),
+      ...[...removed].map(([id, channel]) => ({ id, channel, isRemoved: true }))
+    ].sort((a, b) =>
+      (a.channel.displayName || a.channel.name || '').localeCompare(b.channel.displayName || b.channel.name || '')
+    )
   )
 </script>
 
@@ -28,20 +31,18 @@
             value={item.channel.displayName}
             placeholder={item.channel.name}
             onchange={(e) => {
-              const newValue = e.currentTarget.value
-              item.channel.displayName = newValue
-              Channels.update(item.id, { displayName: newValue })
+              Channels.update(item.id, { displayName: e.currentTarget.value })
             }}
           >
           <ButtonRemove
             isRemoved={item.isRemoved}
             remove={() => {
+              removed.set(item.id, item.channel)
               Channels.remove(item.id)
-              item.isRemoved = true
             }}
             restore={() => {
+              removed.delete(item.id)
               Channels.addExisting(item.id, item.channel)
-              item.isRemoved = false
             }}
           />
         </li>

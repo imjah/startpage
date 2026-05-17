@@ -9,12 +9,13 @@
     isRemoved: boolean
   }
 
-  let items: BookmarkItem[] = $state(
-    [...$bookmarks].map(([url, bookmark]) => ({
-      url,
-      bookmark,
-      isRemoved: false
-    }))
+  let removed = $state(new Map<string, Bookmark>())
+
+  let items: BookmarkItem[] = $derived(
+    [
+      ...[...$bookmarks].map(([url, bookmark]) => ({ url, bookmark, isRemoved: false })),
+      ...[...removed].map(([url, bookmark]) => ({ url, bookmark, isRemoved: true }))
+    ].sort((a, b) => a.bookmark.name.localeCompare(b.bookmark.name))
   )
 </script>
 
@@ -31,12 +32,12 @@
           <ButtonRemove
             isRemoved={item.isRemoved}
             remove={() => {
+              removed.set(item.url, item.bookmark)
               Bookmarks.delete(item.url)
-              item.isRemoved = true
             }}
             restore={() => {
+              removed.delete(item.url)
               Bookmarks.set(item.bookmark)
-              item.isRemoved = false
             }}
           />
         </li>

@@ -5,6 +5,10 @@
     isRemoved,
     remove,
     restore
+  }: {
+    isRemoved: boolean
+    remove: () => void
+    restore: () => void
   } = $props()
 
   function toggle() {
