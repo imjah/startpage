@@ -203,6 +203,18 @@ export class Channels extends LocalStorage {
   static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
   }
+
+  static serialize() {
+    return [...get(channels)].map(([url, ch]) => [url, {
+      url: ch.url,
+      name: ch.name,
+      displayName: ch.displayName
+    }])
+  }
+
+  static restore(data: [URL, { url: string; name: string; displayName: string }][]) {
+    channels.set(new Map(data.map(([url, ch]) => [url, { ...ch, videos: [] }])))
+  }
 }
 
 export let channels = writable<Map<URL, Channel>>(new Map(Channels.get()))

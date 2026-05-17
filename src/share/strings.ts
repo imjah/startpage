@@ -45,6 +45,10 @@ export default {
   openVideosInApp: 'Open videos in app',
   useInTitles: 'Use in titles',
   customProtocolName: 'App',
+  exportConfig: 'Export',
+  importConfig: 'Import',
+  importFailed: 'Failed to import config',
+  configManagement: 'Configuration',
   paths: {
     home:      '/',
     settings:  '/settings',

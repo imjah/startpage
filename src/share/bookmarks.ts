@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 
 export type URL = string
 
@@ -39,5 +39,13 @@ export default class Bookmarks {
         value instanceof Map ? [...value] : value
       )
     )
+  }
+
+  static serialize() {
+    return [...get(bookmarks)]
+  }
+
+  static restore(data: [URL, Bookmark][]) {
+    bookmarks.set(new Map(data))
   }
 }

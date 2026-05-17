@@ -1,10 +1,53 @@
 <script lang="ts">
+  import { merge } from 'lodash'
   import strings from '../share/strings'
-  import { config } from '../share/config'
+  import { config, defaults } from '../share/config'
+  import Bookmarks from '../share/bookmarks'
+  import { Channels } from '../share/channels'
   import InputNumber from './InputNumber.svelte';
   import InputSelect from './InputSelect.svelte';
   import Text from './inputs/Text.svelte';
   import ToggleSwitch from './inputs/ToggleSwitch.svelte';
+
+  let importError = $state('')
+  let importInput: HTMLInputElement
+
+  let exportConfig = () => {
+    const data = {
+      version: 1,
+      config: $config,
+      bookmarks: Bookmarks.serialize(),
+      channels: Channels.serialize()
+    }
+    const json = JSON.stringify(data, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'startpage-config.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  let importConfig = () => {
+    importError = ''
+    const file = importInput.files?.[0]
+    if (!file) return
+
+    file.text()
+      .then(text => JSON.parse(text))
+      .then(imported => {
+        config.set(merge({}, defaults, imported.config))
+        if (imported.bookmarks) Bookmarks.restore(imported.bookmarks)
+        if (imported.channels) Channels.restore(imported.channels)
+      })
+      .catch(() => {
+        importError = strings.importFailed
+      })
+      .finally(() => {
+        importInput.value = ''
+      })
+  }
 </script>
 
 {#snippet separator(title: string)}
@@ -94,6 +137,33 @@
       </li>
     </ul>
   </li>
+
+  <li class="general__group">
+    {@render separator(strings.configManagement)}
+
+    <ul class="general__group-list">
+      <li class="general__group-list-item general__group-list-item--buttons">
+        <button class="nav__item" onclick={exportConfig}>
+          {strings.exportConfig}
+        </button>
+        <button class="nav__item" onclick={() => importInput.click()}>
+          {strings.importConfig}
+        </button>
+        <input
+          type="file"
+          accept=".json"
+          bind:this={importInput}
+          onchange={importConfig}
+          style="display: none"
+        />
+      </li>
+      {#if importError}
+        <li class="general__group-list-item general__error">
+          {importError}
+        </li>
+      {/if}
+    </ul>
+  </li>
 </ul>
 
 <style lang="scss">
@@ -115,6 +185,11 @@
 
           &.disabled {
             color: var(--color-fg-inactive);
+          }
+
+          &--buttons {
+            justify-content: flex-end;
+            gap: $gap-2;
           }
         }
       }

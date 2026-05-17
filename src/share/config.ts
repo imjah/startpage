@@ -14,7 +14,7 @@ export class Config extends LocalStorage{
   }
 }
 
-export const config = writable(merge({
+export const defaults = {
   keybind: {
     close: 'Escape',
     focusSearch: { user: '', default: 's' }
@@ -35,7 +35,9 @@ export const config = writable(merge({
   feedFetchAll: false,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10
-}, Config.get()))
+}
+
+export const config = writable(merge({}, defaults, Config.get()))
 
 interface Keybind {
   user: string;
