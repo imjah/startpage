@@ -139,6 +139,10 @@ export class Channels extends LocalStorage {
   static #mapVideos(streams: any[]) {
     return streams.map((video) => {
       let duration = humanizeDuration(video.duration * 1000, { round: true, units: video.duration >= 60 ? ['h', 'm'] : ['s'] })
+      if (video.duration == 0) {
+        duration = ""
+      }
+
       let uploaded = video.uploaded
       let uploadedDate = video.uploadedDate
 
