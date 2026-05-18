@@ -90,9 +90,17 @@
   }
 
   let handleGlobalKeybinds = (e: KeyboardEvent) => {
-    const tag = (e.target as HTMLElement).tagName.toLowerCase()
-    if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement).isContentEditable)
+    // Block when typing in text areas or content-editable elements
+    // and allow buttons/checkboxes/radios
+    const target = e.target as HTMLElement
+    const tag = target.tagName.toLowerCase()
+    if (tag === 'textarea' || target.isContentEditable)
       return
+    if (tag === 'input') {
+      const type = (target as HTMLInputElement).type
+      if (type !== 'button' && type !== 'submit' && type !== 'checkbox' && type !== 'radio')
+        return
+    }
 
     switch (e.key) {
       case focusKeybind:
