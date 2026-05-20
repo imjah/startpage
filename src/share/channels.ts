@@ -47,13 +47,13 @@ export class Channels extends LocalStorage {
       : this.#fetchChannel(id, reload)
     ).then(channel => {
         if (partial)
-          this.update(url, {videos: channel.videos})
+          this.update(id, {videos: channel.videos})
         else
-          channels.update(s => s.set(url, channel))
+          channels.update(s => s.set(id, channel))
 
         status.update(s => {
           s.feed.fetching.now = s.feed.fetching.now.filter(
-            (u: URL) => u != url
+            (u: URL) => u != id
           )
 
           if (s.feed.fetching.now.length == 0)
@@ -198,14 +198,35 @@ export class Channels extends LocalStorage {
       }))
   }
 
+  static #isPlaylist(url: string): boolean {
+    if (url.includes('playlist') || url.includes('list=')) return true
+    if (!url.includes('/') && !url.includes('='))
+      return !url.startsWith('UC')
+    return false
+  }
+
   static #parseId(url: string): URL | undefined {
     let delimeter = this.#isPlaylist(url) ? '=' : '/'
 
     return url.split(delimeter).pop()
   }
 
-  static #isPlaylist(url: string): boolean {
-    return url.includes('playlist')
+  static migrate() {
+    const raw = localStorage[this.ls_name()]
+    if (!raw) return
+    try {
+      const data = JSON.parse(raw)
+      if (!Array.isArray(data)) return
+      let changed = false
+      const migrated: [string, any][] = data.map(([url, ch]: [string, any]) => {
+        const id = this.#parseId(url)
+        if (!id || id === url) return [url, ch]
+        changed = true
+        return [id, ch]
+      })
+      if (changed)
+        localStorage[this.ls_name()] = JSON.stringify([...new Map(migrated)])
+    } catch {}
   }
 
   static serialize() {
@@ -217,8 +238,12 @@ export class Channels extends LocalStorage {
   }
 
   static restore(data: [URL, { url: string; name: string; displayName: string }][]) {
-    channels.set(new Map(data.map(([url, ch]) => [url, { ...ch, videos: [] }])))
+    const entries = data
+      .map(([url, ch]) => [this.#parseId(url) || url, { ...ch, videos: [] }] as [URL, Channel])
+    channels.set(new Map(entries))
   }
 }
+
+Channels.migrate()
 
 export let channels = writable<Map<URL, Channel>>(new Map(Channels.get()))
