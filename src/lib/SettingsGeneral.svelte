@@ -14,7 +14,6 @@
 
   let exportConfig = () => {
     const data = {
-      version: 1,
       config: $config,
       bookmarks: Bookmarks.serialize(),
       channels: Channels.serialize()
