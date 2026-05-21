@@ -38,7 +38,7 @@ export class Channels extends LocalStorage {
   static add(url: string | URL, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
-    if (id === undefined)
+    if (!id)
       return new Promise((_, reject) => reject(`No URL found in ${url}`))
 
     return (
