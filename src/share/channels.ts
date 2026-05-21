@@ -139,6 +139,10 @@ export class Channels extends LocalStorage {
   static #mapVideos(streams: any[]) {
     return streams.map((video) => {
       let duration = humanizeDuration(video.duration * 1000, { round: true, units: video.duration >= 60 ? ['h', 'm'] : ['s'] })
+      if (video.duration == 0) {
+        duration = ""
+      }
+
       let uploaded = video.uploaded
       let uploadedDate = video.uploadedDate
 
@@ -202,6 +206,18 @@ export class Channels extends LocalStorage {
 
   static #isPlaylist(url: string): boolean {
     return url.includes('playlist')
+  }
+
+  static serialize() {
+    return [...get(channels)].map(([url, ch]) => [url, {
+      url: ch.url,
+      name: ch.name,
+      displayName: ch.displayName
+    }])
+  }
+
+  static restore(data: [URL, { url: string; name: string; displayName: string }][]) {
+    channels.set(new Map(data.map(([url, ch]) => [url, { ...ch, videos: [] }])))
   }
 }
 

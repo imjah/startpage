@@ -19,7 +19,6 @@
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
   let query = $state('')
-  let placeholder = `${strings.searchForChannel} (ctrl+${focusKeybind})`
 
   let isUrl = $derived(
     query.includes('youtube.com') || query.includes('youtu.be')
@@ -91,8 +90,17 @@
   }
 
   let handleGlobalKeybinds = (e: KeyboardEvent) => {
-    if (!e.ctrlKey)
+    // Block when typing in text areas or content-editable elements
+    // and allow buttons/checkboxes/radios
+    const target = e.target as HTMLElement
+    const tag = target.tagName.toLowerCase()
+    if (tag === 'textarea' || target.isContentEditable)
       return
+    if (tag === 'input') {
+      const type = (target as HTMLInputElement).type
+      if (type !== 'button' && type !== 'submit' && type !== 'checkbox' && type !== 'radio')
+        return
+    }
 
     switch (e.key) {
       case focusKeybind:
@@ -121,7 +129,7 @@
 <svelte:document onkeydown={handleGlobalKeybinds} />
 
 <search class="search" role="presentation" onkeydown={handleLocalKeybinds}>
-  <Closeable bind:open={isOutputOpen}>
+  <Closeable bind:open={isOutputOpen} onClose={() => focus.items[0]?.blur()}>
     <form onsubmit={handleSubmit}>
       <div class="search__field">
         <span class="search__icon">
@@ -130,12 +138,13 @@
         <input
           class="search__input nav__item nav__item--input"
           type="search"
-          placeholder={placeholder}
+          placeholder={strings.searchForChannel}
           oninput={searchDelayed}
           onfocus={openOutput}
           bind:value={query}
           bind:this={focus.items[0]}
         >
+        <span class="search__keybind">[{focusKeybind}]</span>
       </div>
     </form>
 
@@ -193,6 +202,10 @@
   .search {
     position: relative;
 
+    &:focus-within .search__keybind {
+      display: none;
+    }
+
     &__field {
       position: relative;
     }
@@ -207,11 +220,22 @@
       pointer-events: none;
     }
 
+    &__keybind {
+      position: absolute;
+      right: $gap-1;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      color: var(--color-fg-inactive);
+      pointer-events: none;
+    }
+
     &__input {
       position: relative;
       z-index: 1;
       width: 100%;
       padding-left: calc($gap-1 + 2rem);
+      padding-right: calc($gap-1 + 2.5rem);
       color: var(--color-surface-fg);
       background: var(--color-surface);
 

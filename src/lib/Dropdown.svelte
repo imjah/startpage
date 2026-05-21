@@ -5,18 +5,16 @@
   let {
     value,
     children,
-    open = false,
+    open = $bindable(false),
     right = false
   } = $props()
-
-  let isOpen = $state(open)
 </script>
 
-<Closeable bind:open={isOpen}>
+<Closeable bind:open>
   <div class="container">
-    <InputButton {value} focus={isOpen} onclick={() => isOpen = !isOpen} />
+    <InputButton {value} focus={open} onclick={() => open = !open} />
 
-    {#if isOpen}
+    {#if open}
       <div class="content" class:right>
       	{@render children()}
       </div>

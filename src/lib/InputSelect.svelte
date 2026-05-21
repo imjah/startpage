@@ -34,7 +34,6 @@
   }
 
   select {
-    appearance: none;
     padding: .5rem;
     color: var(--color-accent);
     background-color: var(--color-bg);
@@ -45,7 +44,6 @@
   select:hover,
   select:focus {
     color: var(--color-fg);
-    background-color: var(--color-accent);
     cursor: pointer;
   }
 </style>
