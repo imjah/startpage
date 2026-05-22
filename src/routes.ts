@@ -1,5 +1,5 @@
 import type { Component } from 'svelte';
-import strings from './share/strings.ts'
+import strings from './share/strings'
 import Empty from './lib/Empty.svelte'
 import Home from './lib/Home.svelte'
 import Settings from './lib/Settings.svelte'
@@ -40,7 +40,7 @@ export const routes: Routes =  {
 export interface Route {
   name: string;
   path: string;
-  view: Component;
+  view: Component<any>;
   args: any;
 }
 

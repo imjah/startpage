@@ -4,7 +4,7 @@
   let {
     children,
     open = $bindable(),
-    onClose
+    onClose = undefined
   } = $props()
 
   let container: HTMLElement;

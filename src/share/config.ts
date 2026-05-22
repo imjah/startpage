@@ -1,6 +1,6 @@
 import { merge } from 'lodash'
 import { writable } from 'svelte/store'
-import { LocalStorage } from '../util/storage.ts'
+import { LocalStorage } from '../util/storage'
 
 export class Config extends LocalStorage{
   static LS_NAME = 'config'

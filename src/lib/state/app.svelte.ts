@@ -1,5 +1,5 @@
-import config from '../../config.ts'
-import { getRedirectPathSetBy404Page } from '../../util/github.ts'
+import config from '../../config'
+import { getRedirectPathSetBy404Page } from '../../util/github'
 
 export const app = $state({
   route: {
