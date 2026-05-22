@@ -1,7 +1,8 @@
 import { writable, get } from 'svelte/store';
-import { LocalStorage } from '../util/storage.ts'
-import { config } from './config.ts'
-import { status } from './status.ts'
+import { LocalStorage } from '../util/storage'
+import { getDirectThumbnail } from '../util/youtube'
+import { config } from './config'
+import { status } from './status'
 import humanizeDuration from 'humanize-duration'
 
 export type URL = string
@@ -137,6 +138,8 @@ export class Channels extends LocalStorage {
   }
 
   static #mapVideos(streams: any[]) {
+    const useDirectThumbnails = get(config).useDirectThumbnails
+
     return streams.map((video) => {
       let duration = humanizeDuration(video.duration * 1000, { round: true, units: video.duration >= 60 ? ['h', 'm'] : ['s'] })
       if (video.duration == 0) {
@@ -158,10 +161,15 @@ export class Channels extends LocalStorage {
         uploadedDate = `in ${humanizeDuration(video.uploaded - Date.now(), { round: true, units: ['h', 'm'] })}`
       }
 
+      let thumbnail = video.thumbnail
+      if (useDirectThumbnails) {
+        thumbnail = getDirectThumbnail(thumbnail)
+      }
+
       return {
         url: `https://youtube.com${video.url}`,
         title: video.title,
-        thumbnail: video.thumbnail,
+        thumbnail: thumbnail,
         duration: duration,
         uploaded: uploaded,
         uploadedDate: uploadedDate

@@ -11,6 +11,7 @@
   import Image from './Image.svelte';
   import IconSearch from './icons/Search.svelte'
   import type { SearchChannelsResult } from '../util/piped';
+  import { getDirectThumbnail } from '../util/youtube'
 
   let focus = new FocusNavigator();
   let isOutputOpen = $state(false)
@@ -178,7 +179,7 @@
               >
                 <div class="search__output-thumbnail">
                   <Image
-                    src={thumbnail}
+                    src={$config.useDirectThumbnails ? getDirectThumbnail(thumbnail) : thumbnail}
                     alt={strings.thumbnail}
                     crossorigin="anonymous"
                   />

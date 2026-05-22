@@ -32,6 +32,7 @@ export const defaults = {
   feedProtocolEnabledForVideosInTitles: true,
   feedLimit: 100,
   feedThumbnailThemed: true,
+  useDirectThumbnails: false,
   feedFetchAll: false,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10

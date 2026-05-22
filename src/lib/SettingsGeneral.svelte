@@ -83,6 +83,13 @@
 
       <li>
         <label class="general__group-list-item">
+          {strings.directThumbnails}
+          <ToggleSwitch bind:checked={$config.useDirectThumbnails} />
+        </label>
+      </li>
+
+      <li>
+        <label class="general__group-list-item">
           {strings.feedFetchAll}
           <ToggleSwitch bind:checked={$config.feedFetchAll} />
         </label>
