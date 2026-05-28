@@ -8,8 +8,10 @@
 
   let setUse = (e: Event) => {
     const target = e.target as HTMLSelectElement
-    use.value = target.options[target.selectedIndex].value
-    use.label = target.options[target.selectedIndex].label
+    use = {
+      value: target.options[target.selectedIndex].value,
+      label: target.options[target.selectedIndex].label
+    }
   }
 </script>
 
