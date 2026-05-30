@@ -1,10 +1,9 @@
 import { writable, get } from 'svelte/store';
-import { LocalStorage } from '../util/storage.ts'
-import { config } from './config.ts'
-import { status } from './status.ts'
+import { LocalStorage } from '../util/storage'
+import { getDirectThumbnail } from '../util/youtube'
+import { config } from './config'
+import { status } from './status'
 import humanizeDuration from 'humanize-duration'
-
-export type URL = string
 
 export interface Channel {
   url: string;
@@ -35,10 +34,10 @@ export class Channels extends LocalStorage {
     channels.subscribe(s => super.set([...s]))
   }
 
-  static add(url: string | URL, partial = false, reload = false): Promise<void> {
+  static add(url: string, partial = false, reload = false): Promise<void> {
     let id = this.#parseId(url)
 
-    if (id === undefined)
+    if (!id)
       return new Promise((_, reject) => reject(`No URL found in ${url}`))
 
     return (
@@ -47,13 +46,13 @@ export class Channels extends LocalStorage {
       : this.#fetchChannel(id, reload)
     ).then(channel => {
         if (partial)
-          this.update(url, {videos: channel.videos})
+          this.update(id, {videos: channel.videos})
         else
-          channels.update(s => s.set(url, channel))
+          channels.update(s => s.set(id, channel))
 
         status.update(s => {
           s.feed.fetching.now = s.feed.fetching.now.filter(
-            (u: URL) => u != url
+            (u: string) => u != id
           )
 
           if (s.feed.fetching.now.length == 0)
@@ -65,28 +64,28 @@ export class Channels extends LocalStorage {
     )
   }
 
-  static update(id: URL, values: any) {
+  static update(id: string, values: any) {
     channels.update(s => s.set(id, {...s.get(id), ...values}))
   }
 
-  static remove(id: URL) {
+  static remove(id: string) {
     channels.update(s => {
       s.delete(id)
       return s
     })
   }
 
-  static addExisting(id: URL, channel: Channel) {
+  static addExisting(id: string, channel: Channel) {
     channels.update(s => s.set(id, channel))
   }
 
-  static toArray(selected: [URL, Channel] | Map<URL, Channel>): ChannelVideo[] {
+  static toArray(selected: [string, Channel] | Map<string, Channel>): ChannelVideo[] {
     return this.#toArray(
       selected instanceof Map ? [...selected.entries()] : [selected]
     )
   }
 
-  static #toArray(selected: Array<[URL, Channel]>): ChannelVideo[] {
+  static #toArray(selected: Array<[string, Channel]>): ChannelVideo[] {
     return selected.flatMap(([_url, channel]) => channel.videos.map(video => ({
       ...video,
       channelUrl: channel.url,
@@ -101,7 +100,7 @@ export class Channels extends LocalStorage {
   static BY_CHANNEL_DISPLAY_NAME = (a: ChannelVideo, b: ChannelVideo) =>
     (a.channelDisplayName || a.channelName).localeCompare(b.channelDisplayName || b.channelName)
 
-  static BY_NAME = ([, a]: [URL, Channel], [, b]: [URL, Channel]) =>
+  static BY_NAME = ([, a]: [string, Channel], [, b]: [string, Channel]) =>
     (a.displayName || a.name).localeCompare(b.displayName || b.name)
 
   static refetch({reload = false} = {}) {
@@ -137,6 +136,8 @@ export class Channels extends LocalStorage {
   }
 
   static #mapVideos(streams: any[]) {
+    const useDirectThumbnails = get(config).useDirectThumbnails
+
     return streams.map((video) => {
       let duration = humanizeDuration(video.duration * 1000, { round: true, units: video.duration >= 60 ? ['h', 'm'] : ['s'] })
       if (video.duration == 0) {
@@ -158,10 +159,15 @@ export class Channels extends LocalStorage {
         uploadedDate = `in ${humanizeDuration(video.uploaded - Date.now(), { round: true, units: ['h', 'm'] })}`
       }
 
+      let thumbnail = video.thumbnail
+      if (useDirectThumbnails) {
+        thumbnail = getDirectThumbnail(thumbnail)
+      }
+
       return {
         url: `https://youtube.com${video.url}`,
         title: video.title,
-        thumbnail: video.thumbnail,
+        thumbnail: thumbnail,
         duration: duration,
         uploaded: uploaded,
         uploadedDate: uploadedDate
@@ -169,7 +175,7 @@ export class Channels extends LocalStorage {
     })
   }
 
-  static #fetchChannel(id: URL, reload: boolean): Promise<Channel> {
+  static #fetchChannel(id: string, reload: boolean): Promise<Channel> {
     const endpoint = get(config).feedFetchAll
       ? `/playlists/UU${id.toString().slice(2)}`
       : `/channels/tabs?data=${encodeURIComponent(JSON.stringify({ id: `${id}`, contentFilters: ["videos"] }))}`
@@ -187,7 +193,7 @@ export class Channels extends LocalStorage {
       })
   }
 
-  static #fetchPlaylist(id: URL, reload: boolean): Promise<Channel> {
+  static #fetchPlaylist(id: string, reload: boolean): Promise<Channel> {
     return fetch(`${get(config).instance.value}/playlists/${id}`, {cache: reload ? 'reload' : 'default'})
       .then(response => response.json())
       .then(response => ({
@@ -198,14 +204,35 @@ export class Channels extends LocalStorage {
       }))
   }
 
-  static #parseId(url: string): URL | undefined {
+  static #isPlaylist(url: string): boolean {
+    if (url.includes('playlist') || url.includes('list=')) return true
+    if (!url.includes('/') && !url.includes('='))
+      return !url.startsWith('UC')
+    return false
+  }
+
+  static #parseId(url: string): string | undefined {
     let delimeter = this.#isPlaylist(url) ? '=' : '/'
 
     return url.split(delimeter).pop()
   }
 
-  static #isPlaylist(url: string): boolean {
-    return url.includes('playlist')
+  static migrate() {
+    const raw = localStorage[this.ls_name()]
+    if (!raw) return
+    try {
+      const data = JSON.parse(raw)
+      if (!Array.isArray(data)) return
+      let changed = false
+      const migrated: [string, any][] = data.map(([url, ch]: [string, any]) => {
+        const id = this.#parseId(url)
+        if (!id || id === url) return [url, ch]
+        changed = true
+        return [id, ch]
+      })
+      if (changed)
+        localStorage[this.ls_name()] = JSON.stringify([...new Map(migrated)])
+    } catch {}
   }
 
   static serialize() {
@@ -216,9 +243,14 @@ export class Channels extends LocalStorage {
     }])
   }
 
-  static restore(data: [URL, { url: string; name: string; displayName: string }][]) {
-    channels.set(new Map(data.map(([url, ch]) => [url, { ...ch, videos: [] }])))
+  static restore(data: [string, { url: string; name: string; displayName: string }][]) {
+    const entries = data
+      .map(([url, ch]) => [this.#parseId(url) || url, { ...ch, videos: [] }] as [string, Channel])
+    channels.set(new Map(entries))
   }
 }
 
-export let channels = writable<Map<URL, Channel>>(new Map(Channels.get()))
+Channels.migrate()
+
+const stored = Channels.get()
+export const channels = writable<Map<string, Channel>>(new Map(Array.isArray(stored) ? stored : []))

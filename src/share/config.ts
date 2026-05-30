@@ -1,6 +1,6 @@
 import { merge } from 'lodash'
 import { writable } from 'svelte/store'
-import { LocalStorage } from '../util/storage.ts'
+import { LocalStorage } from '../util/storage'
 
 export class Config extends LocalStorage{
   static LS_NAME = 'config'
@@ -32,6 +32,7 @@ export const defaults = {
   feedProtocolEnabledForVideosInTitles: true,
   feedLimit: 100,
   feedThumbnailThemed: true,
+  useDirectThumbnails: false,
   feedFetchAll: false,
   timeoutInSeconds: 5,
   cacheLifetimeInMinutes: 10

@@ -1,7 +1,7 @@
 <script lang="ts">
   import global from '../config'
   import strings from '../share/strings'
-  import { Channels, type URL } from '../share/channels'
+  import { Channels } from '../share/channels'
   import { Config, config } from '../share/config'
   import { Piped } from '../util/piped';
   import { rejectIfResponseIsNotOk } from '../util/fetch';
@@ -11,10 +11,10 @@
   import Image from './Image.svelte';
   import IconSearch from './icons/Search.svelte'
   import type { SearchChannelsResult } from '../util/piped';
+  import { getDirectThumbnail } from '../util/youtube'
 
   let focus = new FocusNavigator();
   let isOutputOpen = $state(false)
-  let error = $state('')
   let suggestions: SearchChannelsResult[] = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
@@ -48,7 +48,6 @@
     .then(r => r.json())
     .then(r => suggestions = r.items || [])
     .then(_ => openOutput())
-    .catch(e => error = e)
   }
 
   let searchDelayed = () => {
@@ -60,13 +59,12 @@
   }
 
   let addChannel = (url: string) => {
-    Channels.add(url as URL)
+    Channels.add(url)
       .then(() => {
         query = ''
         clearSuggestions()
         closeOutput()
       })
-      .catch(e => error = e)
   }
 
   let handleSubmit = (e: Event) => {
@@ -178,7 +176,7 @@
               >
                 <div class="search__output-thumbnail">
                   <Image
-                    src={thumbnail}
+                    src={$config.useDirectThumbnails ? getDirectThumbnail(thumbnail) : thumbnail}
                     alt={strings.thumbnail}
                     crossorigin="anonymous"
                   />
@@ -238,6 +236,11 @@
       padding-right: calc($gap-1 + 2.5rem);
       color: var(--color-surface-fg);
       background: var(--color-surface);
+
+      // Hide X button in searchbox in Chromium
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
 
       &::placeholder {
         color: var(--color-fg-inactive);

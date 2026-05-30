@@ -1,7 +1,7 @@
 export class LocalStorage {
-  static ls_name() {
-    /* NOTE: LS_NAME is a child attribute */
+  static LS_NAME: string | undefined;
 
+  static ls_name() {
     if (this.LS_NAME === undefined)
       throw new Error(`LS_NAME for ${this.name} is undefined`)
 
