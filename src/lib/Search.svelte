@@ -1,7 +1,7 @@
 <script lang="ts">
   import global from '../config'
   import strings from '../share/strings'
-  import { Channels, type URL } from '../share/channels'
+  import { Channels } from '../share/channels'
   import { Config, config } from '../share/config'
   import { Piped } from '../util/piped';
   import { rejectIfResponseIsNotOk } from '../util/fetch';
@@ -15,7 +15,6 @@
 
   let focus = new FocusNavigator();
   let isOutputOpen = $state(false)
-  let error = $state('')
   let suggestions: SearchChannelsResult[] = $state([])
   let focusKeybind = Config.getUsedKeybind($config.keybind.focusSearch)
   let timeout = 0
@@ -49,7 +48,6 @@
     .then(r => r.json())
     .then(r => suggestions = r.items || [])
     .then(_ => openOutput())
-    .catch(e => error = e)
   }
 
   let searchDelayed = () => {
@@ -61,13 +59,12 @@
   }
 
   let addChannel = (url: string) => {
-    Channels.add(url as URL)
+    Channels.add(url)
       .then(() => {
         query = ''
         clearSuggestions()
         closeOutput()
       })
-      .catch(e => error = e)
   }
 
   let handleSubmit = (e: Event) => {
